@@ -1,0 +1,48 @@
+@extends('admin-dashboard.layouts.app')
+
+@section('title', 'Add service')
+@section('header', 'Add service')
+
+@section('content')
+    <div class="rounded-xl bg-white border border-gray-200 shadow-sm p-6 max-w-2xl">
+        <form action="{{ route('admin-dashboard.services.store') }}" method="post" class="space-y-5">
+            @csrf
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                <input type="text" name="name" id="name" value="{{ old('name') }}" required
+                       class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+                @error('name')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+            </div>
+            <div>
+                <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                <select name="category" id="category" required class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+                    <option value="{{ App\Models\Service::CATEGORY_CARDIAC }}" {{ old('category') === App\Models\Service::CATEGORY_CARDIAC ? 'selected' : '' }}>Cardiac surgery</option>
+                    <option value="{{ App\Models\Service::CATEGORY_THORACIC }}" {{ old('category') === App\Models\Service::CATEGORY_THORACIC ? 'selected' : '' }}>Thoracic surgery</option>
+                    <option value="{{ App\Models\Service::CATEGORY_DIAGNOSTICS }}" {{ old('category') === App\Models\Service::CATEGORY_DIAGNOSTICS ? 'selected' : '' }}>Diagnostics</option>
+                </select>
+            </div>
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea name="description" id="description" rows="4" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">{{ old('description') }}</textarea>
+            </div>
+            <div>
+                <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">Slug (leave blank to auto-generate)</label>
+                <input type="text" name="slug" id="slug" value="{{ old('slug') }}" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                    <label for="sort_order" class="block text-sm font-medium text-gray-700 mb-1">Sort order</label>
+                    <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', 0) }}" min="0" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+                </div>
+                <div class="flex items-center pt-8">
+                    <input type="checkbox" name="is_visible" id="is_visible" value="1" {{ old('is_visible', true) ? 'checked' : '' }} class="rounded border-gray-300 text-ctc-blue focus:ring-ctc-blue">
+                    <label for="is_visible" class="ml-2 text-sm text-gray-700">Visible on site</label>
+                </div>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <a href="{{ route('admin-dashboard.services.index') }}" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium">Cancel</a>
+                <button type="submit" class="px-4 py-2 rounded-lg bg-admin-teal text-white font-medium hover:bg-admin-teal-dark">Save</button>
+            </div>
+        </form>
+    </div>
+@endsection

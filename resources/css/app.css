@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    /* CTC: clean medical typography */
+    --font-sans: 'Source Sans 3', 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Source Sans 3', 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
+    /* Public site: Primary 1a1a68, Secondary 62a3a1 */
+    --color-ctc-blue: #1a1a68;
+    --color-ctc-blue-light: #252580;
+    --color-ctc-blue-dark: #12124a;
+    --color-ctc-secondary: #62a3a1;
+    --color-ctc-secondary-dark: #4d8a88;
+    --color-ctc-grey: #6b7280;
+    --color-ctc-grey-light: #f3f4f6;
+    --color-ctc-accent: #62a3a1;
+    /* Admin dashboard: teal, coral, yellow, dark gray */
+    --color-admin-teal: #0d9488;
+    --color-admin-teal-dark: #0f766e;
+    --color-admin-teal-light: #14b8a6;
+    --color-admin-coral: #e07a5f;
+    --color-admin-coral-dark: #c46950;
+    --color-admin-coral-light: #e8957a;
+    --color-admin-gold: #eab308;
+    --color-admin-gold-dark: #ca8a04;
+    --color-admin-bg: #f1f5f9;
+    --color-admin-surface: #ffffff;
+    --color-admin-muted: #64748b;
+    --color-admin-dark: #334155;
+}
+
+[x-cloak] {
+    display: none !important;
+}
