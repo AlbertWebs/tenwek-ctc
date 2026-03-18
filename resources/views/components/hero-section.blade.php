@@ -56,8 +56,10 @@
     @endif
     <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex justify-center">
-        <div class="max-w-3xl text-center hero-text-fade-after-10s">
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4">{{ $title }}</h1>
+        <div class="relative max-w-3xl w-full px-6 sm:px-10 py-10 sm:py-12">
+            <div class="absolute inset-0 bg-black/50 rounded-2xl" aria-hidden="true"></div>
+            <div class="relative z-10 text-center hero-text-fade-after-10s p-3">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4">{{ $title }}</h1>
             @if($subtitle)
                 <p class="text-xl text-blue-100 mb-6">{{ $subtitle }}</p>
             @endif
@@ -75,6 +77,7 @@
                     @endforeach
                 </div>
             @endif
+            </div>
         </div>
     </div>
 </section>
