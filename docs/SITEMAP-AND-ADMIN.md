@@ -6,9 +6,25 @@ Guide to the **public website** (visitor-facing pages) and a short reference for
 
 ## Public Website
 
-The site is built around the main navigation: Home, About, Team, Services, Patient Info, Training, Research, Impact, Support, News, Contact. Every page uses a shared top header (contact + emergency number), navbar, and footer.
+### Sitemap overview (current state)
 
-### Sitemap
+- **Home** — Hero with video, tagline, CTAs (Book Appointment, Refer a Patient), stats, and previews of services, team, and news.
+- **About** — Single page: overview of the centre, history, mission & vision, and partnerships (content from config/CMS).
+- **Team** — Our Team: grid of team members (name, title, photo, bio). Admin-managed.
+- **Our Services** — Single page with sections: Cardiac Surgery, Thoracic Surgery, Diagnostics. Each section lists services (name, description) with optional anchor links. Admin-managed.
+- **Patient Information** — Single page: how to become a patient, what to bring, referral info, etc. Admin-managed.
+- **Training** — Single page: training programs (e.g. fellowship, observerships). Admin-managed.
+- **Research** — Single page: research overview and publications. Admin-managed.
+- **Impact** — Single page: impact stories and reach. Admin-managed.
+- **Support** — Support the CTC: Donate (M-Pesa, card), Sponsor a Surgery, Equipment Needs, Partner With Us (each with enquiry form). Admin-managed donations.
+- **News & Events** — Paginated list of news articles. Admin-managed (CMS-driven).
+- **Contact** — Contact form plus address, phone, email, and map.
+
+**Footer quick links:** Patient Information, News & Events, Contact. The main navbar is a flat list (no dropdowns or mega menus). Book Appointment and Refer a Patient from the hero link to Contact and Patient Information respectively.
+
+---
+
+### Sitemap (URL reference)
 
 | URL | Page name | What visitors see |
 |-----|-----------|--------------------|

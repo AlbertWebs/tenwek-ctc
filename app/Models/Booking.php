@@ -10,6 +10,10 @@ class Booking extends Model
         'patient_name', 'email', 'phone', 'requested_date', 'status', 'notes', 'type',
     ];
 
+    protected $casts = [
+        'requested_date' => 'date',
+    ];
+
     public const STATUS_PENDING = 'pending';
     public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_CANCELLED = 'cancelled';
