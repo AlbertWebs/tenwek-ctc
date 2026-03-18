@@ -26,17 +26,26 @@ return [
         'emergency' => '+254 (0) 729 411 211',
     ],
 
+    /*
+    | Main menu (navbar): Home, About, Team, Services, Training, Research, Impact, Support.
+    */
     'nav' => [
         ['label' => 'Home', 'route' => 'home'],
         ['label' => 'About', 'route' => 'about'],
         ['label' => 'Team', 'route' => 'team'],
-        ['label' => 'Services', 'route' => 'services'],
-        ['label' => 'Patient Info', 'route' => 'patient-information'],
+        ['label' => 'Our Services', 'route' => 'services'],
         ['label' => 'Training', 'route' => 'training'],
         ['label' => 'Research', 'route' => 'research'],
         ['label' => 'Impact', 'route' => 'impact'],
         ['label' => 'Support', 'route' => 'support'],
-        ['label' => 'News', 'route' => 'news'],
+    ],
+
+    /*
+    | Footer links: Patient Info, News, Contact (and any other secondary links).
+    */
+    'footer_links' => [
+        ['label' => 'Patient Information', 'route' => 'patient-information'],
+        ['label' => 'News & Events', 'route' => 'news'],
         ['label' => 'Contact', 'route' => 'contact'],
     ],
 ];

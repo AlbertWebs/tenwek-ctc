@@ -8,7 +8,7 @@
             <div>
                 <h3 class="font-semibold mb-3 text-sm uppercase tracking-wide text-gray-400">Quick links</h3>
                 <ul class="space-y-2 text-sm">
-                    @foreach(array_slice(config('ctc.nav'), 0, 5) as $item)
+                    @foreach(config('ctc.footer_links', []) as $item)
                         <li><a href="{{ route($item['route']) }}" class="text-gray-300 hover:text-white transition-colors">{{ $item['label'] }}</a></li>
                     @endforeach
                 </ul>

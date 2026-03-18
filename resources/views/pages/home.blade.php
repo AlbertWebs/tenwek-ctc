@@ -2,7 +2,7 @@
 
 @section('title', 'Home')
 
-@section('content')
+@section('hero')
     @include('components.hero-section', [
         'title' => 'Cardiothoracic Centre',
         'subtitle' => 'Tenwek Hospital',
@@ -12,13 +12,18 @@
             ['label' => 'Refer a Patient', 'url' => route('patient-information'), 'primary' => false],
         ],
     ])
+@endsection
 
-    {{-- Statistics --}}
+@section('content')
+    {{-- Stats: below nav, light background --}}
     <section class="py-16 bg-ctc-grey-light">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-5xl mx-auto">
                 @foreach($stats as $stat)
-                    <x-stats-card :value="$stat['value']" :label="$stat['label']" />
+                    <div class="text-center p-6 lg:p-8 rounded-xl bg-white border border-gray-200 shadow-sm">
+                        <p class="text-3xl sm:text-4xl lg:text-5xl font-bold text-ctc-blue">{{ $stat['value'] }}</p>
+                        <p class="mt-2 text-sm font-medium text-gray-600">{{ $stat['label'] }}</p>
+                    </div>
                 @endforeach
             </div>
         </div>

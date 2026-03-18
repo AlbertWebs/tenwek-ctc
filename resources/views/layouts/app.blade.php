@@ -14,6 +14,7 @@
 </head>
 <body class="min-h-screen bg-white text-gray-800 antialiased" x-data="{ mobileMenuOpen: false }">
     @include('components.top-header')
+    @yield('hero')
     @include('components.navbar')
 
     <main class="min-h-screen">

@@ -19,16 +19,25 @@
     }
 @endphp
 
-<section class="relative bg-ctc-blue text-white overflow-hidden min-h-screen flex items-center">
+<style>
+@keyframes hero-text-fade {
+    from { opacity: 1; }
+    to { opacity: 0.4; }
+}
+.hero-text-fade-after-10s {
+    animation: hero-text-fade 1s ease-out 10s forwards;
+}
+</style>
+
+<section class="relative bg-ctc-blue text-white overflow-hidden h-screen min-h-[100vh] flex items-center justify-center">
     @if($youtubeId)
         <div class="absolute inset-0 w-full h-full overflow-hidden" aria-hidden="true">
             <iframe
-                src="https://www.youtube.com/embed/{{ $youtubeId }}?autoplay=1&mute=1&loop=1&playlist={{ $youtubeId }}&controls=0&rel=0&showinfo=0&playsinline=1&modestbranding=1"
+                src="https://www.youtube.com/embed/{{ $youtubeId }}?autoplay=1&mute=1&loop=1&playlist={{ $youtubeId }}&controls=0&rel=0&showinfo=0&playsinline=1&modestbranding=1&disablekb=1&fs=0&iv_load_policy=3"
                 title=""
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                class="absolute left-1/2 top-1/2 min-w-[177.78vh] min-h-[100vh] w-[100vw] h-[56.25vw] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                class="absolute left-1/2 top-1/2 min-w-[177.78vh] min-h-[100vh] w-[100vw] h-[56.25vw] -translate-x-1/2 -translate-y-1/2 pointer-events-none object-cover"
                 style="width: 100vw; height: 56.25vw; min-width: 177.78vh; min-height: 100vh;"
             ></iframe>
         </div>
@@ -45,9 +54,9 @@
             <source src="{{ $videoUrl }}" type="video/mp4">
         </video>
     @endif
-    <div class="absolute inset-0 bg-gradient-to-br from-ctc-blue-dark/80 to-ctc-blue/90" aria-hidden="true"></div>
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10">
-        <div class="max-w-3xl">
+    <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex justify-center">
+        <div class="max-w-3xl text-center hero-text-fade-after-10s">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4">{{ $title }}</h1>
             @if($subtitle)
                 <p class="text-xl text-blue-100 mb-6">{{ $subtitle }}</p>
@@ -56,7 +65,7 @@
                 <p class="text-lg text-blue-100/90 leading-relaxed mb-8">{{ $description }}</p>
             @endif
             @if(count($buttons) > 0)
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-wrap gap-4 justify-center">
                     @foreach($buttons as $btn)
                         <a href="{{ $btn['url'] ?? '#' }}"
                            class="inline-flex items-center px-6 py-3 rounded-lg font-medium transition-all
