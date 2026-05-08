@@ -7,7 +7,7 @@
 @endphp
 
 @if($phone || $email || $address || $emergency)
-<header class="bg-ctc-blue-dark text-white" role="banner">
+<header id="ctc-topbar" class="ctc-topbar text-white">
     <div class="border-b border-white/10">
         <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 py-3 sm:py-3.5">

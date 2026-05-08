@@ -3,6 +3,9 @@
 return [
     'menu' => [
         ['label' => 'Dashboard Home', 'route' => 'admin-dashboard.index', 'icon' => 'dashboard'],
+        ['label' => 'Hero / Homepage', 'route' => 'admin-dashboard.hero.edit', 'icon' => 'photo'],
+        ['label' => 'Hero Carousel Slides', 'route' => 'admin-dashboard.hero.edit', 'hash' => 'carousel-slides', 'icon' => 'photo'],
+        ['label' => 'Homepage Stats', 'route' => 'admin-dashboard.home-stats.index', 'icon' => 'chart'],
         ['label' => 'About Section', 'route' => 'admin-dashboard.about.index', 'icon' => 'information-circle'],
         ['label' => 'Team / Staff', 'route' => 'admin-dashboard.team-members.index', 'icon' => 'users', 'permission' => 'team.manage'],
         ['label' => 'Services', 'route' => 'admin-dashboard.services.index', 'icon' => 'briefcase', 'permission' => 'services.manage'],

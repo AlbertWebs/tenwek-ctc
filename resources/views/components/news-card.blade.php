@@ -3,16 +3,22 @@
     'excerpt' => null,
     'type' => 'news',
     'date' => null,
+    'image' => null,
     'url' => null,
 ])
 
 @php
     $tag = $url ? 'a' : 'article';
     $url = $url ?? '#';
+    $fallback = 'https://images.unsplash.com/photo-1580281658629-99bb1fd55b0a?auto=format&fit=crop&w=1200&q=60';
+    $img = $image ?: $fallback;
 @endphp
 
 <{{ $tag }} href="{{ $url }}"
    class="block rounded-xl bg-white border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-all group">
+    <div class="aspect-video bg-ctc-grey-light overflow-hidden">
+        <img src="{{ $img }}" alt="{{ $title }}" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]" loading="lazy">
+    </div>
     <div class="p-5">
         @if($type)
             <span class="inline-block text-xs font-medium uppercase tracking-wide text-ctc-accent mb-2">{{ $type }}</span>

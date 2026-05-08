@@ -38,6 +38,7 @@
             <div>
                 <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-1">Featured image URL</label>
                 <input type="text" name="featured_image" id="featured_image" value="{{ old('featured_image', $article->featured_image) }}" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+                <p class="mt-1 text-xs text-gray-500">Tip: paste a full image URL (recommended 1200×675).</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>

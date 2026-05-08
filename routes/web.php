@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\ContactEnquiryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DonationController;
+use App\Http\Controllers\Admin\HeroController;
+use App\Http\Controllers\Admin\HomeStatController;
 use App\Http\Controllers\Admin\ImpactStoryController;
 use App\Http\Controllers\Admin\NewsArticleController;
 use App\Http\Controllers\Admin\PatientInfoController;
@@ -19,25 +21,47 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
-Route::get('/team', [PageController::class, 'team'])->name('team');
+Route::get('/specialists', [PageController::class, 'specialists'])->name('specialists');
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/patient-information', [PageController::class, 'patientInformation'])->name('patient-information');
+Route::get('/international-patients', [PageController::class, 'internationalPatients'])->name('international-patients');
+Route::get('/training-research', [PageController::class, 'trainingResearch'])->name('training-research');
 Route::get('/training', [PageController::class, 'training'])->name('training');
 Route::get('/research', [PageController::class, 'research'])->name('research');
 Route::get('/impact', [PageController::class, 'impact'])->name('impact');
 Route::get('/support', [PageController::class, 'support'])->name('support');
 Route::get('/news', [PageController::class, 'news'])->name('news');
+Route::get('/news/{slug}', [PageController::class, 'newsShow'])->name('news.show');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit');
 Route::post('/support-enquiry', [PageController::class, 'submitSupportEnquiry'])->name('support.enquiry.submit');
+Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('/terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');
+Route::get('/feedback-and-complaints', [PageController::class, 'feedbackAndComplaints'])->name('feedback');
+Route::post('/feedback-and-complaints', [PageController::class, 'submitFeedbackAndComplaints'])->name('feedback.submit');
 
 // Admin dashboard (role-based: only admin roles can access)
 Route::get('admin-dashboard/login', [LoginController::class, 'showLoginForm'])->name('admin-dashboard.login');
 Route::post('admin-dashboard/login', [LoginController::class, 'login'])->name('admin-dashboard.login.attempt');
+Route::get('admin-dashboard/two-factor', [LoginController::class, 'showTwoFactorForm'])->name('admin-dashboard.two-factor');
+Route::post('admin-dashboard/two-factor', [LoginController::class, 'verifyTwoFactor'])->name('admin-dashboard.two-factor.verify');
+Route::post('admin-dashboard/two-factor/resend', [LoginController::class, 'resendTwoFactor'])->name('admin-dashboard.two-factor.resend');
 Route::post('admin-dashboard/logout', [LoginController::class, 'logout'])->name('admin-dashboard.logout')->middleware('auth');
 
 Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-dashboard.')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+    Route::get('hero', [HeroController::class, 'edit'])->name('hero.edit');
+    Route::put('hero', [HeroController::class, 'update'])->name('hero.update');
+    Route::put('hero/services-image', [HeroController::class, 'updateServicesImage'])->name('hero.services-image.update');
+    Route::post('hero/slides', [HeroController::class, 'storeSlide'])->name('hero.slides.store');
+    Route::put('hero/slides/{heroSlide}', [HeroController::class, 'updateSlide'])->name('hero.slides.update');
+    Route::delete('hero/slides/{heroSlide}', [HeroController::class, 'destroySlide'])->name('hero.slides.destroy');
+
+    Route::get('home-stats', [HomeStatController::class, 'index'])->name('home-stats.index');
+    Route::post('home-stats', [HomeStatController::class, 'store'])->name('home-stats.store');
+    Route::put('home-stats/{homeStat}', [HomeStatController::class, 'update'])->name('home-stats.update');
+    Route::delete('home-stats/{homeStat}', [HomeStatController::class, 'destroy'])->name('home-stats.destroy');
 
     Route::resource('about', AboutSectionController::class)->except('show')->parameters(['about' => 'about_section']);
     Route::middleware('permission:team.manage')->group(function (): void {

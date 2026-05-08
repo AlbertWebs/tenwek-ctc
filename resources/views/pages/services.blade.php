@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'Our Services')
+
+@php($metaDescription = 'Explore cardiothoracic services at Tenwek CTC—cardiac surgery, thoracic surgery, and diagnostics, with patient-centered care and specialist expertise.')
+
 @section('content')
     @include('components.page-banner', [
         'title' => 'Our Services',

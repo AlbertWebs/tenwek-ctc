@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'Contact Us')
+
+@php($metaDescription = 'Contact Tenwek Cardiothoracic Centre for appointments, referrals, international patient support, and general enquiries. Phone, email, and emergency contacts available.')
+
 @section('content')
     @include('components.page-banner', [
         'title' => 'Contact Us',

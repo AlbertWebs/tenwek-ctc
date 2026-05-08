@@ -27,25 +27,126 @@ return [
     ],
 
     /*
+    | Social links (optional). Use full URLs or leave null.
+    */
+    'social' => [
+        'Facebook' => env('CTC_SOCIAL_FACEBOOK'),
+        'X' => env('CTC_SOCIAL_X'),
+        'Instagram' => env('CTC_SOCIAL_INSTAGRAM'),
+        'YouTube' => env('CTC_SOCIAL_YOUTUBE'),
+        'LinkedIn' => env('CTC_SOCIAL_LINKEDIN'),
+    ],
+
+    /*
     | Main menu (navbar): Home, About, Team, Services, Training, Research, Impact, Support.
     */
     'nav' => [
         ['label' => 'Home', 'route' => 'home'],
-        ['label' => 'About', 'route' => 'about'],
-        ['label' => 'Team', 'route' => 'team'],
-        ['label' => 'Our Services', 'route' => 'services'],
-        ['label' => 'Training', 'route' => 'training'],
-        ['label' => 'Research', 'route' => 'research'],
-        ['label' => 'Impact', 'route' => 'impact'],
-        ['label' => 'Support', 'route' => 'support'],
+        [
+            'label' => 'About CTC',
+            'route' => 'about',
+            'children' => [
+                ['label' => 'Overview', 'route' => 'about'],
+                ['label' => 'Our Specialists', 'route' => 'specialists'],
+                ['label' => 'Impact', 'route' => 'impact'],
+            ],
+        ],
+        [
+            'label' => 'Our Services',
+            'route' => 'services',
+            'dropdown' => 'mega',
+            'groups' => [
+                [
+                    'title' => 'Services',
+                    'links' => [
+                        ['label' => 'Cardiac Surgery', 'url' => '/services#cardiac_surgery'],
+                        ['label' => 'Thoracic Surgery', 'url' => '/services#thoracic_surgery'],
+                        ['label' => 'Diagnostics', 'url' => '/services#diagnostics'],
+                        ['label' => 'All Services', 'route' => 'services'],
+                    ],
+                ],
+                [
+                    'title' => 'Patient pathway',
+                    'links' => [
+                        ['label' => 'Book Appointment', 'route' => 'contact'],
+                        ['label' => 'Refer a Patient', 'route' => 'patient-information'],
+                        ['label' => 'International Patients', 'route' => 'international-patients'],
+                    ],
+                ],
+            ],
+        ],
+        ['label' => 'Our Specialists', 'route' => 'specialists'],
+        [
+            'label' => 'Training & Research',
+            'route' => 'training-research',
+            'dropdown' => 'mega',
+            'groups' => [
+                [
+                    'title' => 'Training',
+                    'links' => [
+                        ['label' => 'Training overview', 'route' => 'training'],
+                        ['label' => 'Fellowship & rotations', 'route' => 'training'],
+                    ],
+                ],
+                [
+                    'title' => 'Research',
+                    'links' => [
+                        ['label' => 'Research overview', 'route' => 'research'],
+                        ['label' => 'Publications', 'route' => 'research'],
+                    ],
+                ],
+                [
+                    'title' => 'Explore',
+                    'links' => [
+                        ['label' => 'Training & Research hub', 'route' => 'training-research'],
+                        ['label' => 'News & Media', 'route' => 'news'],
+                    ],
+                ],
+            ],
+        ],
+        ['label' => 'News & Media', 'route' => 'news'],
+        ['label' => 'Contact Us', 'route' => 'contact'],
     ],
 
     /*
     | Footer links: Patient Info, News, Contact (and any other secondary links).
     */
-    'footer_links' => [
-        ['label' => 'Patient Information', 'route' => 'patient-information'],
-        ['label' => 'News & Events', 'route' => 'news'],
-        ['label' => 'Contact', 'route' => 'contact'],
+    'footer' => [
+        'description' => env('CTC_FOOTER_DESCRIPTION', 'A specialised cardiothoracic centre of Tenwek Hospital, providing advanced heart and chest care, training, and research in East Africa.'),
+        'columns' => [
+            [
+                'title' => 'The Centre',
+                'links' => [
+                    ['label' => 'About CTC', 'route' => 'about'],
+                    ['label' => 'Our Services', 'route' => 'services'],
+                    ['label' => 'Our Specialists', 'route' => 'specialists'],
+                    ['label' => 'Patient Information', 'route' => 'patient-information'],
+                    ['label' => 'International Patients', 'route' => 'international-patients'],
+                ],
+            ],
+            [
+                'title' => 'Training & Research',
+                'links' => [
+                    ['label' => 'Training & Research', 'route' => 'training-research'],
+                    ['label' => 'Training', 'route' => 'training'],
+                    ['label' => 'Research', 'route' => 'research'],
+                ],
+            ],
+            [
+                'title' => 'Updates',
+                'links' => [
+                    ['label' => 'News & Media', 'route' => 'news'],
+                    ['label' => 'Impact', 'route' => 'impact'],
+                    ['label' => 'Support the CTC', 'route' => 'support'],
+                    ['label' => 'Contact Us', 'route' => 'contact'],
+                ],
+            ],
+        ],
+        'legal_links' => [
+            ['label' => 'Privacy Policy', 'url' => '/privacy-policy'],
+            ['label' => 'Terms of Service', 'url' => '/terms-of-service'],
+            ['label' => 'Feedback & Complaints', 'url' => '/feedback-and-complaints'],
+            ['label' => 'Admin Login', 'url' => '/admin-dashboard/login'],
+        ],
     ],
 ];

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'Training')
+
+@php($metaDescription = 'Training at Tenwek CTC: cardiothoracic fellowship, resident training, visiting surgeons programme, and medical student rotations.')
+
 @section('content')
     @include('components.page-banner', [
         'title' => 'Training',

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'About CTC')
+
+@php($metaDescription = 'Learn about the Cardiothoracic Centre at Tenwek Hospital—our mission, history, and commitment to advanced heart and chest care in East Africa.')
+
 @section('content')
     @include('components.page-banner', [
         'title' => 'About the Centre',

@@ -7,13 +7,20 @@
 
     <title>@hasSection('title')@yield('title') | @endif{{ config('ctc.name') }} — {{ config('ctc.hospital') }}</title>
 
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=source-sans-3:400,500,600,700" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-white text-gray-800 antialiased" x-data="{ mobileMenuOpen: false }">
-    @include('components.top-header')
+<body
+    class="min-h-screen bg-white text-gray-800 antialiased {{ request()->routeIs('home') ? 'ctc-home' : '' }}"
+    x-data="{ mobileMenuOpen: false }"
+>
+    <div id="ctc-site-header" class="ctc-site-header" role="banner">
+        @include('components.top-header')
+    </div>
+
     @yield('hero')
     @include('components.navbar')
 

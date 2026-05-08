@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'Patient Information')
+
+@php($metaDescription = 'Patient information for Tenwek CTC: referrals, preparing for surgery, hospital stay, recovery, and guidance for international patients.')
+
 @section('content')
     @include('components.page-banner', [
         'title' => 'Patient Information',

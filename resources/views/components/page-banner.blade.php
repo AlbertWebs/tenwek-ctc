@@ -26,11 +26,11 @@
     ></div>
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 relative z-10">
         <div class="max-w-4xl">
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white drop-shadow-md">
+            <h1 class="font-headline text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-md">
                 {{ $title }}
             </h1>
             @if($subtitle)
-                <p class="mt-3 text-xl sm:text-2xl text-white/95 font-medium drop-shadow-sm">
+                <p class="mt-4 font-headline text-[0.7rem] sm:text-[0.75rem] font-bold uppercase tracking-[0.22em] text-white/80 drop-shadow-sm">
                     {{ $subtitle }}
                 </p>
             @endif

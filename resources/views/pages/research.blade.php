@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'Research')
+
+@php($metaDescription = 'Research at Tenwek CTC: clinical studies, research areas, publications, and collaboration to improve outcomes in resource-limited settings.')
+
 @section('content')
     @include('components.page-banner', [
         'title' => 'Research',

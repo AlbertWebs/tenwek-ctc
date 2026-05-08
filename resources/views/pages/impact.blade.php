@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'Our Impact')
+
+@php($metaDescription = 'Impact of Tenwek CTC across Africa: patient stories, milestones, training the next generation of surgeons, and expanding access to life-saving care.')
+
 @section('content')
     @include('components.page-banner', [
         'title' => 'Our Impact',

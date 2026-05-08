@@ -1,3 +1,5 @@
+/* Tenwek typography system (match main site) */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -6,9 +8,9 @@
 @source '../**/*.js';
 
 @theme {
-    /* CTC: clean medical typography */
-    --font-sans: 'Source Sans 3', 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Source Sans 3', 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
+    /* Tenwek typography */
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-headline: 'Lexend', ui-sans-serif, system-ui, sans-serif;
     /* Public site: Primary 1a1a68, Secondary 62a3a1 */
     --color-ctc-blue: #1a1a68;
     --color-ctc-blue-light: #252580;
@@ -17,7 +19,9 @@
     --color-ctc-secondary-dark: #4d8a88;
     --color-ctc-grey: #6b7280;
     --color-ctc-grey-light: #f3f4f6;
-    --color-ctc-accent: #62a3a1;
+    /* Gold accent (CTC) */
+    --color-ctc-gold: #e4c373;
+    --color-ctc-accent: var(--color-ctc-gold);
     /* Admin dashboard: teal, coral, yellow, dark gray */
     --color-admin-teal: #0d9488;
     --color-admin-teal-dark: #0f766e;
@@ -31,8 +35,161 @@
     --color-admin-surface: #ffffff;
     --color-admin-muted: #64748b;
     --color-admin-dark: #334155;
+    --color-admin-sidebar: #100f57;
 }
 
 [x-cloak] {
     display: none !important;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+}
+
+.font-headline {
+    font-family: var(--font-headline);
+    font-feature-settings: "kern" 1, "liga" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-headline);
+    letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   CTC TOP HEADER OVERLAY (homepage hero only)
+   - Only the top header sits on the hero video
+   - Main navbar stays after the hero (as before)
+   ============================================================ */
+
+.ctc-site-header {
+    z-index: 60;
+    transition: transform 220ms ease;
+}
+
+/* Home: top header sits on the hero video (scrolls away) */
+body.ctc-home .ctc-site-header {
+    position: absolute;
+    inset: 0 0 auto 0;
+}
+
+/* Inner pages: top header is normal flow above navbar */
+body:not(.ctc-home) .ctc-site-header {
+    position: static;
+}
+
+body.ctc-home .ctc-topbar {
+    background: transparent;
+}
+
+body:not(.ctc-home) .ctc-topbar {
+    background: rgba(18, 18, 74, 0.98);
+}
+
+/* When scrolling, hide the top header strip (only navbar remains sticky) */
+body.ctc-topbar-hidden .ctc-site-header {
+    transform: translateY(-100%);
+}
+
+/* Navbar: keep solid and readable (sits after hero) */
+.ctc-navbar {
+    background: rgba(255, 255, 255, 0.98);
+    border-bottom: 1px solid rgba(17, 24, 39, 0.10);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.ctc-navbar__brand { color: #1a1a68; }
+.ctc-navbar__brand:hover { color: #12124a; }
+.ctc-nav-link {
+    font-family: var(--font-headline);
+    font-size: 0.75rem; /* matches Tenwek desktop nav */
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em; /* tracking-widest */
+    color: rgba(26, 26, 104, 0.60);
+}
+.ctc-nav-link:hover {
+    color: #1a1a68;
+}
+.ctc-nav-link.is-active {
+    color: #1a1a68;
+    border-bottom-color: rgba(98, 163, 161, 1); /* ctc-secondary */
+}
+.ctc-navbar__menu-btn { color: rgba(75, 85, 99, 0.95); }
+.ctc-navbar__menu-btn:hover { color: #1a1a68; background: rgba(243, 244, 246, 0.9); }
+
+.ctc-navbar__mobile {
+    border-top: 1px solid rgba(17, 24, 39, 0.10);
+    background: rgba(255, 255, 255, 0.98);
+}
+.ctc-navbar__mobile-link { color: rgba(55, 65, 81, 0.95); }
+.ctc-navbar__mobile-link:hover { color: #1a1a68; background: rgba(243, 244, 246, 0.9); }
+.ctc-navbar__mobile-link.is-active { color: #1a1a68; background: rgba(243, 244, 246, 0.9); }
+
+/* ============================================================
+   Mega dropdown (Tenwek-inspired)
+   ============================================================ */
+
+.ctc-mega-panel {
+    width: min(92vw, var(--ctc-mega-max-w, 880px));
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 1.5rem;
+    box-shadow: 0 40px 80px rgba(18, 18, 74, 0.18);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    overflow: hidden;
+}
+
+.ctc-mega-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--ctc-mega-cols, 3), minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+    padding: 1.35rem 1.5rem;
+}
+
+.ctc-mega-col {
+    min-width: 0;
+}
+
+.ctc-mega-title {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(228, 195, 115, 0.95); /* ctc-gold */
+    padding-bottom: 0.65rem;
+    margin-bottom: 0.65rem;
+    border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+}
+
+.ctc-mega-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.ctc-mega-link {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(26, 26, 104, 0.7);
+    padding: 0.25rem 0.1rem;
+    border-radius: 0.6rem;
+    transition: color 160ms ease, transform 160ms ease, background-color 160ms ease;
+}
+
+.ctc-mega-link:hover {
+    background: rgba(228, 195, 115, 0.14);
+    color: #12124a;
+    transform: translateX(4px);
 }
