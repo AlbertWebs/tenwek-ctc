@@ -86,14 +86,14 @@ return [
                     'title' => 'Training',
                     'links' => [
                         ['label' => 'Training overview', 'route' => 'training'],
-                        ['label' => 'Fellowship & rotations', 'route' => 'training'],
+                        ['label' => 'Fellowship & rotations', 'route' => 'training.fellowship-rotations'],
                     ],
                 ],
                 [
                     'title' => 'Research',
                     'links' => [
                         ['label' => 'Research overview', 'route' => 'research'],
-                        ['label' => 'Publications', 'route' => 'research'],
+                        ['label' => 'Publications', 'route' => 'research.publications'],
                     ],
                 ],
                 [

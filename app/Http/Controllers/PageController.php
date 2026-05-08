@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactEnquiry;
+use App\Models\ContactSetting;
 use App\Models\HomeStat;
 use App\Models\HeroSlide;
 use App\Models\ImpactStory;
@@ -10,6 +11,7 @@ use App\Models\NewsArticle;
 use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Models\TeamMember;
+use App\Models\TrainingProgram;
 use App\Support\PublicAssetUrl;
 use Illuminate\Support\Facades\Storage;
 use App\Models\HistoryMilestone;
@@ -132,12 +134,30 @@ class PageController extends Controller
 
     public function training()
     {
-        return view('pages.training');
+        $programs = TrainingProgram::query()->visible()->ordered()->get();
+
+        $metaDescription = 'Training at Tenwek CTC: fellowship, rotations, visiting surgeons programme, and medical student placements—building cardiothoracic capacity for Africa.';
+
+        return view('pages.training', compact('programs', 'metaDescription'));
     }
 
     public function research()
     {
         return view('pages.research');
+    }
+
+    public function trainingFellowshipRotations()
+    {
+        $metaDescription = 'Fellowship and rotations at Tenwek CTC: supervised clinical training in adult and paediatric cardiac surgery, thoracic surgery, and perioperative care in East Africa.';
+
+        return view('pages.training-fellowship-rotations', compact('metaDescription'));
+    }
+
+    public function researchPublications()
+    {
+        $metaDescription = 'Publications from Tenwek Cardiothoracic Centre: peer-reviewed articles, conference presentations, and outcomes research in resource-limited settings.';
+
+        return view('pages.research-publications', compact('metaDescription'));
     }
 
     public function trainingResearch()
@@ -201,7 +221,11 @@ class PageController extends Controller
 
     public function contact()
     {
-        return view('pages.contact');
+        $contact = ContactSetting::current();
+
+        $metaDescription = 'Contact Tenwek Cardiothoracic Centre for appointments, referrals, international patient support, and general enquiries.';
+
+        return view('pages.contact', compact('contact', 'metaDescription'));
     }
 
     public function internationalPatients()

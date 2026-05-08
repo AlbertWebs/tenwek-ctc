@@ -2,7 +2,9 @@
 
 @section('title', 'Training')
 
-@php($metaDescription = 'Training at Tenwek CTC: cardiothoracic fellowship, resident training, visiting surgeons programme, and medical student rotations.')
+@php
+    $programs = $programs ?? collect();
+@endphp
 
 @section('content')
     @include('components.page-banner', [
@@ -12,22 +14,143 @@
 
     <section class="py-16 lg:py-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-10 max-w-5xl">
-                <div class="p-6 rounded-xl bg-white border border-gray-200 shadow-sm">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-3">Cardiothoracic Fellowship</h2>
-                    <p class="text-gray-600 leading-relaxed">Our fellowship program trains surgeons in adult and pediatric cardiac surgery and thoracic surgery. Fellows gain hands-on experience in a high-volume center and participate in research and teaching.</p>
-                </div>
-                <div class="p-6 rounded-xl bg-white border border-gray-200 shadow-sm">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-3">Resident Training</h2>
-                    <p class="text-gray-600 leading-relaxed">General surgery and other residents rotate through the CTC to learn the basics of cardiothoracic care and assessment. These rotations help prepare future specialists and improve referral practices.</p>
-                </div>
-                <div class="p-6 rounded-xl bg-white border border-gray-200 shadow-sm">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-3">Visiting Surgeons Program</h2>
-                    <p class="text-gray-600 leading-relaxed">Surgeons from other institutions can spend time at the CTC to observe, assist, and learn. We welcome short-term visitors who wish to expand their skills or explore partnership opportunities.</p>
-                </div>
-                <div class="p-6 rounded-xl bg-white border border-gray-200 shadow-sm">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-3">Medical Student Rotations</h2>
-                    <p class="text-gray-600 leading-relaxed">Medical students can complete elective rotations in cardiothoracic surgery. These rotations offer exposure to the specialty and to mission-based care in a resource-conscious setting.</p>
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+                    <div class="lg:col-span-7">
+                        <div class="max-w-2xl">
+                            <p class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-900">
+                                <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
+                                Training & capacity building
+                            </p>
+                            <h2 class="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+                                Forming the next generation of cardiothoracic leaders for Africa.
+                            </h2>
+                            <p class="mt-4 text-base sm:text-lg text-gray-600 leading-relaxed">
+                                Tenwek CTC provides structured learning and supervised clinical exposure—combining high-volume service, strong mentorship,
+                                and opportunities to contribute to outcomes-focused research.
+                            </p>
+                        </div>
+
+                        <div class="mt-8 grid sm:grid-cols-2 gap-4">
+                            <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
+                                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Clinical exposure</p>
+                                <p class="mt-2 text-sm text-gray-700">Adult & paediatric cardiac surgery, thoracic surgery, perioperative care, and diagnostics.</p>
+                                <div class="mt-4 h-1 w-12 rounded-full bg-[var(--color-ctc-gold)]"></div>
+                            </div>
+                            <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
+                                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Mentorship</p>
+                                <p class="mt-2 text-sm text-gray-700">Learn with a multidisciplinary team—surgeons, anaesthesia, ICU, nursing, and perfusion.</p>
+                                <div class="mt-4 h-1 w-12 rounded-full bg-ctc-blue"></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10">
+                            <div class="flex items-end justify-between gap-6">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-900">Training pathways</h3>
+                                    <p class="mt-1 text-sm text-gray-600">Explore opportunities designed for different stages of training.</p>
+                                </div>
+                                <a href="{{ route('training-research') }}"
+                                   class="hidden sm:inline-flex items-center text-sm font-semibold text-ctc-blue hover:underline">
+                                    See Training & Research overview
+                                </a>
+                            </div>
+
+                            <div class="mt-5 grid md:grid-cols-2 gap-4">
+                                @if($programs->isNotEmpty())
+                                    @foreach($programs as $program)
+                                        <div class="group rounded-2xl border border-gray-200 bg-white shadow-sm p-6 hover:border-ctc-blue/30 hover:shadow-md transition-all">
+                                            <div class="flex items-start justify-between gap-4">
+                                                <div class="min-w-0">
+                                                    <h4 class="text-lg font-semibold text-gray-900">{{ $program->title }}</h4>
+                                                    @if(!empty($program->duration))
+                                                        <p class="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+                                                            Duration: {{ $program->duration }}
+                                                        </p>
+                                                    @endif
+                                                </div>
+                                                <span class="shrink-0 inline-flex items-center justify-center h-9 w-9 rounded-xl bg-gray-50 border border-gray-200 text-gray-500 group-hover:text-ctc-blue group-hover:border-ctc-blue/20 transition-colors">
+                                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h6m0 0v6m0-6L10 14" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 7H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4" />
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <p class="mt-3 text-sm text-gray-600 leading-relaxed">
+                                                {{ str($program->description ?? '')->stripTags()->limit(220) }}
+                                            </p>
+                                            <div class="mt-5 flex flex-wrap gap-3">
+                                                <a href="{{ route('contact') }}"
+                                                   class="inline-flex items-center px-4 py-2 rounded-lg bg-ctc-blue text-white text-sm font-semibold hover:bg-ctc-blue-dark transition-colors">
+                                                    Apply / enquire
+                                                </a>
+                                                <a href="{{ route('specialists') }}"
+                                                   class="inline-flex items-center px-4 py-2 rounded-lg border border-gray-200 bg-white text-sm font-semibold text-gray-800 hover:border-emerald-200 hover:bg-emerald-50 transition-colors">
+                                                    Meet our specialists
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="md:col-span-2 rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
+                                        <p class="text-sm text-gray-600">
+                                            Training opportunities will be listed here once published from the admin dashboard.
+                                        </p>
+                                        <div class="mt-4">
+                                            <a href="{{ route('contact') }}"
+                                               class="inline-flex items-center px-5 py-3 rounded-lg font-semibold bg-ctc-blue text-white hover:bg-ctc-blue-dark transition-colors">
+                                                Contact us about training
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <aside class="lg:col-span-5 space-y-4">
+                        <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                            <div class="p-6">
+                                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Explore</p>
+                                <h3 class="mt-2 text-lg font-semibold text-gray-900">Continue your journey</h3>
+                                <p class="mt-2 text-sm text-gray-600">Discover related sections designed to support applicants, partners, and referring clinicians.</p>
+                            </div>
+                            <div class="border-t border-gray-200 divide-y divide-gray-200">
+                                <a href="{{ route('research') }}" class="block px-6 py-4 hover:bg-gray-50 transition-colors">
+                                    <p class="text-sm font-semibold text-gray-900">Research</p>
+                                    <p class="mt-1 text-xs text-gray-600">Publications, outcomes, and collaboration opportunities.</p>
+                                </a>
+                                <a href="{{ route('services') }}" class="block px-6 py-4 hover:bg-gray-50 transition-colors">
+                                    <p class="text-sm font-semibold text-gray-900">Services</p>
+                                    <p class="mt-1 text-xs text-gray-600">Clinical areas where trainees gain exposure.</p>
+                                </a>
+                                <a href="{{ route('specialists') }}" class="block px-6 py-4 hover:bg-gray-50 transition-colors">
+                                    <p class="text-sm font-semibold text-gray-900">Specialists</p>
+                                    <p class="mt-1 text-xs text-gray-600">Meet the faculty and multidisciplinary team.</p>
+                                </a>
+                                <a href="{{ route('support') }}" class="block px-6 py-4 hover:bg-gray-50 transition-colors">
+                                    <p class="text-sm font-semibold text-gray-900">Support</p>
+                                    <p class="mt-1 text-xs text-gray-600">Help train the next generation of surgeons.</p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="rounded-2xl border border-amber-200 bg-amber-50 shadow-sm p-6">
+                            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-900">Fast track</p>
+                            <h3 class="mt-2 text-lg font-semibold text-gray-900">Ready to apply or visit?</h3>
+                            <p class="mt-2 text-sm text-gray-700">Send your inquiry and we’ll guide you to the right program and requirements.</p>
+                            <div class="mt-4 flex flex-wrap gap-3">
+                                <a href="{{ route('contact') }}"
+                                   class="inline-flex items-center px-5 py-3 rounded-lg font-semibold bg-ctc-blue text-white hover:bg-ctc-blue-dark transition-colors">
+                                    Contact us
+                                </a>
+                                <a href="{{ route('training-research') }}"
+                                   class="inline-flex items-center px-5 py-3 rounded-lg font-semibold border border-amber-200 bg-white/60 text-amber-900 hover:bg-white transition-colors">
+                                    Training & Research
+                                </a>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
             </div>
         </div>
@@ -35,8 +158,8 @@
 
     <x-cta-section
         title="Interested in training with us?"
-        description="Contact us for fellowship and rotation inquiries."
-        buttonLabel="Contact us"
+        description="Contact us for fellowship, rotations, and visiting programme inquiries."
+        buttonLabel="Make an enquiry"
         :buttonUrl="route('contact')"
     />
 @endsection

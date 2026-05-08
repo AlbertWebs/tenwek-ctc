@@ -17,6 +17,7 @@ return [
         ['label' => 'Support / Donations', 'route' => 'admin-dashboard.donations.index', 'icon' => 'currency-dollar'],
         ['label' => 'News / Articles', 'route' => 'admin-dashboard.news.index', 'icon' => 'newspaper', 'permission' => 'news.manage'],
         ['label' => 'Contact & Enquiries', 'route' => 'admin-dashboard.enquiries.index', 'icon' => 'mail'],
+        ['label' => 'Contact Details', 'route' => 'admin-dashboard.contact-settings.edit', 'icon' => 'phone'],
         ['label' => 'Bookings / Appointments', 'route' => 'admin-dashboard.bookings.index', 'icon' => 'calendar'],
         ['label' => 'Specialists', 'route' => 'admin-dashboard.team-members.index', 'icon' => 'user-group'],
         ['label' => 'Users & Roles', 'route' => 'admin-dashboard.users.index', 'icon' => 'shield-check', 'permission' => 'users.manage'],

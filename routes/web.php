@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AboutSectionController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\ContactEnquiryController;
+use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\HeroController;
@@ -30,7 +31,9 @@ Route::get('/patient-information', [PageController::class, 'patientInformation']
 Route::get('/international-patients', [PageController::class, 'internationalPatients'])->name('international-patients');
 Route::get('/training-research', [PageController::class, 'trainingResearch'])->name('training-research');
 Route::get('/training', [PageController::class, 'training'])->name('training');
+Route::get('/training/fellowship-and-rotations', [PageController::class, 'trainingFellowshipRotations'])->name('training.fellowship-rotations');
 Route::get('/research', [PageController::class, 'research'])->name('research');
+Route::get('/research/publications', [PageController::class, 'researchPublications'])->name('research.publications');
 Route::get('/impact', [PageController::class, 'impact'])->name('impact');
 Route::get('/support', [PageController::class, 'support'])->name('support');
 Route::get('/news', [PageController::class, 'news'])->name('news');
@@ -53,6 +56,9 @@ Route::post('admin-dashboard/logout', [LoginController::class, 'logout'])->name(
 
 Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-dashboard.')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+    Route::get('contact-settings', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');
+    Route::put('contact-settings', [ContactSettingController::class, 'update'])->name('contact-settings.update');
 
     Route::get('hero', [HeroController::class, 'edit'])->name('hero.edit');
     Route::put('hero', [HeroController::class, 'update'])->name('hero.update');
