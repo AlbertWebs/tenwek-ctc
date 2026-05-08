@@ -39,7 +39,7 @@ Route::get('/support', [PageController::class, 'support'])->name('support');
 Route::get('/news', [PageController::class, 'news'])->name('news');
 Route::get('/news/{slug}', [PageController::class, 'newsShow'])->name('news.show');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
-Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit');
+Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit')->middleware('throttle:10,1');
 Route::post('/support-enquiry', [PageController::class, 'submitSupportEnquiry'])->name('support.enquiry.submit');
 Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');

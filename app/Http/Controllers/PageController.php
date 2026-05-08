@@ -223,9 +223,21 @@ class PageController extends Controller
     {
         $contact = ContactSetting::current();
 
+        $a = random_int(2, 9);
+        $b = random_int(1, 9);
+        session([
+            'contact_math_a' => $a,
+            'contact_math_b' => $b,
+        ]);
+
         $metaDescription = 'Contact Tenwek Cardiothoracic Centre for appointments, referrals, international patient support, and general enquiries.';
 
-        return view('pages.contact', compact('contact', 'metaDescription'));
+        return view('pages.contact', [
+            'contact' => $contact,
+            'metaDescription' => $metaDescription,
+            'mathA' => $a,
+            'mathB' => $b,
+        ]);
     }
 
     public function internationalPatients()
@@ -299,7 +311,26 @@ class PageController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'message' => 'required|string|max:5000',
+            'website' => 'nullable|string|max:255',
+            'math_answer' => 'required|integer|min:0|max:100',
         ]);
+
+        // Honeypot: if filled, silently accept without storing.
+        if (! empty($request->input('website'))) {
+            return redirect()
+                ->route('contact')
+                ->with('success', 'Thank you. We have received your message and will get back to you soon.');
+        }
+
+        $a = (int) session('contact_math_a');
+        $b = (int) session('contact_math_b');
+        $expected = $a + $b;
+        if (! $a || ! $b || (int) $request->input('math_answer') !== $expected) {
+            return back()
+                ->withErrors(['math_answer' => 'Please answer the anti-spam question correctly.'])
+                ->withInput();
+        }
+
         ContactEnquiry::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -307,6 +338,8 @@ class PageController extends Controller
             'message' => $request->input('message'),
             'source' => 'contact',
         ]);
+
+        $request->session()->forget(['contact_math_a', 'contact_math_b']);
         return redirect()->route('contact')->with('success', 'Thank you. We have received your message and will get back to you soon.');
     }
 

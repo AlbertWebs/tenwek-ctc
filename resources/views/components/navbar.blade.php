@@ -2,9 +2,15 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 lg:h-18">
             {{-- Logo / Brand --}}
-            <a href="{{ route('home') }}" class="flex items-center gap-2 ctc-navbar__brand font-headline font-extrabold text-base sm:text-lg tracking-tight transition-colors">
-                <span>{{ config('ctc.name') }}</span>
-                <span class="text-gray-500 font-medium hidden sm:inline">— {{ config('ctc.hospital') }}</span>
+            <a href="{{ route('home') }}" class="flex items-center ctc-navbar__brand font-headline tracking-tight transition-colors">
+                <span class="leading-[1.05]">
+                    <span class="block font-extrabold text-base sm:text-lg text-gray-900">
+                        {{ config('ctc.name') }}
+                    </span>
+                    <span class="block text-xs sm:text-sm font-semibold text-gray-500">
+                        {{ config('ctc.hospital') }}
+                    </span>
+                </span>
             </a>
 
             {{-- Desktop nav --}}
