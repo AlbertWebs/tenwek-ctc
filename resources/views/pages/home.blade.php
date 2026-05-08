@@ -2,11 +2,13 @@
 
 @section('title', 'Home')
 
+@php($metaDescription = 'Tenwek Hospital Cardiothoracic Centre (CTC) is a beacon of hope for patients with heart disease across Sub‑Saharan Africa—life‑saving surgery, training, and research.')
+
 @section('hero')
     @include('components.hero-section', [
         'title' => 'Cardiothoracic Centre',
         'subtitle' => 'Tenwek Hospital',
-        'description' => 'Excellence in heart and chest surgery, training, and research in East Africa. We provide life-saving care and build the next generation of cardiothoracic surgeons.',
+        'description' => 'A beacon of hope and healing for patients with heart disease across Sub‑Saharan Africa. We provide life‑saving open‑heart and thoracic care, and train African healthcare professionals to expand access to treatment.',
         'mode' => $heroMode ?? 'video',
         'video' => $heroVideoUrl ?? null,
         'slides' => $heroSlides ?? collect(),
@@ -19,15 +21,50 @@
 
 @section('content')
     {{-- Stats: below nav, light background --}}
-    <section class="py-16 bg-ctc-grey-light">
+    <section class="py-16 bg-ctc-grey-light" id="home-stats">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-5xl mx-auto">
                 @foreach($stats as $stat)
                     <div class="text-center p-6 lg:p-8 rounded-xl bg-white border border-gray-200 shadow-sm">
-                        <p class="text-3xl sm:text-4xl lg:text-5xl font-bold text-ctc-blue">{{ $stat['value'] }}</p>
+                        <p class="ctc-stat-value text-3xl sm:text-4xl lg:text-5xl font-bold text-ctc-blue">{{ $stat['value'] }}</p>
                         <p class="mt-2 text-sm font-medium text-gray-600">{{ $stat['label'] }}</p>
                     </div>
                 @endforeach
+            </div>
+
+            <div class="mt-10 max-w-5xl mx-auto grid gap-6 lg:grid-cols-12 items-stretch">
+                <div class="lg:col-span-7 h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 sm:p-8 flex flex-col">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">A History of Excellence</p>
+                    <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">
+                        Built to expand access to advanced cardiac care in Africa
+                    </h2>
+                    <p class="mt-4 text-gray-600 leading-relaxed">
+                        The Cardiothoracic Centre at Tenwek Hospital was established through the vision of the Hospital’s Board and Management
+                        to construct a specialised facility dedicated to cardiothoracic care — addressing the pressing need for advanced cardiac treatment
+                        in Kenya and across the continent.
+                    </p>
+                </div>
+                <div class="lg:col-span-5 h-full flex flex-col gap-4">
+                    <div class="h-full rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Visiting hours</p>
+                        <dl class="mt-4 space-y-2 text-gray-700">
+                            <div class="flex items-center justify-between gap-4"><dt class="text-sm">Morning</dt><dd class="text-sm font-semibold text-ctc-blue">6:00 – 6:45 am</dd></div>
+                            <div class="flex items-center justify-between gap-4"><dt class="text-sm">Lunch</dt><dd class="text-sm font-semibold text-ctc-blue">1:00 – 2:00 pm</dd></div>
+                            <div class="flex items-center justify-between gap-4"><dt class="text-sm">Evening</dt><dd class="text-sm font-semibold text-ctc-blue">4:00 – 5:00 pm</dd></div>
+                        </dl>
+                    </div>
+                    <div class="h-full rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Talk to us</p>
+                        <p class="mt-3 text-sm text-gray-600">
+                            <a class="font-semibold text-ctc-blue hover:underline" href="tel:+254728091900">+254 728 091 900</a>
+                            <span class="text-gray-400">•</span>
+                            <a class="font-semibold text-ctc-blue hover:underline" href="mailto:customer.experience@tenwekhosp.org">customer.experience@tenwekhosp.org</a>
+                        </p>
+                        <p class="mt-2 text-sm text-gray-600">
+                            Visit: <span class="font-medium text-gray-800">Bomet County, Kenya</span> • <span class="font-medium text-gray-800">P.O Box 39-20400 Bomet</span>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -65,7 +102,12 @@
                 <div class="{{ !empty($servicesImageUrl) ? 'lg:col-span-8' : 'lg:col-span-12' }}">
                     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr h-full">
                         @foreach($services as $service)
-                            <x-service-card :name="$service->name" :description="$service->description" :url="route('services') . '#' . $service->slug" />
+                            <x-service-card
+                                :name="$service->name"
+                                :description="$service->description"
+                                :url="route('services') . '#' . $service->slug"
+                                :detailUrl="route('services.show', $service)"
+                            />
                         @endforeach
                     </div>
                 </div>
@@ -85,6 +127,7 @@
                         :specialization="$member->specialization"
                         :bio="$member->bio"
                         :photo="$member->photo"
+                        :url="route('specialists.show', $member)"
                     />
                 @endforeach
             </div>
@@ -102,11 +145,25 @@
             <x-section-title title="Our Impact in Africa" subtitle="The CTC is a regional leader in cardiothoracic surgery and training." />
             <div class="max-w-3xl prose prose-lg text-gray-600">
                 <p>
-                    The Cardiothoracic Centre at Tenwek Hospital has become a beacon of hope across East Africa and beyond.
-                    We perform thousands of heart and chest surgeries each year, train the next generation of surgeons,
-                    and partner with institutions worldwide to expand access to life-saving care. Our mission is to ensure
-                    that no patient is denied treatment for lack of expertise or resources.
+                    The Cardiothoracic Centre is a leading centre for life‑saving open‑heart surgical procedures in the region.
+                    Beyond direct care, we serve as a training hub for African healthcare workers in prevention and management of heart disease —
+                    equipping professionals through accredited programmes and partnerships.
                 </p>
+            </div>
+
+            <div class="mt-10 grid gap-6 md:grid-cols-3 auto-rows-fr">
+                <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Job creation</p>
+                    <p class="mt-3 text-gray-700 text-sm leading-relaxed">With over <span class="font-semibold text-ctc-blue">300</span> tax‑paying Kenyan staff members, the centre contributes significantly as a regional employer.</p>
+                </div>
+                <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Training hub</p>
+                    <p class="mt-3 text-gray-700 text-sm leading-relaxed">Advanced training attracts healthcare professionals and strengthens sustainable cardiothoracic care across Africa.</p>
+                </div>
+                <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Medical tourism</p>
+                    <p class="mt-3 text-gray-700 text-sm leading-relaxed">High‑quality cardiac care at a fraction of international costs draws patients from Kenya and beyond.</p>
+                </div>
             </div>
         </div>
     </section>

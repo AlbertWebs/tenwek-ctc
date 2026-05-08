@@ -2,67 +2,102 @@
 
 @section('title', 'About CTC')
 
-@php($metaDescription = 'Learn about the Cardiothoracic Centre at Tenwek Hospital—our mission, history, and commitment to advanced heart and chest care in East Africa.')
-
 @section('content')
     @include('components.page-banner', [
         'title' => 'About the Centre',
         'subtitle' => config('ctc.hospital'),
     ])
 
+    {{-- Admin-driven sections (with optional image/media) --}}
     <section class="py-16 lg:py-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <x-section-title title="Overview of the Centre" />
-            <div class="max-w-3xl prose prose-lg text-gray-600">
-                <p>
-                    The Cardiothoracic Centre (CTC) at Tenwek Hospital is a leading center for heart and chest surgery in East Africa.
-                    We provide comprehensive care for adult and pediatric patients with cardiac and thoracic conditions,
-                    from diagnosis through surgery and follow-up. Our team is committed to clinical excellence, education, and research.
-                </p>
-            </div>
+            @if(isset($sections) && $sections->count())
+                <div class="space-y-12 lg:space-y-16">
+                    @foreach($sections as $i => $section)
+                        @php
+                            $odd = ($i % 2) === 1;
+                            $hasMedia = !empty($section->featured_image_url) || !empty($section->media_url);
+                        @endphp
+
+                        <div class="grid gap-8 lg:grid-cols-12 items-center">
+                            <div class="{{ $hasMedia ? 'lg:col-span-6' : 'lg:col-span-12' }} {{ $odd ? 'lg:order-2' : '' }}">
+                                <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">About</p>
+                                <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">
+                                    {{ $section->title }}
+                                </h2>
+                                @if($section->content)
+                                    <div class="mt-4 prose prose-slate max-w-none prose-headings:font-headline prose-headings:text-ctc-blue prose-p:text-gray-700 prose-p:leading-relaxed">
+                                        {!! nl2br(e($section->content)) !!}
+                                    </div>
+                                @endif
+                            </div>
+
+                            @if($hasMedia)
+                                <div class="lg:col-span-6 {{ $odd ? 'lg:order-1' : '' }}">
+                                    <div class="rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                                        @if($section->featured_image_url)
+                                            <div class="aspect-video bg-ctc-grey-light">
+                                                <img src="{{ $section->featured_image_url }}" alt="{{ $section->title }}" class="h-full w-full object-cover">
+                                            </div>
+                                        @endif
+
+                                        @if($section->media_url)
+                                            <div class="aspect-video bg-black">
+                                                <iframe
+                                                    src="{{ $section->media_url }}"
+                                                    class="h-full w-full"
+                                                    title="{{ $section->title }}"
+                                                    loading="lazy"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowfullscreen
+                                                ></iframe>
+                                            </div>
+                                        @endif
+
+                                        <div class="p-5 bg-white">
+                                            <div class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue/75">
+                                                <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]"></span>
+                                                Centre story
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                {{-- Fallback copy if no admin sections are created yet --}}
+                <div class="max-w-3xl">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">About</p>
+                    <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">A centre of excellence</h2>
+                    <p class="mt-4 text-gray-600 leading-relaxed">
+                        The Cardiothoracic Centre (CTC) at Tenwek Hospital provides comprehensive care for adult and pediatric patients with cardiac and thoracic conditions,
+                        from diagnosis through surgery and follow‑up.
+                    </p>
+                </div>
+            @endif
         </div>
     </section>
 
+    {{-- Mission & Vision (subtle gold accents) --}}
     <section class="py-16 lg:py-20 bg-ctc-grey-light">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <x-section-title title="History of the CTC" />
-            <div class="max-w-3xl prose prose-lg text-gray-600">
-                <p>
-                    The CTC was established to address the critical need for cardiothoracic surgery in the region.
-                    Over the years, we have grown from a small program to a full-service center performing thousands of
-                    procedures annually. Our history is marked by partnerships with international organizations and
-                    a steadfast focus on training African surgeons to serve their own communities.
-                </p>
+            <div class="max-w-4xl">
+                <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Purpose</p>
+                <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">Mission & Vision</h2>
             </div>
-        </div>
-    </section>
-
-    <section class="py-16 lg:py-20">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <x-section-title title="Mission & Vision" />
-            <div class="grid md:grid-cols-2 gap-10 max-w-4xl">
-                <div class="p-6 rounded-xl bg-white border border-gray-200 shadow-sm">
-                    <h3 class="text-xl font-semibold text-ctc-blue mb-2">Our Mission</h3>
-                    <p class="text-gray-600">To provide excellent, compassionate cardiothoracic care to all who need it, and to train the next generation of surgeons and healthcare workers for Africa.</p>
+            <div class="mt-8 grid md:grid-cols-2 gap-8 max-w-5xl">
+                <div class="rounded-2xl bg-white border border-ctc-accent/25 shadow-sm p-6">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Mission</p>
+                    <h3 class="mt-2 text-xl font-semibold text-ctc-blue">Excellent, compassionate care</h3>
+                    <p class="mt-3 text-gray-600 leading-relaxed">To provide excellent, compassionate cardiothoracic care to all who need it, and to train the next generation of surgeons and healthcare workers for Africa.</p>
                 </div>
-                <div class="p-6 rounded-xl bg-white border border-gray-200 shadow-sm">
-                    <h3 class="text-xl font-semibold text-ctc-blue mb-2">Our Vision</h3>
-                    <p class="text-gray-600">A region where every person has access to life-saving heart and chest surgery, delivered by well-trained local teams.</p>
+                <div class="rounded-2xl bg-white border border-gray-200 shadow-sm p-6">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Vision</p>
+                    <h3 class="mt-2 text-xl font-semibold text-ctc-blue">Access for every patient</h3>
+                    <p class="mt-3 text-gray-600 leading-relaxed">A region where every person has access to life‑saving heart and chest surgery, delivered by well‑trained local teams.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-16 lg:py-20 bg-ctc-grey-light">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <x-section-title title="Global Partnerships" />
-            <div class="max-w-3xl prose prose-lg text-gray-600">
-                <p>
-                    We work with hospitals, universities, and NGOs around the world to strengthen our clinical programs,
-                    support training, and advance research. These partnerships bring expertise, equipment, and funding
-                    that help us serve more patients and train more surgeons. We are grateful to every partner who shares
-                    our commitment to transforming cardiothoracic care in Africa.
-                </p>
             </div>
         </div>
     </section>

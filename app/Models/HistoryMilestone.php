@@ -4,21 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TeamMember extends Model
+class HistoryMilestone extends Model
 {
     protected $fillable = [
-        'name',
-        'slug',
+        'year',
         'title',
-        'specialization',
-        'bio',
-        'photo',
+        'description',
         'sort_order',
         'is_visible',
     ];
 
     protected $casts = [
-        'is_visible' => 'boolean',
+        'year' => 'int',
+        'sort_order' => 'int',
+        'is_visible' => 'bool',
     ];
 
     public function scopeVisible($query)
@@ -28,11 +27,7 @@ class TeamMember extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('sort_order')->orderBy('name');
-    }
-
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
+        return $query->orderBy('sort_order')->orderByDesc('year')->orderByDesc('id');
     }
 }
+

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -28,6 +29,7 @@ class ServiceController extends Controller
             'category' => 'required|in:'.implode(',', [Service::CATEGORY_CARDIAC, Service::CATEGORY_THORACIC, Service::CATEGORY_DIAGNOSTICS]),
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:5000',
+            'featured_image' => 'nullable|image|max:5120',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
@@ -37,7 +39,13 @@ class ServiceController extends Controller
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
-        Service::create($validated);
+
+        $service = Service::create(collect($validated)->except('featured_image')->all());
+
+        if ($request->hasFile('featured_image')) {
+            $path = $request->file('featured_image')->store('services', 'public');
+            $service->update(['featured_image_path' => $path]);
+        }
         return redirect()->route('admin-dashboard.services.index')->with('success', 'Service created.');
     }
 
@@ -52,6 +60,7 @@ class ServiceController extends Controller
             'category' => 'required|in:'.implode(',', [Service::CATEGORY_CARDIAC, Service::CATEGORY_THORACIC, Service::CATEGORY_DIAGNOSTICS]),
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:5000',
+            'featured_image' => 'nullable|image|max:5120',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
@@ -61,7 +70,15 @@ class ServiceController extends Controller
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
-        $service->update($validated);
+        $service->update(collect($validated)->except('featured_image')->all());
+
+        if ($request->hasFile('featured_image')) {
+            if ($service->featured_image_path && !str_starts_with($service->featured_image_path, 'http')) {
+                Storage::disk('public')->delete($service->featured_image_path);
+            }
+            $path = $request->file('featured_image')->store('services', 'public');
+            $service->update(['featured_image_path' => $path]);
+        }
         return redirect()->route('admin-dashboard.services.index')->with('success', 'Service updated.');
     }
 

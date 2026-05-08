@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="rounded-xl bg-white border border-gray-200 shadow-sm p-6 max-w-2xl">
-        <form action="{{ route('admin-dashboard.services.update', $service) }}" method="post" class="space-y-5">
+        <form action="{{ route('admin-dashboard.services.update', $service) }}" method="post" enctype="multipart/form-data" class="space-y-5">
             @csrf
             @method('PUT')
             <div>
@@ -24,6 +24,17 @@
             <div>
                 <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                 <textarea name="description" id="description" rows="4" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">{{ old('description', $service->description) }}</textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Featured image</label>
+                @if($service->featured_image_url)
+                    <div class="mb-3 aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+                        <img src="{{ $service->featured_image_url }}" alt="" class="h-full w-full object-cover">
+                    </div>
+                @endif
+                <input type="file" name="featured_image" id="featured_image" accept="image/*" class="w-full text-sm">
+                @error('featured_image')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                <p class="mt-1 text-xs text-gray-500">Upload to replace the current image (recommended: 1200×675).</p>
             </div>
             <div>
                 <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">Slug</label>

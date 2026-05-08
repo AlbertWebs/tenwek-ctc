@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Support\PublicAssetUrl;
 
 class Service extends Model
 {
@@ -14,6 +15,7 @@ class Service extends Model
         'category',
         'name',
         'description',
+        'featured_image_path',
         'slug',
         'sort_order',
         'is_visible',
@@ -36,5 +38,15 @@ class Service extends Model
     public function scopeInCategory($query, string $category)
     {
         return $query->where('category', $category);
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function getFeaturedImageUrlAttribute(): ?string
+    {
+        return PublicAssetUrl::toUrl($this->featured_image_path);
     }
 }

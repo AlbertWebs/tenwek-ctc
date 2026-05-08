@@ -13,24 +13,24 @@
             </a>
         </div>
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <table class="admin-table min-w-full">
+                <thead>
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">Name</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">Category</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">Visible</th>
-                        <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">Actions</th>
+                        <th class="text-left">Name</th>
+                        <th class="text-left">Category</th>
+                        <th class="text-left">Visible</th>
+                        <th class="text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white">
                     @forelse($services as $service)
                         <tr>
-                            <td class="px-4 py-3 text-sm font-medium text-gray-900 sm:px-6">{{ $service->name }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-600 sm:px-6">{{ $service->category }}</td>
-                            <td class="px-4 py-3 text-sm sm:px-6">
+                            <td class="text-sm font-medium text-gray-900">{{ $service->name }}</td>
+                            <td class="text-sm text-gray-600">{{ $service->category }}</td>
+                            <td class="text-sm">
                                 @if($service->is_visible)<span class="text-green-600">Yes</span>@else<span class="text-gray-400">No</span>@endif
                             </td>
-                            <td class="px-4 py-3 text-right text-sm sm:px-6">
+                            <td class="text-right text-sm">
                                 <a href="{{ route('admin-dashboard.services.edit', $service) }}" class="text-admin-teal hover:underline mr-3">Edit</a>
                                 <form action="{{ route('admin-dashboard.services.destroy', $service) }}" method="post" class="inline" onsubmit="return confirm('Delete this service?');">
                                     @csrf
@@ -41,7 +41,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-8 text-center text-gray-500 sm:px-6">No services yet. <a href="{{ route('admin-dashboard.services.create') }}" class="text-admin-teal hover:underline">Add one</a>.</td>
+                            <td colspan="4" class="text-center text-gray-500 py-10">No services yet. <a href="{{ route('admin-dashboard.services.create') }}" class="text-admin-teal hover:underline">Add one</a>.</td>
                         </tr>
                     @endforelse
                 </tbody>

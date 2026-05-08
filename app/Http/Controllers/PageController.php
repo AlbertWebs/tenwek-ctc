@@ -12,6 +12,8 @@ use App\Models\SiteSetting;
 use App\Models\TeamMember;
 use App\Support\PublicAssetUrl;
 use Illuminate\Support\Facades\Storage;
+use App\Models\HistoryMilestone;
+use App\Models\AboutSection;
 
 class PageController extends Controller
 {
@@ -60,7 +62,20 @@ class PageController extends Controller
 
     public function about()
     {
-        return view('pages.about');
+        $sections = AboutSection::query()->visible()->ordered()->get();
+
+        $metaDescription = 'Learn about the Cardiothoracic Centre at Tenwek Hospital—our mission, history, and commitment to advanced heart and chest care in East Africa.';
+
+        return view('pages.about', compact('sections', 'metaDescription'));
+    }
+
+    public function history()
+    {
+        $milestones = HistoryMilestone::query()->visible()->ordered()->get();
+
+        $metaDescription = 'The history of Tenwek Cardiothoracic Centre—key milestones, growth, and impact in expanding access to advanced cardiac care in Africa.';
+
+        return view('pages.history', compact('milestones', 'metaDescription'));
     }
 
     public function specialists()
@@ -69,12 +84,45 @@ class PageController extends Controller
         return view('pages.specialists', compact('team'));
     }
 
+    public function specialistShow(TeamMember $teamMember)
+    {
+        $metaDescription = $teamMember->bio
+            ? str($teamMember->bio)->stripTags()->limit(160)
+            : (($teamMember->specialization ?: $teamMember->title) ? ("Meet {$teamMember->name} — {$teamMember->title} at Tenwek Cardiothoracic Centre.") : "Meet {$teamMember->name} at Tenwek Cardiothoracic Centre.");
+
+        $related = TeamMember::query()
+            ->visible()
+            ->where('id', '!=', $teamMember->id)
+            ->ordered()
+            ->take(6)
+            ->get();
+
+        return view('pages.specialist-show', compact('teamMember', 'related', 'metaDescription'));
+    }
+
     public function services()
     {
         $cardiac = Service::visible()->inCategory(Service::CATEGORY_CARDIAC)->ordered()->get();
         $thoracic = Service::visible()->inCategory(Service::CATEGORY_THORACIC)->ordered()->get();
         $diagnostics = Service::visible()->inCategory(Service::CATEGORY_DIAGNOSTICS)->ordered()->get();
         return view('pages.services', compact('cardiac', 'thoracic', 'diagnostics'));
+    }
+
+    public function serviceShow(Service $service)
+    {
+        $related = Service::query()
+            ->visible()
+            ->inCategory($service->category)
+            ->where('id', '!=', $service->id)
+            ->ordered()
+            ->take(6)
+            ->get();
+
+        $metaDescription = $service->description
+            ? str($service->description)->stripTags()->limit(160)
+            : ('Learn more about ' . $service->name . ' at Tenwek Cardiothoracic Centre.');
+
+        return view('pages.service-show', compact('service', 'related', 'metaDescription'));
     }
 
     public function patientInformation()
@@ -102,7 +150,17 @@ class PageController extends Controller
         $stories = ImpactStory::query()->visible()->ordered()->take(6)->get();
         $latestNews = NewsArticle::published()->latest()->take(3)->get();
 
-        return view('pages.impact', compact('stories', 'latestNews'));
+        $feature = ImpactStory::query()
+            ->visible()
+            ->ordered()
+            ->where(function ($q) {
+                $q->whereNotNull('media_url')->orWhereNotNull('image_path')->orWhereNotNull('image');
+            })
+            ->first();
+
+        $metaDescription = 'Impact of Tenwek CTC across Africa: patient stories, milestones, training the next generation of surgeons, and expanding access to life-saving care.';
+
+        return view('pages.impact', compact('stories', 'latestNews', 'feature', 'metaDescription'));
     }
 
     public function support()

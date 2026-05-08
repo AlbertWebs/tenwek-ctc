@@ -53,6 +53,49 @@ body {
     overflow-x: hidden;
 }
 
+/* ============================================================
+   Admin: tables (elegant, consistent)
+   ============================================================ */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.admin-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: rgba(248, 250, 252, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-admin-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.admin-table tbody td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+    vertical-align: top;
+}
+
+.admin-table tbody tr:nth-child(even) {
+    background: rgba(241, 245, 249, 0.55);
+}
+
+.admin-table tbody tr:hover {
+    background: rgba(13, 148, 136, 0.06);
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
 .font-headline {
     font-family: var(--font-headline);
     font-feature-settings: "kern" 1, "liga" 1;
@@ -139,6 +182,22 @@ body.ctc-topbar-hidden .ctc-site-header {
    Mega dropdown (Tenwek-inspired)
    ============================================================ */
 
+.ctc-dropdown {
+    transform: translateY(-6px);
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+}
+
+/* Open dropdown on keyboard focus too */
+.group:focus-within .ctc-dropdown {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+.group:hover .ctc-dropdown {
+    transform: translateY(0);
+}
+
 .ctc-mega-panel {
     width: min(92vw, var(--ctc-mega-max-w, 880px));
     background: rgba(255, 255, 255, 0.96);
@@ -150,11 +209,30 @@ body.ctc-topbar-hidden .ctc-site-header {
     overflow: hidden;
 }
 
+/* Subtle top accent line for mega panel */
+.ctc-mega-panel::before {
+    content: "";
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(228,195,115,0.95), rgba(98,163,161,0.95));
+    opacity: 0.65;
+}
+
 .ctc-mega-grid {
     display: grid;
     grid-template-columns: repeat(var(--ctc-mega-cols, 3), minmax(0, 1fr));
     gap: 1.5rem 2rem;
     padding: 1.35rem 1.5rem;
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .ctc-dropdown,
+    .ctc-mega-link,
+    .ctc-mega-link:hover {
+        transition: none !important;
+        transform: none !important;
+    }
 }
 
 .ctc-mega-col {
@@ -180,16 +258,37 @@ body.ctc-topbar-hidden .ctc-site-header {
 
 .ctc-mega-link {
     display: block;
+    position: relative;
     font-size: 0.8rem;
     font-weight: 600;
     color: rgba(26, 26, 104, 0.7);
-    padding: 0.25rem 0.1rem;
+    padding: 0.25rem 0.1rem 0.25rem 0.95rem;
     border-radius: 0.6rem;
     transition: color 160ms ease, transform 160ms ease, background-color 160ms ease;
+}
+
+.ctc-mega-link::before {
+    content: "";
+    position: absolute;
+    left: 0.25rem;
+    top: 0.78rem;
+    width: 0.32rem;
+    height: 0.32rem;
+    border-radius: 999px;
+    background: rgba(98, 163, 161, 0.95); /* ctc-secondary */
+    box-shadow: 0 0 0 4px rgba(228, 195, 115, 0.18); /* gold halo */
+    transform: translateY(-50%);
+    opacity: 0.85;
 }
 
 .ctc-mega-link:hover {
     background: rgba(228, 195, 115, 0.14);
     color: #12124a;
     transform: translateX(4px);
+}
+
+.ctc-mega-link:hover::before {
+    background: rgba(228, 195, 115, 0.95); /* gold on hover */
+    box-shadow: 0 0 0 4px rgba(98, 163, 161, 0.16); /* teal halo */
+    opacity: 1;
 }

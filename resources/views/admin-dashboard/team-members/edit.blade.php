@@ -34,6 +34,11 @@
                 <input type="text" name="photo" id="photo" value="{{ old('photo', $member->photo) }}" placeholder="https://..."
                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
             </div>
+            <div>
+                <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">Slug</label>
+                <input type="text" name="slug" id="slug" value="{{ old('slug', $member->slug) }}" placeholder="unique-profile-slug"
+                       class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                     <label for="sort_order" class="block text-sm font-medium text-gray-700 mb-1">Sort order</label>

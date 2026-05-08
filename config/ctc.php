@@ -47,6 +47,7 @@ return [
             'route' => 'about',
             'children' => [
                 ['label' => 'Overview', 'route' => 'about'],
+                ['label' => 'History', 'route' => 'history'],
                 ['label' => 'Our Specialists', 'route' => 'specialists'],
                 ['label' => 'Impact', 'route' => 'impact'],
             ],

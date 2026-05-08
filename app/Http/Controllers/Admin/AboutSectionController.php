@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AboutSection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AboutSectionController extends Controller
@@ -27,12 +28,20 @@ class AboutSectionController extends Controller
             'key' => 'required|string|max:100|unique:about_sections,key',
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
+            'featured_image' => 'nullable|image|max:5120',
+            'media_url' => 'nullable|string|max:2048',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
-        AboutSection::create($validated);
+
+        $section = AboutSection::create(collect($validated)->except('featured_image')->all());
+
+        if ($request->hasFile('featured_image')) {
+            $path = $request->file('featured_image')->store('about', 'public');
+            $section->update(['featured_image_path' => $path]);
+        }
         return redirect()->route('admin-dashboard.about.index')->with('success', 'Section created.');
     }
 
@@ -47,12 +56,22 @@ class AboutSectionController extends Controller
             'key' => 'required|string|max:100|unique:about_sections,key,' . $about_section->id,
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
+            'featured_image' => 'nullable|image|max:5120',
+            'media_url' => 'nullable|string|max:2048',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
-        $about_section->update($validated);
+        $about_section->update(collect($validated)->except('featured_image')->all());
+
+        if ($request->hasFile('featured_image')) {
+            if ($about_section->featured_image_path && !str_starts_with($about_section->featured_image_path, 'http')) {
+                Storage::disk('public')->delete($about_section->featured_image_path);
+            }
+            $path = $request->file('featured_image')->store('about', 'public');
+            $about_section->update(['featured_image_path' => $path]);
+        }
         return redirect()->route('admin-dashboard.about.index')->with('success', 'Section updated.');
     }
 

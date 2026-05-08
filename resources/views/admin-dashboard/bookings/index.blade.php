@@ -18,29 +18,31 @@
             </form>
             <a href="{{ route('admin-dashboard.bookings.create') }}" class="inline-flex items-center px-4 py-2 rounded-lg font-medium bg-admin-teal text-white hover:bg-admin-teal-dark text-sm">Add booking</a>
         </div>
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50"><tr>
-                <th class="px-4 py-3 text-left text-xs font-medium text-admin-muted uppercase sm:px-6">Patient</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-admin-muted uppercase sm:px-6">Requested date</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-admin-muted uppercase sm:px-6">Status</th>
-                <th class="px-4 py-3 text-right text-xs font-medium text-admin-muted uppercase sm:px-6">Actions</th>
+        <div class="overflow-x-auto">
+        <table class="admin-table min-w-full">
+            <thead><tr>
+                <th class="text-left">Patient</th>
+                <th class="text-left">Requested date</th>
+                <th class="text-left">Status</th>
+                <th class="text-right">Actions</th>
             </tr></thead>
-            <tbody class="divide-y divide-gray-200">
+            <tbody class="bg-white">
                 @forelse($bookings as $b)
                     <tr class="hover:bg-admin-bg/50">
-                        <td class="px-4 py-3 text-sm font-medium text-admin-dark sm:px-6">{{ $b->patient_name }}<br><span class="text-admin-muted text-xs">{{ $b->email }}</span></td>
-                        <td class="px-4 py-3 text-sm text-admin-muted sm:px-6">{{ $b->requested_date?->format('M j, Y') ?? '—' }}</td>
-                        <td class="px-4 py-3 text-sm sm:px-6"><span class="rounded-full px-2 py-0.5 text-xs font-medium {{ $b->status === 'pending' ? 'bg-admin-gold/20' : ($b->status === 'confirmed' ? 'bg-admin-teal/20 text-admin-teal-dark' : 'bg-gray-100') }}">{{ $b->status }}</span></td>
-                        <td class="px-4 py-3 text-right text-sm sm:px-6">
+                        <td class="text-sm font-medium text-admin-dark">{{ $b->patient_name }}<br><span class="text-admin-muted text-xs">{{ $b->email }}</span></td>
+                        <td class="text-sm text-admin-muted">{{ $b->requested_date?->format('M j, Y') ?? '—' }}</td>
+                        <td class="text-sm"><span class="rounded-full px-2 py-0.5 text-xs font-medium {{ $b->status === 'pending' ? 'bg-admin-gold/20' : ($b->status === 'confirmed' ? 'bg-admin-teal/20 text-admin-teal-dark' : 'bg-gray-100') }}">{{ $b->status }}</span></td>
+                        <td class="text-right text-sm">
                             <a href="{{ route('admin-dashboard.bookings.edit', $b) }}" class="text-admin-teal hover:underline mr-3">Edit</a>
                             <form action="{{ route('admin-dashboard.bookings.destroy', $b) }}" method="post" class="inline" onsubmit="return confirm('Delete?');">@csrf @method('DELETE')<button type="submit" class="text-admin-coral hover:underline">Delete</button></form>
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="4" class="px-4 py-8 text-center text-admin-muted">No bookings. <a href="{{ route('admin-dashboard.bookings.create') }}" class="text-admin-teal hover:underline">Add one</a>.</td></tr>
+                    <tr><td colspan="4" class="text-center text-admin-muted py-10">No bookings. <a href="{{ route('admin-dashboard.bookings.create') }}" class="text-admin-teal hover:underline">Add one</a>.</td></tr>
                 @endforelse
             </tbody>
         </table>
+        </div>
         @if($bookings->hasPages())<div class="px-4 py-3 border-t border-gray-200">{{ $bookings->links() }}</div>@endif
     </div>
 @endsection

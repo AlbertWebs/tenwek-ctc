@@ -26,8 +26,8 @@
                     </a>
                 @endif
 
-                {{-- Contact row with vertical dividers --}}
-                <div class="flex flex-wrap items-center divide-x divide-white/15">
+                {{-- Contact row (hide on mobile) --}}
+                <div class="hidden sm:flex flex-wrap items-center divide-x divide-white/15">
                     @if($phone)
                         <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="inline-flex items-center gap-2.5 px-6 py-1 text-sm text-white/85 hover:text-white transition-colors first:pl-0 last:pr-0">
                             <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-white/70">

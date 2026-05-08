@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TeamMember;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class TeamMemberController extends Controller
@@ -29,11 +30,15 @@ class TeamMemberController extends Controller
             'specialization' => 'nullable|string|max:255',
             'bio' => 'nullable|string|max:5000',
             'photo' => 'nullable|string|max:500',
+            'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['name']) . '-' . time();
+        }
         TeamMember::create($validated);
         return redirect()->route('admin-dashboard.team-members.index')->with('success', 'Team member created.');
     }
@@ -51,11 +56,15 @@ class TeamMemberController extends Controller
             'specialization' => 'nullable|string|max:255',
             'bio' => 'nullable|string|max:5000',
             'photo' => 'nullable|string|max:500',
+            'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        if (empty($validated['slug'])) {
+            $validated['slug'] = $team_member->slug ?: (Str::slug($validated['name']) . '-' . $team_member->id);
+        }
         $team_member->update($validated);
         return redirect()->route('admin-dashboard.team-members.index')->with('success', 'Team member updated.');
     }

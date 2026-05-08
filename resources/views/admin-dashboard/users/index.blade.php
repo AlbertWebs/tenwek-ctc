@@ -11,24 +11,24 @@
                 <p class="text-sm text-gray-500 mt-0.5">Assign a role to control dashboard access and permissions.</p>
             </div>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                <table class="admin-table min-w-full">
+                    <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">Name</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">Email</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">Role</th>
-                            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">Action</th>
+                            <th class="text-left">Name</th>
+                            <th class="text-left">Email</th>
+                            <th class="text-left">Role</th>
+                            <th class="text-right">Action</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-white">
                         @foreach($users as $user)
                             <tr>
-                                <td class="px-4 py-3 text-sm font-medium text-gray-900 sm:px-6">{{ $user->name }}</td>
-                                <td class="px-4 py-3 text-sm text-gray-600 sm:px-6">{{ $user->email }}</td>
-                                <td class="px-4 py-3 text-sm sm:px-6">
+                                <td class="text-sm font-medium text-gray-900">{{ $user->name }}</td>
+                                <td class="text-sm text-gray-600">{{ $user->email }}</td>
+                                <td class="text-sm">
                                     <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-700">{{ $user->role?->name ?? 'No role' }}</span>
                                 </td>
-                                <td class="px-4 py-3 text-right text-sm sm:px-6">
+                                <td class="text-right text-sm">
                                     <form action="{{ route('admin-dashboard.users.update-role', $user) }}" method="post" class="inline">
                                         @csrf
                                         @method('PUT')

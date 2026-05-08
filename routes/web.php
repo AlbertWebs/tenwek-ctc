@@ -21,8 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/history', [PageController::class, 'history'])->name('history');
 Route::get('/specialists', [PageController::class, 'specialists'])->name('specialists');
+Route::get('/specialists/{teamMember}', [PageController::class, 'specialistShow'])->name('specialists.show');
 Route::get('/services', [PageController::class, 'services'])->name('services');
+Route::get('/services/{service}', [PageController::class, 'serviceShow'])->name('services.show');
 Route::get('/patient-information', [PageController::class, 'patientInformation'])->name('patient-information');
 Route::get('/international-patients', [PageController::class, 'internationalPatients'])->name('international-patients');
 Route::get('/training-research', [PageController::class, 'trainingResearch'])->name('training-research');
@@ -74,6 +77,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
     Route::resource('training', TrainingProgramController::class)->except('show');
     Route::resource('research', ResearchPublicationController::class)->except('show')->parameters(['research' => 'research_publication']);
     Route::resource('impact', ImpactStoryController::class)->except('show')->parameters(['impact' => 'impact_story']);
+    Route::resource('history-milestones', \App\Http\Controllers\Admin\HistoryMilestoneController::class)->except('show')->parameters(['history_milestones' => 'history_milestone']);
     Route::resource('donations', DonationController::class)->except('show');
     Route::middleware('permission:news.manage')->group(function (): void {
         Route::resource('news', NewsArticleController::class)->except('show');

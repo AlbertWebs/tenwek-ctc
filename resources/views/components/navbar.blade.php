@@ -155,17 +155,68 @@
                         }
 
                         $isActive = isset($item['route']) && request()->routeIs($item['route']);
+
+                        $isChildActive = false;
+                        if (!$isActive) {
+                            if ($dropdownType === 'mega' && is_array($groups) && count($groups) > 0) {
+                                foreach ($groups as $g) {
+                                    foreach (($g['links'] ?? []) as $child) {
+                                        if (isset($child['route']) && request()->routeIs($child['route'])) {
+                                            $isChildActive = true;
+                                            break 2;
+                                        }
+                                    }
+                                }
+                            } else {
+                                foreach ($children as $child) {
+                                    if (isset($child['route']) && request()->routeIs($child['route'])) {
+                                        $isChildActive = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        $defaultOpen = $hasChildren && ($isActive || $isChildActive);
+                        $panelId = 'mobile-nav-panel-' . $loop->index;
                     @endphp
 
-                    <li>
-                        <a href="{{ $href }}"
-                           @click="mobileMenuOpen = false"
-                           class="ctc-navbar__mobile-link block px-3 py-2 rounded-md text-base font-medium {{ $isActive ? 'is-active' : '' }}">
-                            {{ $item['label'] }}
-                        </a>
+                    <li class="rounded-xl"
+                        x-data="{ open: {{ $defaultOpen ? 'true' : 'false' }} }">
+                        <div class="flex items-center gap-2">
+                            <a href="{{ $href }}"
+                               @click="mobileMenuOpen = false"
+                               class="ctc-navbar__mobile-link block flex-1 px-3 py-2 rounded-md text-base font-medium {{ $isActive ? 'is-active' : '' }}">
+                                {{ $item['label'] }}
+                            </a>
+
+                            @if($hasChildren)
+                                <button type="button"
+                                        class="shrink-0 inline-flex items-center justify-center h-10 w-10 rounded-lg text-gray-500 hover:text-ctc-blue hover:bg-gray-50 transition-colors"
+                                        @click="open = !open"
+                                        :aria-expanded="open ? 'true' : 'false'"
+                                        aria-controls="{{ $panelId }}"
+                                        aria-label="Toggle {{ $item['label'] }} menu">
+                                    <svg class="h-5 w-5 transition-transform duration-200"
+                                         :class="open ? 'rotate-180' : ''"
+                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                            @endif
+                        </div>
 
                         @if($hasChildren)
-                            <div class="mt-1 mb-2 ml-3 border-l border-gray-200 pl-3">
+                            <div id="{{ $panelId }}"
+                                 x-show="open"
+                                 x-cloak
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 -translate-y-1"
+                                 x-transition:enter-end="opacity-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-150"
+                                 x-transition:leave-start="opacity-100 translate-y-0"
+                                 x-transition:leave-end="opacity-0 -translate-y-1"
+                                 class="mt-1 mb-2 ml-3 border-l border-gray-200 pl-3">
                                 @if($dropdownType === 'mega' && is_array($groups) && count($groups) > 0)
                                     @foreach($groups as $group)
                                         <p class="mt-3 first:mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
