@@ -22,7 +22,9 @@
     </div>
 
     @yield('hero')
+    <div id="ctc-navbar-sentinel" aria-hidden="true"></div>
     @include('components.navbar')
+    <div id="ctc-navbar-spacer" aria-hidden="true" style="height: 0;"></div>
 
     <main class="min-h-screen">
         @yield('content')

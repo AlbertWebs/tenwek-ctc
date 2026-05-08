@@ -12,6 +12,31 @@ document.addEventListener('DOMContentLoaded', () => {
     setTopbarVisibility();
     window.addEventListener('scroll', setTopbarVisibility, { passive: true });
 
+    // Make main navbar reliably stick to top on scroll (with a spacer to prevent layout jump).
+    const navbar = document.querySelector('.ctc-navbar');
+    const sentinel = document.getElementById('ctc-navbar-sentinel');
+    const spacer = document.getElementById('ctc-navbar-spacer');
+    if (navbar && sentinel && spacer && 'IntersectionObserver' in window) {
+        const setSpacerHeight = (h) => {
+            spacer.style.height = h ? `${h}px` : '0px';
+        };
+
+        const io = new IntersectionObserver((entries) => {
+            const entry = entries[0];
+            const shouldFix = !!entry && !entry.isIntersecting;
+            document.body.classList.toggle('ctc-nav-fixed', shouldFix);
+            setSpacerHeight(shouldFix ? navbar.getBoundingClientRect().height : 0);
+        }, { threshold: 0 });
+
+        io.observe(sentinel);
+
+        window.addEventListener('resize', () => {
+            if (document.body.classList.contains('ctc-nav-fixed')) {
+                setSpacerHeight(navbar.getBoundingClientRect().height);
+            }
+        }, { passive: true });
+    }
+
     const formatWithCommas = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     const animateCount = (el, target, { durationMs = 1200, suffix = '', prefix = '', useCommas = true } = {}) => {
