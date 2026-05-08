@@ -26,7 +26,7 @@
 
     <section class="py-16 lg:py-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-6xl mx-auto">
+            <div class="max-w-7xl mx-auto">
                 <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
                     <div class="lg:col-span-6 flex">
                         <div class="relative rounded-2xl border border-gray-200 bg-white shadow-sm p-6 sm:p-8 flex flex-col w-full overflow-hidden">
@@ -216,7 +216,7 @@
 
     <section class="pb-16 lg:pb-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-6xl mx-auto">
+            <div class="max-w-7xl mx-auto">
                 <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white">
                     <div class="flex items-center justify-between gap-4 px-6 py-4 border-b border-gray-200">
                         <div>
