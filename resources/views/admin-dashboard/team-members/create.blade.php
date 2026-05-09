@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="rounded-xl bg-white border border-gray-200 shadow-sm p-6 max-w-2xl">
-        <form action="{{ route('admin-dashboard.team-members.store') }}" method="post" class="space-y-5">
+        <form action="{{ route('admin-dashboard.team-members.store') }}" method="post" enctype="multipart/form-data" class="space-y-5" x-data="{ previewUrl: null }">
             @csrf
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
@@ -25,10 +25,26 @@
                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
             </div>
             <x-admin.trix-field name="bio" id="bio" label="Bio" minHeight="12rem" />
-            <div>
-                <label for="photo" class="block text-sm font-medium text-gray-700 mb-1">Photo URL</label>
-                <input type="text" name="photo" id="photo" value="{{ old('photo') }}" placeholder="https://..."
-                       class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+            <div class="space-y-3">
+                <div>
+                    <label for="photo" class="block text-sm font-medium text-gray-700 mb-1">Photo</label>
+                    <input type="file" name="photo" id="photo" accept="image/*"
+                           class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal bg-white"
+                           @change="previewUrl = $event.target.files?.[0] ? URL.createObjectURL($event.target.files[0]) : null">
+                    <p class="mt-1 text-xs text-gray-500">Upload an image (max 5MB).</p>
+                </div>
+
+                <div>
+                    <label for="photo_url" class="block text-sm font-medium text-gray-700 mb-1">Or paste photo URL (optional)</label>
+                    <input type="text" name="photo_url" id="photo_url" value="{{ old('photo_url') }}" placeholder="https://..."
+                           class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+                </div>
+
+                <div x-show="previewUrl" x-cloak class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+                    <div class="aspect-[4/3]">
+                        <img :src="previewUrl" alt="Preview" class="h-full w-full object-cover">
+                    </div>
+                </div>
             </div>
             <div>
                 <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">Slug (optional)</label>

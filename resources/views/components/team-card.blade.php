@@ -11,14 +11,15 @@
     $tag = $url ? 'a' : 'article';
     $href = $url ?: null;
     $bioPlain = $bio ? \Illuminate\Support\Str::limit(trim(strip_tags($bio)), 220) : null;
+    $photoUrl = \App\Support\PublicAssetUrl::toUrl($photo);
 @endphp
 
 <{{ $tag }}
     @if($href) href="{{ $href }}" @endif
     class="ctc-card-tilt group rounded-2xl bg-white border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-[box-shadow] duration-500 block">
     <div class="aspect-[4/3] bg-ctc-grey-light flex items-center justify-center relative overflow-hidden">
-        @if($photo)
-            <img src="{{ $photo }}" alt="{{ $name }}" class="w-full h-full object-cover grayscale-[0.35] transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0">
+        @if($photoUrl)
+            <img src="{{ $photoUrl }}" alt="{{ $name }}" class="w-full h-full object-cover grayscale-[0.35] transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0">
         @else
             <svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>

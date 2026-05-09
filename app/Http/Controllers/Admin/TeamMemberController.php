@@ -7,6 +7,7 @@ use App\Models\TeamMember;
 use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -30,7 +31,8 @@ class TeamMemberController extends Controller
             'title' => 'required|string|max:255',
             'specialization' => 'nullable|string|max:255',
             'bio' => 'nullable|string|max:20000',
-            'photo' => 'nullable|string|max:500',
+            'photo' => 'nullable|image|max:5120',
+            'photo_url' => 'nullable|string|max:500',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
@@ -40,7 +42,17 @@ class TeamMemberController extends Controller
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']) . '-' . time();
         }
-        TeamMember::create($validated);
+        $validated['bio'] = TrixHtmlSanitizer::sanitize($validated['bio'] ?? '');
+
+        $member = TeamMember::create(collect($validated)->except(['photo', 'photo_url'])->all());
+
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('team', 'public');
+            $member->update(['photo' => $path]);
+        } elseif (! empty($validated['photo_url'])) {
+            $member->update(['photo' => $validated['photo_url']]);
+        }
+
         return redirect()->route('admin-dashboard.team-members.index')->with('success', 'Team member created.');
     }
 
@@ -56,7 +68,9 @@ class TeamMemberController extends Controller
             'title' => 'required|string|max:255',
             'specialization' => 'nullable|string|max:255',
             'bio' => 'nullable|string|max:20000',
-            'photo' => 'nullable|string|max:500',
+            'photo' => 'nullable|image|max:5120',
+            'photo_url' => 'nullable|string|max:500',
+            'remove_photo' => 'sometimes|boolean',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
@@ -67,7 +81,27 @@ class TeamMemberController extends Controller
             $validated['slug'] = $team_member->slug ?: (Str::slug($validated['name']) . '-' . $team_member->id);
         }
         $validated['bio'] = TrixHtmlSanitizer::sanitize($validated['bio'] ?? '');
-        $team_member->update($validated);
+
+        $team_member->update(collect($validated)->except(['photo', 'photo_url', 'remove_photo'])->all());
+
+        if ($request->boolean('remove_photo')) {
+            if ($team_member->photo && ! str_starts_with($team_member->photo, 'http')) {
+                Storage::disk('public')->delete($team_member->photo);
+            }
+            $team_member->update(['photo' => null]);
+        } elseif ($request->hasFile('photo')) {
+            if ($team_member->photo && ! str_starts_with($team_member->photo, 'http')) {
+                Storage::disk('public')->delete($team_member->photo);
+            }
+            $path = $request->file('photo')->store('team', 'public');
+            $team_member->update(['photo' => $path]);
+        } elseif (! empty($validated['photo_url'])) {
+            if ($team_member->photo && ! str_starts_with($team_member->photo, 'http')) {
+                Storage::disk('public')->delete($team_member->photo);
+            }
+            $team_member->update(['photo' => $validated['photo_url']]);
+        }
+
         return redirect()->route('admin-dashboard.team-members.index')->with('success', 'Team member updated.');
     }
 

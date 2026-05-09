@@ -15,8 +15,8 @@
                 <article class="lg:col-span-8">
                     <div class="rounded-2xl bg-white border border-gray-200 shadow-sm overflow-hidden">
                         <div class="aspect-video bg-ctc-grey-light">
-                            @if($teamMember->photo)
-                                <img src="{{ $teamMember->photo }}" alt="{{ $teamMember->name }}" class="h-full w-full object-cover" loading="eager" fetchpriority="high">
+                            @if($teamMember->photo_url)
+                                <img src="{{ $teamMember->photo_url }}" alt="{{ $teamMember->name }}" class="h-full w-full object-cover" loading="eager" fetchpriority="high">
                             @else
                                 <div class="h-full w-full flex items-center justify-center text-gray-400">
                                     <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Support\PublicAssetUrl;
 
 class TeamMember extends Model
 {
@@ -20,6 +21,11 @@ class TeamMember extends Model
     protected $casts = [
         'is_visible' => 'boolean',
     ];
+
+    public function getPhotoUrlAttribute(): ?string
+    {
+        return PublicAssetUrl::toUrl($this->photo);
+    }
 
     public function scopeVisible($query)
     {
