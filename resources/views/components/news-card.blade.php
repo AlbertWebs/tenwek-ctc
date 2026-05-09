@@ -12,7 +12,7 @@
     $tag = $url ? 'a' : 'article';
     $url = $url ?? '#';
     $fallback = 'https://images.unsplash.com/photo-1580281658629-99bb1fd55b0a?auto=format&fit=crop&w=1200&q=60';
-    $img = $image ?: $fallback;
+    $img = \App\Support\PublicAssetUrl::toUrl($image) ?: $fallback;
 
     $excerptPlain = $excerptPlain
         ?? (filled($excerpt)
