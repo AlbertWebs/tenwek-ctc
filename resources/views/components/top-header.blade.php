@@ -1,6 +1,5 @@
 @php
     $contact = config('ctc.contact', []);
-    $phone = $contact['phone'] ?? null;
     $email = $contact['email'] ?? null;
     $address = $contact['address'] ?? null;
     $emergency = $contact['emergency'] ?? null;
@@ -14,11 +13,7 @@
         'X' => \App\Models\SiteSetting::getValue('social.x', config('ctc.social.X')),
     ]);
 
-    $emergencyNorm = $emergency ? preg_replace('/\D+/', '', (string) $emergency) : '';
-    $phoneNorm = $phone ? preg_replace('/\D+/', '', (string) $phone) : '';
-    $emergencyDiffers = $emergencyNorm !== '' && $emergencyNorm !== $phoneNorm;
-
-    $showBar = $phone || $email || $address || $emergency || count($social) > 0;
+    $showBar = $email || $address || $emergency || count($social) > 0;
 @endphp
 
 @if($showBar)
@@ -56,15 +51,16 @@
                         </span>
                     @endif
 
-                    @if($phone)
-                        <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="inline-flex items-center gap-2 shrink-0 font-medium tabular-nums text-white/92 hover:text-ctc-secondary transition-colors">
-                            <svg class="h-4 w-4 shrink-0 text-ctc-secondary/85" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                            </svg>
-                            {{ $phone }}
-                            @if($emergency && ! $emergencyDiffers)
-                                <span class="ml-1 rounded bg-ctc-secondary/18 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-ctc-secondary">24/7</span>
-                            @endif
+                    @if($emergency)
+                        <a href="tel:{{ preg_replace('/\s+/', '', $emergency) }}"
+                           class="inline-flex items-center gap-2 shrink-0 rounded-full bg-white/[0.07] px-3 py-1 border border-ctc-secondary/30 ring-1 ring-inset ring-ctc-magenta/10 hover:bg-ctc-secondary/12 hover:border-ctc-secondary/45 transition-all">
+                            <span class="flex h-5 w-5 items-center justify-center rounded-full bg-ctc-secondary/18">
+                                <svg class="h-3 w-3 text-ctc-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </span>
+                            <span class="text-[9px] font-bold uppercase tracking-[0.18em] text-white/88">24/7 Emergency</span>
+                            <span class="text-[12px] font-medium tabular-nums text-white/95">{{ $emergency }}</span>
                         </a>
                     @endif
 
@@ -74,25 +70,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
                             <span class="truncate">{{ $email }}</span>
-                        </a>
-                    @endif
-
-                    @if($emergency && $emergencyDiffers)
-                        <a href="tel:{{ preg_replace('/\s+/', '', $emergency) }}"
-                           class="inline-flex items-center gap-2 shrink-0 rounded-full bg-white/[0.07] px-3 py-1 border border-ctc-secondary/30 ring-1 ring-inset ring-ctc-magenta/10 hover:bg-ctc-secondary/12 hover:border-ctc-secondary/45 transition-all">
-                            <span class="flex h-5 w-5 items-center justify-center rounded-full bg-ctc-secondary/18">
-                                <svg class="h-3 w-3 text-ctc-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                            </span>
-                            <span class="text-[9px] font-bold uppercase tracking-[0.18em] text-white/88">Emergency</span>
-                            <span class="text-[12px] font-medium tabular-nums text-white/95">{{ $emergency }}</span>
-                        </a>
-                    @elseif($emergency && ! $phone)
-                        <a href="tel:{{ preg_replace('/\s+/', '', $emergency) }}"
-                           class="inline-flex items-center gap-2 shrink-0 rounded-full bg-white/[0.07] px-3 py-1 border border-ctc-secondary/30 ring-1 ring-inset ring-ctc-magenta/10 hover:bg-ctc-secondary/12 transition-all">
-                            <span class="text-[9px] font-bold uppercase tracking-[0.18em] text-white/88">24/7</span>
-                            <span class="text-[12px] font-medium tabular-nums">{{ $emergency }}</span>
                         </a>
                     @endif
                 </div>
