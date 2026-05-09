@@ -117,16 +117,18 @@
                             $bookHref = $routeUrl('book-appointment');
                             $contactHref = $routeUrl('contact');
                         @endphp
-                        @if($bookHref)
-                            <a href="{{ $bookHref }}" class="inline-flex items-center justify-center w-full rounded-lg bg-ctc-accent px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue hover:brightness-95 transition-colors">
-                                Book appointment
-                            </a>
-                        @endif
-                        @if($contactHref)
-                            <a href="{{ $contactHref }}" class="inline-flex items-center justify-center w-full rounded-lg bg-ctc-secondary px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white hover:bg-ctc-secondary-dark transition-colors">
-                                Contact Us
-                            </a>
-                        @endif
+                        <div class="grid grid-cols-2 gap-3">
+                            @if($bookHref)
+                                <a href="{{ $bookHref }}" class="inline-flex items-center justify-center w-full rounded-lg bg-ctc-accent px-3 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue hover:brightness-95 transition-colors">
+                                    Book appointment
+                                </a>
+                            @endif
+                            @if($contactHref)
+                                <a href="{{ $contactHref }}" class="inline-flex items-center justify-center w-full rounded-lg bg-ctc-secondary px-3 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white hover:bg-ctc-secondary-dark transition-colors">
+                                    Contact Us
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
