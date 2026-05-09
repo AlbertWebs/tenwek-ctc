@@ -16,11 +16,13 @@ class ImpactStory extends Model
         'story_date',
         'sort_order',
         'is_visible',
+        'is_featured',
     ];
 
     protected $casts = [
         'story_date' => 'date',
         'is_visible' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     public function scopeVisible($query)

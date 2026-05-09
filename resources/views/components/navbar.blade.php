@@ -26,10 +26,13 @@
                         if (isset($item['url'])) {
                             $href = $item['url'];
                         } elseif (isset($item['route']) && \Illuminate\Support\Facades\Route::has($item['route'])) {
-                            $href = route($item['route']);
+                            $href = route($item['route'], $item['route_params'] ?? []);
                         }
 
-                        $isActive = isset($item['route']) && request()->routeIs($item['route']);
+                        $isActive = isset($item['route']) && (
+                            request()->routeIs($item['route'])
+                            || ($item['route'] === 'services' && request()->routeIs('services.category'))
+                        );
                     @endphp
 
                     @if($hasChildren)
@@ -45,8 +48,8 @@
                             @if($dropdownType === 'mega' && is_array($groups) && count($groups) > 0)
                                 @php
                                     $groupCount = count($groups);
-                                    $cols = min(3, max(2, $groupCount));
-                                    $maxW = $cols <= 2 ? 600 : 880;
+                                    $cols = $item['mega_cols'] ?? min(3, max(1, $groupCount));
+                                    $maxW = $item['mega_max_w'] ?? ($cols <= 2 ? 600 : 880);
                                 @endphp
                                 <div class="ctc-dropdown absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                                     <div class="ctc-mega-panel" style="--ctc-mega-max-w: {{ $maxW }}px;">
@@ -61,13 +64,16 @@
                                                                 if (isset($child['url'])) {
                                                                     $childHref = $child['url'];
                                                                 } elseif (isset($child['route']) && \Illuminate\Support\Facades\Route::has($child['route'])) {
-                                                                    $childHref = route($child['route']);
+                                                                    $childHref = route($child['route'], $child['route_params'] ?? []);
                                                                 }
                                                             @endphp
                                                             @if($childHref)
                                                                 <li>
                                                                     <a href="{{ $childHref }}" class="ctc-mega-link">
-                                                                        {{ $child['label'] ?? 'Link' }}
+                                                                        <span class="ctc-mega-link__label">{{ $child['label'] ?? 'Link' }}</span>
+                                                                        @if(!empty($child['description']))
+                                                                            <span class="ctc-mega-link__desc">{{ $child['description'] }}</span>
+                                                                        @endif
                                                                     </a>
                                                                 </li>
                                                             @endif
@@ -88,7 +94,7 @@
                                                     if (isset($child['url'])) {
                                                         $childHref = $child['url'];
                                                     } elseif (isset($child['route']) && \Illuminate\Support\Facades\Route::has($child['route'])) {
-                                                        $childHref = route($child['route']);
+                                                        $childHref = route($child['route'], $child['route_params'] ?? []);
                                                     }
                                                 @endphp
                                                 @if($childHref)
@@ -157,17 +163,34 @@
                         if (isset($item['url'])) {
                             $href = $item['url'];
                         } elseif (isset($item['route']) && \Illuminate\Support\Facades\Route::has($item['route'])) {
-                            $href = route($item['route']);
+                            $href = route($item['route'], $item['route_params'] ?? []);
                         }
 
-                        $isActive = isset($item['route']) && request()->routeIs($item['route']);
+                        $isActive = isset($item['route']) && (
+                            request()->routeIs($item['route'])
+                            || ($item['route'] === 'services' && request()->routeIs('services.category'))
+                        );
 
                         $isChildActive = false;
                         if (!$isActive) {
                             if ($dropdownType === 'mega' && is_array($groups) && count($groups) > 0) {
                                 foreach ($groups as $g) {
                                     foreach (($g['links'] ?? []) as $child) {
-                                        if (isset($child['route']) && request()->routeIs($child['route'])) {
+                                        if (! isset($child['route']) || ! \Illuminate\Support\Facades\Route::has($child['route'])) {
+                                            continue;
+                                        }
+                                        if (! request()->routeIs($child['route'])) {
+                                            continue;
+                                        }
+                                        $expected = $child['route_params'] ?? [];
+                                        $paramsMatch = true;
+                                        foreach ($expected as $paramKey => $paramVal) {
+                                            if ((string) request()->route($paramKey) !== (string) $paramVal) {
+                                                $paramsMatch = false;
+                                                break;
+                                            }
+                                        }
+                                        if ($paramsMatch) {
                                             $isChildActive = true;
                                             break 2;
                                         }
@@ -175,7 +198,21 @@
                                 }
                             } else {
                                 foreach ($children as $child) {
-                                    if (isset($child['route']) && request()->routeIs($child['route'])) {
+                                    if (! isset($child['route']) || ! \Illuminate\Support\Facades\Route::has($child['route'])) {
+                                        continue;
+                                    }
+                                    if (! request()->routeIs($child['route'])) {
+                                        continue;
+                                    }
+                                    $expected = $child['route_params'] ?? [];
+                                    $paramsMatch = true;
+                                    foreach ($expected as $paramKey => $paramVal) {
+                                        if ((string) request()->route($paramKey) !== (string) $paramVal) {
+                                            $paramsMatch = false;
+                                            break;
+                                        }
+                                    }
+                                    if ($paramsMatch) {
                                         $isChildActive = true;
                                         break;
                                     }
@@ -235,7 +272,7 @@
                                                     if (isset($child['url'])) {
                                                         $childHref = $child['url'];
                                                     } elseif (isset($child['route']) && \Illuminate\Support\Facades\Route::has($child['route'])) {
-                                                        $childHref = route($child['route']);
+                                                        $childHref = route($child['route'], $child['route_params'] ?? []);
                                                     }
                                                 @endphp
                                                 @if($childHref)
@@ -258,7 +295,7 @@
                                                 if (isset($child['url'])) {
                                                     $childHref = $child['url'];
                                                 } elseif (isset($child['route']) && \Illuminate\Support\Facades\Route::has($child['route'])) {
-                                                    $childHref = route($child['route']);
+                                                    $childHref = route($child['route'], $child['route_params'] ?? []);
                                                 }
                                             @endphp
                                             @if($childHref)

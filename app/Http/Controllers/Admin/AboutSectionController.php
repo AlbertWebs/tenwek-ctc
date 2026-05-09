@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AboutSection;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +28,7 @@ class AboutSectionController extends Controller
         $validated = $request->validate([
             'key' => 'required|string|max:100|unique:about_sections,key',
             'title' => 'required|string|max:255',
-            'content' => 'nullable|string',
+            'content' => 'nullable|string|max:50000',
             'featured_image' => 'nullable|image|max:5120',
             'media_url' => 'nullable|string|max:2048',
             'sort_order' => 'nullable|integer|min:0',
@@ -35,6 +36,7 @@ class AboutSectionController extends Controller
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        $validated['content'] = TrixHtmlSanitizer::sanitize($validated['content'] ?? '');
 
         $section = AboutSection::create(collect($validated)->except('featured_image')->all());
 
@@ -55,7 +57,7 @@ class AboutSectionController extends Controller
         $validated = $request->validate([
             'key' => 'required|string|max:100|unique:about_sections,key,' . $about_section->id,
             'title' => 'required|string|max:255',
-            'content' => 'nullable|string',
+            'content' => 'nullable|string|max:50000',
             'featured_image' => 'nullable|image|max:5120',
             'media_url' => 'nullable|string|max:2048',
             'sort_order' => 'nullable|integer|min:0',
@@ -63,6 +65,7 @@ class AboutSectionController extends Controller
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        $validated['content'] = TrixHtmlSanitizer::sanitize($validated['content'] ?? '');
         $about_section->update(collect($validated)->except('featured_image')->all());
 
         if ($request->hasFile('featured_image')) {

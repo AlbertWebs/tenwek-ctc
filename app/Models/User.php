@@ -36,6 +36,7 @@ class User extends Authenticatable
         if (! $this->role) {
             return false;
         }
+
         return $this->role->hasPermission($slug);
     }
 
@@ -46,7 +47,7 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role && in_array($this->role->slug, ['super_admin', 'editor'], true);
+        return $this->role && in_array($this->role->slug, Role::adminDashboardSlugs(), true);
     }
 
     /**

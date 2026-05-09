@@ -27,7 +27,7 @@
                         <td class="text-sm text-admin-muted">{{ number_format($d->amount, 0) }} {{ $d->currency }}</td>
                         <td class="text-sm text-admin-muted">
                             <span class="inline-flex items-center rounded-full bg-admin-bg px-2.5 py-0.5 text-xs font-medium text-admin-dark">
-                                {{ $d->payment_method ?: '—' }}
+                                {{ $d->payment_method ?: '-' }}
                             </span>
                         </td>
                         <td class="text-sm text-admin-muted">{{ $d->donated_at?->format('M j, Y') ?? $d->created_at->format('M j, Y') }}</td>

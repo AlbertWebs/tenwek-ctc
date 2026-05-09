@@ -1,6 +1,8 @@
 /* Tenwek typography system (match main site) */
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
+@import 'lenis/dist/lenis.css';
+@import 'trix/dist/trix.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -43,14 +45,156 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
 }
 
 body {
     font-family: var(--font-sans);
     overflow-x: hidden;
+}
+
+/* Admin: Trix editor polish (match dashboard UI) */
+.trix-button-group {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border-color: rgba(148, 163, 184, 0.55);
+}
+
+trix-toolbar .trix-button {
+    background: white;
+}
+
+trix-toolbar .trix-button.trix-active {
+    background: rgba(13, 148, 136, 0.10);
+}
+
+trix-editor {
+    border-radius: 0.75rem;
+    border-color: rgba(148, 163, 184, 0.7);
+    min-height: 9rem;
+}
+
+/* Public: legal pages (privacy, terms): spacing and heading vs bold */
+.ctc-legal-prose {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+}
+
+.ctc-legal-prose > *:first-child {
+    margin-top: 0 !important;
+}
+
+.ctc-legal-prose p {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+.ctc-legal-prose ul,
+.ctc-legal-prose ol {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-left: 1.35rem;
+}
+
+.ctc-legal-prose li {
+    margin-top: 0.35rem;
+    margin-bottom: 0.35rem;
+}
+
+.ctc-legal-prose h1,
+.ctc-legal-prose h2 {
+    font-family: var(--font-headline);
+    font-weight: 800;
+    color: #1a1a68;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-top: 2.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 2px solid rgba(228, 195, 115, 0.55);
+    font-size: 1.5rem;
+}
+
+.ctc-legal-prose h1:first-child,
+.ctc-legal-prose h2:first-child {
+    margin-top: 0;
+}
+
+.ctc-legal-prose h3 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    color: #1a1a68;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    margin-bottom: 0.65rem;
+    letter-spacing: -0.01em;
+}
+
+.ctc-legal-prose h4 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    color: rgba(26, 26, 104, 0.92);
+    font-size: 1.05rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.ctc-legal-prose strong,
+.ctc-legal-prose b {
+    font-weight: 700;
+    font-size: inherit;
+    font-family: var(--font-sans);
+    color: #0f172a;
+    letter-spacing: 0;
+}
+
+.ctc-legal-prose a {
+    color: #62a3a1;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.ctc-legal-prose a:hover {
+    color: #1a1a68;
+}
+
+/* ============================================================
+   Admin: sidebar scrollbar (Tenwek brand colors)
+   - Scoped to admin sidebar nav only
+   ============================================================ */
+.bg-admin-sidebar nav {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(228, 195, 115, 0.9) rgba(255, 255, 255, 0.10); /* thumb, track */
+}
+
+.bg-admin-sidebar nav::-webkit-scrollbar {
+    width: 10px;
+}
+
+.bg-admin-sidebar nav::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.10);
+    border-left: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.bg-admin-sidebar nav::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(228, 195, 115, 0.95), rgba(98, 163, 161, 0.85));
+    border-radius: 999px;
+    border: 2px solid rgba(16, 15, 87, 0.85); /* blends into sidebar */
+}
+
+.bg-admin-sidebar nav::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(228, 195, 115, 1), rgba(98, 163, 161, 0.95));
 }
 
 /* ============================================================
@@ -160,6 +304,19 @@ body:not(.ctc-home).ctc-topbar-hidden .ctc-site-header {
     background: rgba(255, 255, 255, 0.98);
     border-bottom: 1px solid rgba(17, 24, 39, 0.10);
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition:
+        background-color 0.45s ease,
+        box-shadow 0.45s ease,
+        border-color 0.45s ease,
+        backdrop-filter 0.45s ease;
+}
+
+.ctc-navbar--scrolled {
+    background: rgba(255, 255, 255, 0.94);
+    border-bottom-color: rgba(26, 26, 104, 0.12);
+    box-shadow: 0 12px 40px rgba(18, 18, 74, 0.08);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
 }
 
 /* Fallback: force-fixed navbar on scroll (reliable everywhere) */
@@ -178,10 +335,12 @@ body.ctc-nav-fixed .ctc-navbar {
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.1em; /* tracking-widest */
-    color: rgba(26, 26, 104, 0.60);
+    /* Match inner pages (e.g. /about): solid CTC blue */
+    color: #1a1a68;
 }
 .ctc-nav-link:hover {
-    color: #1a1a68;
+    /* Subtle deepen on hover (similar feel to /about) */
+    color: #12124a;
 }
 .ctc-nav-link.is-active {
     color: #1a1a68;
@@ -194,8 +353,8 @@ body.ctc-nav-fixed .ctc-navbar {
     border-top: 1px solid rgba(17, 24, 39, 0.10);
     background: rgba(255, 255, 255, 0.98);
 }
-.ctc-navbar__mobile-link { color: rgba(55, 65, 81, 0.95); }
-.ctc-navbar__mobile-link:hover { color: #1a1a68; background: rgba(243, 244, 246, 0.9); }
+.ctc-navbar__mobile-link { color: #1a1a68; }
+.ctc-navbar__mobile-link:hover { color: #12124a; background: rgba(243, 244, 246, 0.9); }
 .ctc-navbar__mobile-link.is-active { color: #1a1a68; background: rgba(243, 244, 246, 0.9); }
 
 /* ============================================================
@@ -287,6 +446,19 @@ body.ctc-nav-fixed .ctc-navbar {
     transition: color 160ms ease, transform 160ms ease, background-color 160ms ease;
 }
 
+.ctc-mega-link__label {
+    display: block;
+    color: rgba(26, 26, 104, 0.82);
+}
+
+.ctc-mega-link__desc {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.72rem;
+    line-height: 1.25rem;
+    color: rgba(75, 85, 99, 0.78);
+}
+
 .ctc-mega-link::before {
     content: "";
     position: absolute;
@@ -311,4 +483,392 @@ body.ctc-nav-fixed .ctc-navbar {
     background: rgba(228, 195, 115, 0.95); /* gold on hover */
     box-shadow: 0 0 0 4px rgba(98, 163, 161, 0.16); /* teal halo */
     opacity: 1;
+}
+
+/* Service category CMS article: clear hierarchy (headings vs bold vs body) + paragraph rhythm */
+/* Service category: media column - kill typography defaults that center figures/images */
+.service-category-media-col figure,
+.service-category-media-col img {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.prose.ctc-service-category-prose p {
+    margin-top: 0;
+    margin-bottom: 1.35rem !important;
+    line-height: 1.75;
+    color: rgb(55 65 81);
+}
+
+.prose.ctc-service-category-prose p:first-of-type {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: rgb(31 41 55);
+    margin-bottom: 1.65rem !important;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(26, 26, 104, 0.1);
+}
+
+.prose.ctc-service-category-prose p:last-child {
+    margin-bottom: 0 !important;
+}
+
+.prose.ctc-service-category-prose strong,
+.prose.ctc-service-category-prose b {
+    font-weight: 700;
+    font-size: inherit;
+    line-height: inherit;
+    color: #12124a;
+    letter-spacing: -0.01em;
+}
+
+.prose.ctc-service-category-prose em,
+.prose.ctc-service-category-prose i {
+    font-style: italic;
+    color: rgb(55 65 81);
+}
+
+.prose.ctc-service-category-prose h3 {
+    margin-top: 2.5rem !important;
+    margin-bottom: 0.85rem !important;
+    font-size: 1.375rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+    line-height: 1.25 !important;
+    color: #1a1a68 !important;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(228, 195, 115, 0.65);
+}
+
+.prose.ctc-service-category-prose h3:first-child {
+    margin-top: 0 !important;
+}
+
+.prose.ctc-service-category-prose h4 {
+    margin-top: 1.85rem !important;
+    margin-bottom: 0.65rem !important;
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.35 !important;
+    color: rgba(26, 26, 104, 0.88) !important;
+    border-bottom: none;
+}
+
+.prose.ctc-service-category-prose ul,
+.prose.ctc-service-category-prose ol {
+    margin-top: 0.5rem !important;
+    margin-bottom: 1.35rem !important;
+    padding-left: 1.15rem;
+}
+
+.prose.ctc-service-category-prose li {
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.7;
+}
+
+.prose.ctc-service-category-prose li::marker {
+    color: rgba(98, 163, 161, 0.95);
+    font-weight: 700;
+}
+
+.prose.ctc-service-category-prose blockquote {
+    margin: 1.5rem 0 !important;
+    padding: 1rem 1.15rem;
+    border-left: 4px solid rgba(98, 163, 161, 0.85);
+    background: rgba(243, 244, 246, 0.85);
+    border-radius: 0 0.75rem 0.75rem 0;
+    font-size: 0.975rem;
+    color: rgb(75 85 99);
+}
+
+/* ============================================================
+   Public site: motion system (GSAP / Lenis companions)
+   ============================================================ */
+
+.ctc-hero-dot--active {
+    width: 2rem;
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-color: rgba(255, 255, 255, 0.65) !important;
+}
+
+.ctc-btn-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.ctc-btn-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    left: -120%;
+    background: linear-gradient(
+        105deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.35) 48%,
+        rgba(255, 255, 255, 0.12) 52%,
+        transparent 70%
+    );
+    transform: skewX(-18deg);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .ctc-btn-shine:hover::after {
+        opacity: 1;
+        animation: ctc-shine-sweep 1.1s ease-out both;
+    }
+}
+
+@keyframes ctc-shine-sweep {
+    from {
+        left: -120%;
+    }
+    to {
+        left: 120%;
+    }
+}
+
+.ctc-cta-section__glow {
+    animation: ctc-cta-glow 18s ease-in-out infinite alternate;
+}
+
+@keyframes ctc-cta-glow {
+    0% {
+        opacity: 0.88;
+        filter: saturate(1);
+    }
+    100% {
+        opacity: 0.98;
+        filter: saturate(1.12);
+    }
+}
+
+.ctc-services-pill.ctc-services-pill--spy-active {
+    box-shadow:
+        0 0 0 2px rgba(98, 163, 161, 0.4),
+        0 10px 28px rgba(18, 18, 74, 0.07);
+}
+
+body[data-ctc-site="public"] .ctc-field {
+    transition:
+        border-color 0.35s ease,
+        box-shadow 0.35s ease,
+        background-color 0.35s ease;
+}
+
+body[data-ctc-site="public"] .ctc-field:focus {
+    border-color: rgba(26, 26, 104, 0.45);
+    box-shadow:
+        0 0 0 3px rgba(98, 163, 161, 0.22),
+        0 10px 28px rgba(18, 18, 74, 0.06);
+}
+
+/* SplitType wrappers inherit heading color (page banners, sections) */
+.font-headline .line,
+[data-ctc-split] .line {
+    color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctc-cta-section__glow {
+        animation: none !important;
+    }
+
+    .ctc-btn-shine::after {
+        display: none !important;
+    }
+
+    .ctc-hero-dot--active {
+        transition: none !important;
+    }
+}
+
+/* Fixed back-to-top (public layout) */
+.ctc-back-top {
+    position: fixed;
+    z-index: 60;
+    bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+    right: max(1.25rem, env(safe-area-inset-right, 0px));
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        visibility 0.35s ease;
+}
+
+.ctc-back-top--visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctc-back-top {
+        transition: none;
+    }
+
+    .ctc-back-top--visible {
+        transform: none;
+    }
+}
+
+/* ============================================================
+   News “playful” layout: split panes, hidden scrollbars (lg+)
+   ============================================================ */
+
+@media (min-width: 1024px) {
+    @supports (height: 100dvh) {
+        html:has(body.ctc-news-playful) {
+            height: 100%;
+            overflow: hidden;
+        }
+    }
+
+    body.ctc-news-playful {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        min-height: 100dvh;
+        max-height: 100vh;
+        max-height: 100dvh;
+        overflow: hidden;
+    }
+
+    body.ctc-news-playful #ctc-main {
+        flex: 1 1 auto;
+        min-height: 0 !important;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    body.ctc-news-playful .ctc-news-playful-root {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    body.ctc-news-playful .ctc-news-playful-split {
+        flex: 1 1 auto;
+        min-height: 0;
+        align-items: stretch;
+    }
+
+    body.ctc-news-playful .ctc-news-scroll-panel {
+        min-height: 0;
+        max-height: 100%;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    body.ctc-news-playful .ctc-news-scroll-panel::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+
+    body.ctc-news-playful footer[role='contentinfo'] {
+        display: none;
+    }
+
+    body.ctc-news-playful #ctc-back-top {
+        display: none !important;
+    }
+}
+
+@media (max-width: 1023px) {
+    body.ctc-news-playful {
+        overflow-x: hidden;
+        overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    body.ctc-news-playful::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+
+    body.ctc-news-playful .ctc-news-scroll-panel {
+        overflow: visible;
+        max-height: none;
+    }
+}
+
+.ctc-news-playful-blob {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(48px);
+    opacity: 0.45;
+    animation: ctc-news-blob-float 16s ease-in-out infinite;
+}
+
+.ctc-news-playful-blob--a {
+    right: -8%;
+    top: -12%;
+    width: min(380px, 55vw);
+    height: min(320px, 45vw);
+    background: radial-gradient(circle, rgba(98, 163, 161, 0.55) 0%, transparent 70%);
+}
+
+.ctc-news-playful-blob--b {
+    left: -10%;
+    bottom: -8%;
+    width: min(360px, 50vw);
+    height: min(300px, 40vw);
+    background: radial-gradient(circle, rgba(228, 195, 115, 0.45) 0%, transparent 72%);
+    animation-delay: -6s;
+}
+
+.ctc-news-playful-dots {
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+    background-image: radial-gradient(rgba(26, 26, 104, 0.14) 1px, transparent 1px);
+    background-size: 18px 18px;
+}
+
+@keyframes ctc-news-blob-float {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(-12px, 10px) scale(1.05);
+    }
+}
+
+.ctc-news-bouncy-card {
+    transition: transform 0.4s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+.ctc-news-bouncy-card:hover {
+    transform: translateY(-6px) rotate(-0.6deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctc-news-playful-blob {
+        animation: none !important;
+    }
+
+    .ctc-news-bouncy-card {
+        transition: none !important;
+    }
+
+    .ctc-news-bouncy-card:hover {
+        transform: none !important;
+    }
 }

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ $metaDescription ?? config('ctc.tagline') }}">
 
-    <title>@hasSection('title')@yield('title') | @endif{{ config('ctc.name') }} — {{ config('ctc.hospital') }}</title>
+    @stack('head')
+
+    <title>@hasSection('title')@yield('title') | @endif{{ config('ctc.name') }} | {{ config('ctc.hospital') }}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +16,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body
-    class="min-h-screen bg-white text-gray-800 antialiased {{ request()->routeIs('home') ? 'ctc-home' : '' }}"
+    class="min-h-screen bg-white text-gray-800 antialiased {{ request()->routeIs('home') ? 'ctc-home' : '' }} @stack('body_class')"
+    data-ctc-site="public"
     x-data="{ mobileMenuOpen: false }"
 >
     <div id="ctc-site-header" class="ctc-site-header" role="banner">
@@ -26,10 +29,11 @@
     @include('components.navbar')
     <div id="ctc-navbar-spacer" aria-hidden="true" style="height: 0;"></div>
 
-    <main class="min-h-screen">
+    <main id="ctc-main" class="min-h-screen">
         @yield('content')
     </main>
 
+    @include('components.scroll-to-top')
     @include('components.footer')
     @stack('scripts')
 </body>

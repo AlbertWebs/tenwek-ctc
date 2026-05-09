@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +16,7 @@ class ServiceController extends Controller
     public function index(): View
     {
         $services = Service::ordered()->get();
+
         return view('admin-dashboard.services.index', compact('services'));
     }
 
@@ -28,7 +30,7 @@ class ServiceController extends Controller
         $validated = $request->validate([
             'category' => 'required|in:'.implode(',', [Service::CATEGORY_CARDIAC, Service::CATEGORY_THORACIC, Service::CATEGORY_DIAGNOSTICS]),
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:5000',
+            'description' => 'nullable|string|max:20000',
             'featured_image' => 'nullable|image|max:5120',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
@@ -40,12 +42,16 @@ class ServiceController extends Controller
             $validated['slug'] = Str::slug($validated['name']);
         }
 
+        $desc = TrixHtmlSanitizer::sanitize($validated['description'] ?? '');
+        $validated['description'] = $desc === '' ? null : $desc;
+
         $service = Service::create(collect($validated)->except('featured_image')->all());
 
         if ($request->hasFile('featured_image')) {
             $path = $request->file('featured_image')->store('services', 'public');
             $service->update(['featured_image_path' => $path]);
         }
+
         return redirect()->route('admin-dashboard.services.index')->with('success', 'Service created.');
     }
 
@@ -59,7 +65,7 @@ class ServiceController extends Controller
         $validated = $request->validate([
             'category' => 'required|in:'.implode(',', [Service::CATEGORY_CARDIAC, Service::CATEGORY_THORACIC, Service::CATEGORY_DIAGNOSTICS]),
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:5000',
+            'description' => 'nullable|string|max:20000',
             'featured_image' => 'nullable|image|max:5120',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
@@ -70,21 +76,27 @@ class ServiceController extends Controller
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
+
+        $desc = TrixHtmlSanitizer::sanitize($validated['description'] ?? '');
+        $validated['description'] = $desc === '' ? null : $desc;
+
         $service->update(collect($validated)->except('featured_image')->all());
 
         if ($request->hasFile('featured_image')) {
-            if ($service->featured_image_path && !str_starts_with($service->featured_image_path, 'http')) {
+            if ($service->featured_image_path && ! str_starts_with($service->featured_image_path, 'http')) {
                 Storage::disk('public')->delete($service->featured_image_path);
             }
             $path = $request->file('featured_image')->store('services', 'public');
             $service->update(['featured_image_path' => $path]);
         }
+
         return redirect()->route('admin-dashboard.services.index')->with('success', 'Service updated.');
     }
 
     public function destroy(Service $service): RedirectResponse
     {
         $service->delete();
+
         return redirect()->route('admin-dashboard.services.index')->with('success', 'Service deleted.');
     }
 }

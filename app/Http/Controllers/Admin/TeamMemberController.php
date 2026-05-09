@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TeamMember;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ class TeamMemberController extends Controller
             'name' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'specialization' => 'nullable|string|max:255',
-            'bio' => 'nullable|string|max:5000',
+            'bio' => 'nullable|string|max:20000',
             'photo' => 'nullable|string|max:500',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
@@ -54,7 +55,7 @@ class TeamMemberController extends Controller
             'name' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'specialization' => 'nullable|string|max:255',
-            'bio' => 'nullable|string|max:5000',
+            'bio' => 'nullable|string|max:20000',
             'photo' => 'nullable|string|max:500',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
@@ -65,6 +66,7 @@ class TeamMemberController extends Controller
         if (empty($validated['slug'])) {
             $validated['slug'] = $team_member->slug ?: (Str::slug($validated['name']) . '-' . $team_member->id);
         }
+        $validated['bio'] = TrixHtmlSanitizer::sanitize($validated['bio'] ?? '');
         $team_member->update($validated);
         return redirect()->route('admin-dashboard.team-members.index')->with('success', 'Team member updated.');
     }

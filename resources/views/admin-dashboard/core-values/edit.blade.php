@@ -1,0 +1,52 @@
+@extends('admin-dashboard.layouts.app')
+@section('title', 'Edit Core Value')
+@section('header', 'Edit Core Value')
+
+@section('content')
+    <div class="rounded-xl bg-admin-surface border border-gray-200 shadow-sm p-6 max-w-2xl">
+        <form action="{{ route('admin-dashboard.core-values.update', $value) }}" method="post" class="space-y-5">
+            @csrf
+            @method('PUT')
+
+            <div>
+                <label class="block text-sm font-medium text-admin-dark mb-1">Title *</label>
+                <input type="text" name="title" value="{{ old('title', $value->title) }}" required
+                       class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal">
+                @error('title')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
+            </div>
+
+            <x-admin.trix-field
+                name="description"
+                label="Description"
+                :value="$value->description"
+                help="Rich text; shown on the public About page."
+                minHeight="10rem"
+            />
+
+            <div class="flex gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-admin-dark mb-1">Sort order</label>
+                    <input type="number" name="sort_order" value="{{ old('sort_order', $value->sort_order) }}" min="0"
+                           class="w-full rounded-lg border border-gray-300 px-4 py-2">
+                </div>
+                <div class="flex items-end pb-2">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="is_visible" value="1" {{ old('is_visible', $value->is_visible) ? 'checked' : '' }}
+                               class="rounded text-admin-teal">
+                        Visible
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <a href="{{ route('admin-dashboard.core-values.index') }}"
+                   class="px-4 py-2 rounded-lg border border-gray-300 text-admin-dark hover:bg-admin-bg">Cancel</a>
+                <button type="submit"
+                        class="px-4 py-2 rounded-lg bg-admin-teal text-white font-medium hover:bg-admin-teal-dark">
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+@endsection
+

@@ -8,6 +8,7 @@
     @include('components.page-banner', [
         'title' => 'Patient Information',
         'subtitle' => config('ctc.name'),
+        'bannerKey' => 'patient_information',
     ])
 
     <section class="py-16 lg:py-20">
@@ -50,6 +51,6 @@
         title="Ready to refer or book?"
         description="Contact us for referrals or appointment inquiries."
         buttonLabel="Contact us"
-        :buttonUrl="route('contact')"
+        :buttonUrl="route('book-appointment')"
     />
 @endsection

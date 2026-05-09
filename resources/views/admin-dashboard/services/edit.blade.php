@@ -4,7 +4,7 @@
 @section('header', 'Edit service')
 
 @section('content')
-    <div class="rounded-xl bg-white border border-gray-200 shadow-sm p-6 max-w-2xl">
+    <div class="rounded-xl bg-white border border-gray-200 shadow-sm p-6 max-w-3xl">
         <form action="{{ route('admin-dashboard.services.update', $service) }}" method="post" enctype="multipart/form-data" class="space-y-5">
             @csrf
             @method('PUT')
@@ -21,10 +21,13 @@
                     <option value="{{ App\Models\Service::CATEGORY_DIAGNOSTICS }}" {{ old('category', $service->category) === App\Models\Service::CATEGORY_DIAGNOSTICS ? 'selected' : '' }}>Diagnostics</option>
                 </select>
             </div>
-            <div>
-                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea name="description" id="description" rows="4" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">{{ old('description', $service->description) }}</textarea>
-            </div>
+            <x-admin.trix-field
+                name="description"
+                id="serviceDescriptionTrix"
+                label="Description"
+                :value="$service->description"
+                help="Rich text (headings, lists, bold, links). Shown on the public service detail page."
+            />
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Featured image</label>
                 @if($service->featured_image_url)

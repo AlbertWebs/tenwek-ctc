@@ -55,7 +55,7 @@
         </div>
 
         <div class="rounded-xl border border-gray-200 bg-admin-surface shadow-sm p-6">
-            <h2 class="text-lg font-semibold text-admin-dark mb-1">Homepage — Services image</h2>
+            <h2 class="text-lg font-semibold text-admin-dark mb-1">Homepage: Services image</h2>
             <p class="text-sm text-admin-muted mb-6">Upload one image to visually represent the services section on the homepage.</p>
 
             <form method="post" action="{{ route('admin-dashboard.hero.services-image.update') }}" enctype="multipart/form-data" class="grid gap-4 md:grid-cols-12 items-end">

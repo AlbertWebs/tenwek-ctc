@@ -1,17 +1,26 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutIntroController;
+use App\Http\Controllers\Admin\AboutPurposeController;
 use App\Http\Controllers\Admin\AboutSectionController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\ContactEnquiryController;
 use App\Http\Controllers\Admin\ContactSettingController;
+use App\Http\Controllers\Admin\CoreValueController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DonationController;
+use App\Http\Controllers\Admin\GalleryItemController;
 use App\Http\Controllers\Admin\HeroController;
+use App\Http\Controllers\Admin\HistoryMilestoneController;
 use App\Http\Controllers\Admin\HomeStatController;
 use App\Http\Controllers\Admin\ImpactStoryController;
+use App\Http\Controllers\Admin\ImpactTestimonialController;
+use App\Http\Controllers\Admin\LegalPageController;
 use App\Http\Controllers\Admin\NewsArticleController;
+use App\Http\Controllers\Admin\PageBannerController;
 use App\Http\Controllers\Admin\PatientInfoController;
 use App\Http\Controllers\Admin\ResearchPublicationController;
+use App\Http\Controllers\Admin\ServiceCategoryPageController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\TrainingProgramController;
@@ -26,6 +35,9 @@ Route::get('/history', [PageController::class, 'history'])->name('history');
 Route::get('/specialists', [PageController::class, 'specialists'])->name('specialists');
 Route::get('/specialists/{teamMember}', [PageController::class, 'specialistShow'])->name('specialists.show');
 Route::get('/services', [PageController::class, 'services'])->name('services');
+Route::get('/services/{serviceCategory}', [PageController::class, 'servicesCategory'])
+    ->whereIn('serviceCategory', ['cardiac-surgery', 'thoracic-surgery', 'diagnostics'])
+    ->name('services.category');
 Route::get('/services/{service}', [PageController::class, 'serviceShow'])->name('services.show');
 Route::get('/patient-information', [PageController::class, 'patientInformation'])->name('patient-information');
 Route::get('/international-patients', [PageController::class, 'internationalPatients'])->name('international-patients');
@@ -38,8 +50,11 @@ Route::get('/impact', [PageController::class, 'impact'])->name('impact');
 Route::get('/support', [PageController::class, 'support'])->name('support');
 Route::get('/news', [PageController::class, 'news'])->name('news');
 Route::get('/news/{slug}', [PageController::class, 'newsShow'])->name('news.show');
+Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit')->middleware('throttle:10,1');
+Route::get('/book-appointment', [PageController::class, 'bookAppointment'])->name('book-appointment');
+Route::post('/book-appointment', [PageController::class, 'submitBooking'])->name('book-appointment.submit')->middleware('throttle:10,1');
 Route::post('/support-enquiry', [PageController::class, 'submitSupportEnquiry'])->name('support.enquiry.submit');
 Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');
@@ -47,6 +62,7 @@ Route::get('/feedback-and-complaints', [PageController::class, 'feedbackAndCompl
 Route::post('/feedback-and-complaints', [PageController::class, 'submitFeedbackAndComplaints'])->name('feedback.submit');
 
 // Admin dashboard (role-based: only admin roles can access)
+Route::get('/login', fn () => redirect()->route('admin-dashboard.login'))->name('login');
 Route::get('admin-dashboard/login', [LoginController::class, 'showLoginForm'])->name('admin-dashboard.login');
 Route::post('admin-dashboard/login', [LoginController::class, 'login'])->name('admin-dashboard.login.attempt');
 Route::get('admin-dashboard/two-factor', [LoginController::class, 'showTwoFactorForm'])->name('admin-dashboard.two-factor');
@@ -57,8 +73,22 @@ Route::post('admin-dashboard/logout', [LoginController::class, 'logout'])->name(
 Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-dashboard.')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
+    Route::get('about-intro', [AboutIntroController::class, 'edit'])->name('about-intro.edit');
+    Route::put('about-intro', [AboutIntroController::class, 'update'])->name('about-intro.update');
+
+    Route::get('about-purpose', [AboutPurposeController::class, 'edit'])->name('about-purpose.edit');
+    Route::put('about-purpose', [AboutPurposeController::class, 'update'])->name('about-purpose.update');
+
     Route::get('contact-settings', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');
     Route::put('contact-settings', [ContactSettingController::class, 'update'])->name('contact-settings.update');
+
+    Route::get('legal-pages', [LegalPageController::class, 'index'])->name('legal-pages.index');
+    Route::get('legal-pages/{page}', [LegalPageController::class, 'edit'])->where('page', 'privacy|terms')->name('legal-pages.edit');
+    Route::put('legal-pages/{page}', [LegalPageController::class, 'update'])->where('page', 'privacy|terms')->name('legal-pages.update');
+
+    Route::get('page-banners', [PageBannerController::class, 'index'])->name('page-banners.index');
+    Route::post('page-banners/{key}', [PageBannerController::class, 'update'])->name('page-banners.update');
+    Route::delete('page-banners/{key}', [PageBannerController::class, 'destroy'])->name('page-banners.destroy');
 
     Route::get('hero', [HeroController::class, 'edit'])->name('hero.edit');
     Route::put('hero', [HeroController::class, 'update'])->name('hero.update');
@@ -72,26 +102,36 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
     Route::put('home-stats/{homeStat}', [HomeStatController::class, 'update'])->name('home-stats.update');
     Route::delete('home-stats/{homeStat}', [HomeStatController::class, 'destroy'])->name('home-stats.destroy');
 
+    Route::resource('core-values', CoreValueController::class)->except('show')->parameters(['core-values' => 'core_value']);
     Route::resource('about', AboutSectionController::class)->except('show')->parameters(['about' => 'about_section']);
     Route::middleware('permission:team.manage')->group(function (): void {
         Route::resource('team-members', TeamMemberController::class)->except('show');
     });
     Route::middleware('permission:services.manage')->group(function (): void {
         Route::resource('services', ServiceController::class)->except('show');
+        Route::get('service-category-pages', [ServiceCategoryPageController::class, 'index'])->name('service-category-pages.index');
+        Route::get('service-category-pages/{serviceCategoryPage}/edit', [ServiceCategoryPageController::class, 'edit'])->name('service-category-pages.edit');
+        Route::put('service-category-pages/{serviceCategoryPage}', [ServiceCategoryPageController::class, 'update'])->name('service-category-pages.update');
     });
     Route::resource('patient-info', PatientInfoController::class)->except('show')->parameters(['patient_info' => 'patient_info_block']);
     Route::resource('training', TrainingProgramController::class)->except('show');
     Route::resource('research', ResearchPublicationController::class)->except('show')->parameters(['research' => 'research_publication']);
     Route::resource('impact', ImpactStoryController::class)->except('show')->parameters(['impact' => 'impact_story']);
-    Route::resource('history-milestones', \App\Http\Controllers\Admin\HistoryMilestoneController::class)->except('show')->parameters(['history_milestones' => 'history_milestone']);
+    Route::resource('impact-testimonials', ImpactTestimonialController::class)->except('show');
+    Route::resource('history-milestones', HistoryMilestoneController::class)->except('show')->parameters(['history_milestones' => 'history_milestone']);
     Route::resource('donations', DonationController::class)->except('show');
     Route::middleware('permission:news.manage')->group(function (): void {
         Route::resource('news', NewsArticleController::class)->except('show');
     });
+    Route::resource('gallery', GalleryItemController::class)->except('show')->parameters(['gallery' => 'gallery_item']);
     Route::resource('enquiries', ContactEnquiryController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::resource('bookings', BookingController::class)->except('show');
     Route::middleware('permission:users.manage')->group(function (): void {
         Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::post('users', [UserController::class, 'store'])->name('users.store');
+        Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::put('users/{user}/password', [UserController::class, 'updatePassword'])->name('users.update-password');
         Route::put('users/{user}/role', [UserController::class, 'updateRole'])->name('users.update-role');
+        Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 });

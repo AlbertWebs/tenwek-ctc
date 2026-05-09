@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\NewsArticle;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ class NewsArticleController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
             'type' => 'required|in:'.implode(',', [NewsArticle::TYPE_NEWS, NewsArticle::TYPE_EVENT, NewsArticle::TYPE_ANNOUNCEMENT]),
-            'excerpt' => 'nullable|string|max:1000',
+            'excerpt' => 'nullable|string|max:5000',
             'body' => 'nullable|string|max:50000',
             'featured_image' => 'nullable|string|max:500',
             'published_at' => 'nullable|date',
@@ -38,6 +39,8 @@ class NewsArticleController extends Controller
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
         }
+        $validated['excerpt'] = TrixHtmlSanitizer::sanitize($validated['excerpt'] ?? '');
+        $validated['body'] = TrixHtmlSanitizer::sanitize($validated['body'] ?? '');
         NewsArticle::create($validated);
         return redirect()->route('admin-dashboard.news.index')->with('success', 'Article created.');
     }
@@ -53,7 +56,7 @@ class NewsArticleController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
             'type' => 'required|in:'.implode(',', [NewsArticle::TYPE_NEWS, NewsArticle::TYPE_EVENT, NewsArticle::TYPE_ANNOUNCEMENT]),
-            'excerpt' => 'nullable|string|max:1000',
+            'excerpt' => 'nullable|string|max:5000',
             'body' => 'nullable|string|max:50000',
             'featured_image' => 'nullable|string|max:500',
             'published_at' => 'nullable|date',
@@ -63,6 +66,8 @@ class NewsArticleController extends Controller
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
         }
+        $validated['excerpt'] = TrixHtmlSanitizer::sanitize($validated['excerpt'] ?? '');
+        $validated['body'] = TrixHtmlSanitizer::sanitize($validated['body'] ?? '');
         $news->update($validated);
         return redirect()->route('admin-dashboard.news.index')->with('success', 'Article updated.');
     }

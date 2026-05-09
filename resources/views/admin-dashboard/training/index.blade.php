@@ -19,7 +19,7 @@
                 @forelse($programs as $p)
                     <tr class="hover:bg-admin-bg/50">
                         <td class="text-sm font-medium text-admin-dark">{{ $p->title }}</td>
-                        <td class="text-sm text-admin-muted">{{ $p->duration ?? '—' }}</td>
+                        <td class="text-sm text-admin-muted">{{ $p->duration ?? '-' }}</td>
                         <td class="text-sm">{{ $p->is_visible ? 'Yes' : 'No' }}</td>
                         <td class="text-right text-sm">
                             <a href="{{ route('admin-dashboard.training.edit', $p) }}" class="text-admin-teal hover:underline mr-3">Edit</a>

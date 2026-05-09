@@ -4,6 +4,7 @@
 
 @section('content')
     @include('components.page-banner', [
+        'bannerKey' => 'history',
         'title' => 'History',
         'subtitle' => config('ctc.name'),
     ])
@@ -17,7 +18,7 @@
                         Milestones that shaped the Cardiothoracic Centre
                     </h2>
                     <p class="mt-4 text-gray-600 leading-relaxed">
-                        Explore key moments in the growth of the CTC — from early vision and facility development to training and regional impact.
+                        Explore key moments in the growth of the CTC, from early vision and facility development to training and regional impact.
                     </p>
                     <div class="mt-8 rounded-2xl border border-gray-200 bg-ctc-grey-light p-6">
                         <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Want to refer a patient?</p>
@@ -30,24 +31,34 @@
 
                 <div class="lg:col-span-7">
                     <div class="rounded-2xl bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
-                        <ol class="relative border-l border-ctc-accent/35 pl-6 space-y-8">
+                        <div class="relative" data-ctc-timeline>
+                            <span class="absolute left-[0.65rem] top-3 bottom-3 w-px rounded-full bg-gray-200" aria-hidden="true"></span>
+                            <span
+                                class="absolute left-[0.65rem] top-3 bottom-3 w-px origin-top rounded-full bg-gradient-to-b from-ctc-accent via-ctc-secondary to-ctc-accent/30"
+                                data-ctc-timeline-progress
+                                aria-hidden="true"
+                            ></span>
+                            <ol class="relative m-0 list-none space-y-8" data-ctc-stagger="0.12">
                             @forelse($milestones as $m)
                                 <li class="relative">
-                                    <span class="absolute -left-[0.53rem] top-1.5 h-4 w-4 rounded-full bg-ctc-accent shadow-[0_0_0_6px_rgba(228,195,115,0.12)]"></span>
-                                    <div class="flex flex-wrap items-baseline gap-3">
+                                    <span class="absolute left-[0.65rem] top-1.5 z-[1] h-4 w-4 -translate-x-1/2 rounded-full bg-ctc-accent shadow-[0_0_0_6px_rgba(228,195,115,0.12)]"></span>
+                                    <div class="pl-10 sm:pl-11 flex flex-wrap items-baseline gap-3">
                                         @if($m->year)
                                             <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">{{ $m->year }}</span>
                                         @endif
                                         <h3 class="text-lg font-semibold text-gray-900">{{ $m->title }}</h3>
                                     </div>
                                     @if($m->description)
-                                        <p class="mt-2 text-sm text-gray-600 leading-relaxed">{{ $m->description }}</p>
+                                        <div class="mt-2 w-full pl-10 sm:pl-11 prose prose-sm max-w-none text-gray-600 prose-p:my-1 prose-headings:font-headline prose-headings:text-ctc-blue prose-a:text-ctc-secondary">
+                                            {!! $m->description !!}
+                                        </div>
                                     @endif
                                 </li>
                             @empty
-                                <li class="text-gray-600">Milestones will appear here once added in the admin panel.</li>
+                                <li class="pl-10 text-gray-600">Milestones will appear here once added in the admin panel.</li>
                             @endforelse
-                        </ol>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>

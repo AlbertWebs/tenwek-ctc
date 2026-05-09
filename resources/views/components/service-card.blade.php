@@ -9,31 +9,26 @@
 @php
     $url = $url ?? '#';
     $detailUrl = $detailUrl ?? null;
+    $descriptionPlain = $description ? \Illuminate\Support\Str::limit(trim(strip_tags($description)), 220) : null;
 @endphp
 
 <div
    @if($id) id="{{ $id }}" @endif
-   class="group flex flex-col h-full min-h-[190px] p-6 rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-ctc-blue/30 transition-all duration-200 scroll-mt-24">
+   class="ctc-card-tilt group flex flex-col h-full min-h-[190px] p-6 rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:border-ctc-blue/35 transition-[box-shadow,border-color,transform] duration-500 scroll-mt-24">
+    <span class="mb-4 block h-px w-0 origin-left rounded-full bg-gradient-to-r from-ctc-accent to-ctc-secondary transition-[width] duration-500 ease-out group-hover:w-12" aria-hidden="true"></span>
     <h3 class="text-lg font-semibold text-gray-900 group-hover:text-ctc-blue transition-colors">{{ $name }}</h3>
-    @if($description)
-        <p class="mt-2 text-gray-600 text-sm leading-relaxed flex-1">{{ $description }}</p>
+    @if($descriptionPlain)
+        <p class="mt-2 text-gray-600 text-sm leading-relaxed flex-1">{{ $descriptionPlain }}</p>
     @endif
 
     <div class="mt-auto pt-5 flex flex-wrap items-center gap-3">
-        @if($detailUrl)
-            <a href="{{ $detailUrl }}"
-               class="inline-flex items-center gap-2 rounded-lg bg-ctc-blue px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white hover:bg-ctc-blue-dark transition-colors">
-                Learn more
-                <svg class="w-4 h-4 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-            </a>
-        @endif
-
-        @if($url && $url !== '#')
-            <a href="{{ $url }}"
+        @php
+            $primaryHref = $detailUrl ?: $url;
+        @endphp
+        @if($primaryHref && $primaryHref !== '#')
+            <a href="{{ $primaryHref }}"
                class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue/80 hover:text-ctc-blue transition-colors">
-                Explore
+                Learn more
                 <svg class="w-4 h-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>

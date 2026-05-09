@@ -1,18 +1,27 @@
 import './bootstrap';
 import Alpine from 'alpinejs';
+import 'trix';
+import { initCtcMotion } from './motion/index.js';
+
 window.Alpine = Alpine;
 Alpine.start();
 
 document.addEventListener('DOMContentLoaded', () => {
+    const motion = initCtcMotion();
+    const getScrollY = motion?.getScrollY ?? (() => window.scrollY);
+
     const setTopbarVisibility = () => {
-        // Hide the top header strip once the user starts scrolling.
-        document.body.classList.toggle('ctc-topbar-hidden', window.scrollY > 24);
+        document.body.classList.toggle('ctc-topbar-hidden', getScrollY() > 24);
     };
 
     setTopbarVisibility();
-    window.addEventListener('scroll', setTopbarVisibility, { passive: true });
 
-    // Make main navbar reliably stick to top on scroll (with a spacer to prevent layout jump).
+    if (motion?.lenis) {
+        motion.lenis.on('scroll', setTopbarVisibility);
+    } else {
+        window.addEventListener('scroll', setTopbarVisibility, { passive: true });
+    }
+
     const navbar = document.querySelector('.ctc-navbar');
     const sentinel = document.getElementById('ctc-navbar-sentinel');
     const spacer = document.getElementById('ctc-navbar-spacer');
@@ -30,11 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         io.observe(sentinel);
 
-        window.addEventListener('resize', () => {
-            if (document.body.classList.contains('ctc-nav-fixed')) {
-                setSpacerHeight(navbar.getBoundingClientRect().height);
-            }
-        }, { passive: true });
+        window.addEventListener(
+            'resize',
+            () => {
+                if (document.body.classList.contains('ctc-nav-fixed')) {
+                    setSpacerHeight(navbar.getBoundingClientRect().height);
+                }
+            },
+            { passive: true },
+        );
     }
 
     const formatWithCommas = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -45,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const tick = (now) => {
             const t = Math.min(1, (now - startTime) / durationMs);
-            const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+            const eased = 1 - Math.pow(1 - t, 3);
             const value = Math.round(start + (target - start) * eased);
 
             const text = (useCommas ? formatWithCommas(value) : String(value));
@@ -111,4 +124,55 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     initStatsCountUp();
+
+    const initBackToTop = () => {
+        const btn = document.getElementById('ctc-back-top');
+        if (!btn || document.body.dataset.ctcSite !== 'public' || document.body.classList.contains('ctc-news-playful')) return;
+
+        const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+
+        window.ctcScrollToTop = () => {
+            if (motion?.lenis) {
+                motion.lenis.scrollTo(0, { immediate: reducedMotion });
+            } else {
+                window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+            }
+            btn.blur();
+        };
+
+        const thresholdPx = 380;
+        const updateVisibility = () => {
+            btn.classList.toggle('ctc-back-top--visible', getScrollY() > thresholdPx);
+        };
+
+        updateVisibility();
+        if (motion?.lenis) {
+            motion.lenis.on('scroll', updateVisibility);
+        } else {
+            window.addEventListener('scroll', updateVisibility, { passive: true });
+        }
+
+        btn.addEventListener('click', () => window.ctcScrollToTop?.());
+    };
+
+    initBackToTop();
+
+    const heroScrollBtn = document.querySelector('[data-ctc-hero-scroll-indicator]');
+    if (heroScrollBtn && document.body.dataset.ctcSite === 'public' && !document.body.classList.contains('ctc-news-playful')) {
+        const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+        heroScrollBtn.addEventListener('click', () => {
+            const sel = heroScrollBtn.dataset.ctcHeroScrollTo || '#home-stats';
+            const el = document.querySelector(sel);
+            if (!el) return;
+
+            if (motion?.lenis) {
+                motion.lenis.scrollTo(el, {
+                    offset: -80,
+                    immediate: reducedMotion,
+                });
+            } else {
+                el.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+            }
+        });
+    }
 });

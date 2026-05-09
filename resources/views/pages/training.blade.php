@@ -10,6 +10,7 @@
     @include('components.page-banner', [
         'title' => 'Training',
         'subtitle' => config('ctc.name'),
+        'bannerKey' => 'training',
     ])
 
     <section class="py-16 lg:py-20">
@@ -26,7 +27,7 @@
                                 Forming the next generation of cardiothoracic leaders for Africa.
                             </h2>
                             <p class="mt-4 text-base sm:text-lg text-gray-600 leading-relaxed">
-                                Tenwek CTC provides structured learning and supervised clinical exposure—combining high-volume service, strong mentorship,
+                                Tenwek CTC provides structured learning and supervised clinical exposure, combining high-volume service, strong mentorship,
                                 and opportunities to contribute to outcomes-focused research.
                             </p>
                         </div>
@@ -39,7 +40,7 @@
                             </div>
                             <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
                                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Mentorship</p>
-                                <p class="mt-2 text-sm text-gray-700">Learn with a multidisciplinary team—surgeons, anaesthesia, ICU, nursing, and perfusion.</p>
+                                <p class="mt-2 text-sm text-gray-700">Learn with a multidisciplinary team: surgeons, anaesthesia, ICU, nursing, and perfusion.</p>
                                 <div class="mt-4 h-1 w-12 rounded-full bg-ctc-blue"></div>
                             </div>
                         </div>

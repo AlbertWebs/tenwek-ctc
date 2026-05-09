@@ -6,6 +6,7 @@
     @include('components.page-banner', [
         'title' => $teamMember->name,
         'subtitle' => 'Our Specialists',
+        'bannerKey' => 'specialist_show',
     ])
 
     <section class="py-16 lg:py-20">
@@ -33,8 +34,8 @@
                             @endif
 
                             @if($teamMember->bio)
-                                <div class="mt-8 prose prose-slate max-w-none prose-headings:font-headline prose-headings:text-ctc-blue prose-p:text-gray-700 prose-p:leading-relaxed">
-                                    {!! nl2br(e($teamMember->bio)) !!}
+                                <div class="mt-8 prose prose-slate max-w-none prose-headings:font-headline prose-headings:text-ctc-blue prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-ctc-secondary">
+                                    {!! $teamMember->bio !!}
                                 </div>
                             @else
                                 <p class="mt-6 text-gray-600 leading-relaxed">Profile details will be updated soon.</p>
@@ -49,11 +50,14 @@
                             <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Appointments</p>
                             <h3 class="mt-3 text-lg font-bold text-gray-900">Talk to the team</h3>
                             <p class="mt-2 text-sm text-gray-600">For referrals, appointments, and international patient support.</p>
-                            <a href="{{ route('contact') }}"
+                            <a href="{{ route('book-appointment') }}"
                                class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white
                                       bg-[linear-gradient(135deg,rgba(26,26,104,0.95),rgba(98,163,161,0.92))] hover:brightness-105 transition-all">
-                                Contact us
+                                Book appointment
                                 <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.22)]"></span>
+                            </a>
+                            <a href="{{ route('contact') }}" class="mt-2 inline-flex w-full items-center justify-center rounded-xl border border-gray-200 bg-white px-5 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue hover:bg-ctc-grey-light transition-colors">
+                                General enquiry
                             </a>
                         </div>
 

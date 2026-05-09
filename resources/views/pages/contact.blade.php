@@ -22,11 +22,22 @@
     @include('components.page-banner', [
         'title' => 'Contact Us',
         'subtitle' => config('ctc.name'),
+        'bannerKey' => 'contact',
     ])
 
     <section class="py-16 lg:py-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto">
+                <div class="mb-10 rounded-2xl border border-ctc-blue/15 bg-gradient-to-r from-ctc-blue/[0.06] to-emerald-50/80 px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-semibold text-ctc-blue">Need to schedule a visit?</p>
+                        <p class="mt-1 text-sm text-gray-700">Appointment and consultation requests have their own form so we can route them to coordination faster.</p>
+                    </div>
+                    <a href="{{ route('book-appointment') }}" class="inline-flex items-center justify-center shrink-0 rounded-xl bg-ctc-blue px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-ctc-blue-dark transition-colors">
+                        Book an appointment
+                    </a>
+                </div>
+
                 <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
                     <div class="lg:col-span-6 flex">
                         <div class="relative rounded-2xl border border-gray-200 bg-white shadow-sm p-6 sm:p-8 flex flex-col w-full overflow-hidden">
@@ -34,7 +45,7 @@
                             <div class="flex items-start justify-between gap-4">
                                 <div>
                                     <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">Send a message</h2>
-                                    <p class="mt-1 text-sm text-gray-600">We’ll respond as soon as possible. For urgent care, call the emergency line.</p>
+                                    <p class="mt-1 text-sm text-gray-600">General enquiries only. We’ll respond as soon as we can. For urgent care, call the emergency line. To <strong>book an appointment</strong>, use <a href="{{ route('book-appointment') }}" class="text-ctc-blue font-semibold hover:underline">the booking page</a>.</p>
                                 </div>
                                 <div class="hidden sm:flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-900">
                                     <span class="h-1.5 w-1.5 rounded-full bg-[var(--color-ctc-gold)]"></span>
@@ -64,7 +75,7 @@
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
                             <input type="text" name="name" id="name" required
-                                   class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-ctc-blue focus:border-ctc-blue focus:ring-offset-1"
+                                   class="ctc-field w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-ctc-blue focus:border-ctc-blue focus:ring-offset-1"
                                    placeholder="Your name"
                                    value="{{ old('name') }}">
                             @error('name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
@@ -72,7 +83,7 @@
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                             <input type="email" name="email" id="email" required
-                                   class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-ctc-blue focus:border-ctc-blue focus:ring-offset-1"
+                                   class="ctc-field w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-ctc-blue focus:border-ctc-blue focus:ring-offset-1"
                                    placeholder="your@email.com"
                                    value="{{ old('email') }}">
                             @error('email')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
@@ -80,7 +91,7 @@
                         <div>
                             <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
                             <textarea name="message" id="message" rows="5" required
-                                      class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-ctc-blue focus:border-ctc-blue focus:ring-offset-1"
+                                      class="ctc-field w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-ctc-blue focus:border-ctc-blue focus:ring-offset-1"
                                       placeholder="Your message">{{ old('message') }}</textarea>
                             @error('message')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
@@ -90,7 +101,7 @@
                             </label>
                             <div class="flex items-center gap-3">
                                 <input type="number" name="math_answer" id="math_answer" required inputmode="numeric"
-                                       class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:ring-offset-1"
+                                       class="ctc-field w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:ring-offset-1"
                                        placeholder="Your answer"
                                        value="{{ old('math_answer') }}">
                                 <span class="shrink-0 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-900">
@@ -103,7 +114,7 @@
 
                         <div class="mt-auto pt-2">
                             <button type="submit"
-                                    class="inline-flex items-center px-6 py-3 rounded-lg font-medium bg-ctc-blue text-white hover:bg-ctc-blue-dark transition-colors shadow-sm shadow-ctc-blue/20">
+                                    class="ctc-magnetic ctc-btn-shine inline-flex items-center px-6 py-3 rounded-lg font-medium bg-ctc-blue text-white hover:bg-ctc-blue-dark transition-transform duration-300 shadow-sm shadow-ctc-blue/20 will-change-transform">
                                 Send message
                             </button>
                         </div>
@@ -160,6 +171,9 @@
                                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">Quick links</p>
                                 <p class="mt-2 text-sm text-gray-600">Useful pages for referrals, patients, and supporters.</p>
                                 <div class="mt-3 flex flex-wrap gap-2">
+                                    <a href="{{ route('book-appointment') }}" class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border border-ctc-blue/25 bg-ctc-blue/[0.08] text-ctc-blue hover:bg-ctc-blue/15 transition-colors">
+                                        Book an appointment
+                                    </a>
                                     <a href="{{ route('patient-information') }}" class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100 transition-colors">
                                         Patient information
                                     </a>
@@ -214,10 +228,10 @@
         </div>
     </section>
 
-    <section class="pb-16 lg:pb-20">
+    <section class="pb-16 lg:pb-20" data-ctc-reveal="fade-up">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto">
-                <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white">
+                <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white transition-shadow duration-500 hover:shadow-md">
                     <div class="flex items-center justify-between gap-4 px-6 py-4 border-b border-gray-200">
                         <div>
                             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Find us</p>

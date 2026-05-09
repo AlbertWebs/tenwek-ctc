@@ -6,6 +6,7 @@
     @include('components.page-banner', [
         'title' => 'Feedback & Complaints',
         'subtitle' => config('ctc.hospital'),
+        'bannerKey' => 'feedback',
     ])
 
     <section class="py-16 lg:py-20 bg-ctc-grey-light">

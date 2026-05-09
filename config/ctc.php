@@ -17,6 +17,17 @@ return [
     */
     'page_banner_image' => env('CTC_PAGE_BANNER_IMAGE', 'https://tenwekhosp.org/wp-content/uploads/2024/03/DJI_0855.jpg'),
 
+    /*
+    | Tenwek/Hospital imagery used when no upload exists (About, Purpose, service areas, admin previews).
+    | Defaults follow CTC_PAGE_BANNER_IMAGE; set CTC_PLACEHOLDER_* to use different official photos per slot.
+    */
+    'placeholder_images' => [
+        'facility' => env('CTC_PLACEHOLDER_FACILITY', env('CTC_PAGE_BANNER_IMAGE', 'https://tenwekhosp.org/wp-content/uploads/2024/03/DJI_0855.jpg')),
+        'team' => env('CTC_PLACEHOLDER_TEAM', env('CTC_PAGE_BANNER_IMAGE', 'https://tenwekhosp.org/wp-content/uploads/2024/03/DJI_0855.jpg')),
+        'care' => env('CTC_PLACEHOLDER_CARE', env('CTC_PAGE_BANNER_IMAGE', 'https://tenwekhosp.org/wp-content/uploads/2024/03/DJI_0855.jpg')),
+        'story' => env('CTC_PLACEHOLDER_STORY', env('CTC_PAGE_BANNER_IMAGE', 'https://tenwekhosp.org/wp-content/uploads/2024/03/DJI_0855.jpg')),
+    ],
+
     'demo_surgeries' => (int) env('CTC_DEMO_SURGERIES', 5000),
 
     'contact' => [
@@ -45,31 +56,77 @@ return [
         [
             'label' => 'About CTC',
             'route' => 'about',
-            'children' => [
-                ['label' => 'Overview', 'route' => 'about'],
-                ['label' => 'History', 'route' => 'history'],
-                ['label' => 'Our Specialists', 'route' => 'specialists'],
-                ['label' => 'Impact', 'route' => 'impact'],
+            'dropdown' => 'mega',
+            'groups' => [
+                [
+                    'title' => 'The Centre',
+                    'links' => [
+                        ['label' => 'Overview', 'route' => 'about', 'description' => 'Who we are, our values, and purpose.'],
+                        ['label' => 'History', 'route' => 'history', 'description' => 'Milestones that shaped the CTC.'],
+                        ['label' => 'Impact', 'route' => 'impact', 'description' => 'Stories and outcomes across the region.'],
+                    ],
+                ],
+                [
+                    'title' => 'People',
+                    'links' => [
+                        ['label' => 'Our Specialists', 'route' => 'specialists', 'description' => 'Meet our surgeons and care team.'],
+                        ['label' => 'Training & Research', 'route' => 'training-research', 'description' => 'Building capacity through learning.'],
+                    ],
+                ],
+                [
+                    'title' => 'For patients',
+                    'links' => [
+                        ['label' => 'Book appointment', 'route' => 'book-appointment', 'description' => 'Request a visit or consultation online.'],
+                        ['label' => 'Patient Information', 'route' => 'patient-information', 'description' => 'Referrals, appointments, and what to bring.'],
+                        ['label' => 'International Patients', 'route' => 'international-patients', 'description' => 'Guidance for travel and coordination.'],
+                        ['label' => 'Contact Us', 'route' => 'contact', 'description' => 'General enquiries and messages.'],
+                    ],
+                ],
             ],
         ],
         [
             'label' => 'Our Services',
             'route' => 'services',
             'dropdown' => 'mega',
+            'mega_max_w' => 920,
             'groups' => [
                 [
-                    'title' => 'Services',
+                    'title' => 'Cardiac Surgery',
                     'links' => [
-                        ['label' => 'Cardiac Surgery', 'url' => '/services#cardiac_surgery'],
-                        ['label' => 'Thoracic Surgery', 'url' => '/services#thoracic_surgery'],
-                        ['label' => 'Diagnostics', 'url' => '/services#diagnostics'],
-                        ['label' => 'All Services', 'route' => 'services'],
+                        [
+                            'label' => 'Explore cardiac surgery',
+                            'route' => 'services.category',
+                            'route_params' => ['serviceCategory' => 'cardiac-surgery'],
+                            'description' => 'Adult and paediatric heart procedures, valves, and bypass.',
+                        ],
                     ],
                 ],
                 [
-                    'title' => 'Patient pathway',
+                    'title' => 'Thoracic Surgery',
                     'links' => [
-                        ['label' => 'Book Appointment', 'route' => 'contact'],
+                        [
+                            'label' => 'Explore thoracic surgery',
+                            'route' => 'services.category',
+                            'route_params' => ['serviceCategory' => 'thoracic-surgery'],
+                            'description' => 'Lung, chest wall, and mediastinal surgical care.',
+                        ],
+                    ],
+                ],
+                [
+                    'title' => 'Diagnostics & pathway',
+                    'links' => [
+                        [
+                            'label' => 'Diagnostics',
+                            'route' => 'services.category',
+                            'route_params' => ['serviceCategory' => 'diagnostics'],
+                            'description' => 'Imaging and testing for accurate diagnosis.',
+                        ],
+                        ['label' => 'All services', 'route' => 'services'],
+                        [
+                            'label' => 'Book appointment',
+                            'route' => 'book-appointment',
+                            'description' => 'Request a visit or consultation online.',
+                        ],
                         ['label' => 'Refer a Patient', 'route' => 'patient-information'],
                         ['label' => 'International Patients', 'route' => 'international-patients'],
                     ],
@@ -121,6 +178,7 @@ return [
                     ['label' => 'About CTC', 'route' => 'about'],
                     ['label' => 'Our Services', 'route' => 'services'],
                     ['label' => 'Our Specialists', 'route' => 'specialists'],
+                    ['label' => 'Book appointment', 'route' => 'book-appointment'],
                     ['label' => 'Patient Information', 'route' => 'patient-information'],
                     ['label' => 'International Patients', 'route' => 'international-patients'],
                 ],
@@ -137,6 +195,7 @@ return [
                 'title' => 'Updates',
                 'links' => [
                     ['label' => 'News & Media', 'route' => 'news'],
+                    ['label' => 'Gallery', 'route' => 'gallery'],
                     ['label' => 'Impact', 'route' => 'impact'],
                     ['label' => 'Support the CTC', 'route' => 'support'],
                     ['label' => 'Contact Us', 'route' => 'contact'],

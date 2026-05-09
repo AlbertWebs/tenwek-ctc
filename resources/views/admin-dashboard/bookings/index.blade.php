@@ -30,7 +30,7 @@
                 @forelse($bookings as $b)
                     <tr class="hover:bg-admin-bg/50">
                         <td class="text-sm font-medium text-admin-dark">{{ $b->patient_name }}<br><span class="text-admin-muted text-xs">{{ $b->email }}</span></td>
-                        <td class="text-sm text-admin-muted">{{ $b->requested_date?->format('M j, Y') ?? '—' }}</td>
+                        <td class="text-sm text-admin-muted">{{ $b->requested_date?->format('M j, Y') ?? '-' }}</td>
                         <td class="text-sm"><span class="rounded-full px-2 py-0.5 text-xs font-medium {{ $b->status === 'pending' ? 'bg-admin-gold/20' : ($b->status === 'confirmed' ? 'bg-admin-teal/20 text-admin-teal-dark' : 'bg-gray-100') }}">{{ $b->status }}</span></td>
                         <td class="text-right text-sm">
                             <a href="{{ route('admin-dashboard.bookings.edit', $b) }}" class="text-admin-teal hover:underline mr-3">Edit</a>

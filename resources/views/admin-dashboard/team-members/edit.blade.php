@@ -25,10 +25,7 @@
                 <input type="text" name="specialization" id="specialization" value="{{ old('specialization', $member->specialization) }}"
                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
             </div>
-            <div>
-                <label for="bio" class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
-                <textarea name="bio" id="bio" rows="4" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">{{ old('bio', $member->bio) }}</textarea>
-            </div>
+            <x-admin.trix-field name="bio" id="bio" label="Bio" :value="$member->bio" minHeight="12rem" />
             <div>
                 <label for="photo" class="block text-sm font-medium text-gray-700 mb-1">Photo URL</label>
                 <input type="text" name="photo" id="photo" value="{{ old('photo', $member->photo) }}" placeholder="https://..."

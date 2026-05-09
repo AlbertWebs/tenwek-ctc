@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\AboutSection;
 use App\Models\ImpactStory;
+use App\Models\ImpactTestimonial;
 use App\Models\NewsArticle;
 use App\Models\PatientInfoBlock;
 use App\Models\ResearchPublication;
@@ -31,5 +32,6 @@ class AppServiceProvider extends ServiceProvider
         Route::bind('patient_info', fn (string $value) => PatientInfoBlock::findOrFail($value));
         Route::bind('research_publication', fn (string $value) => ResearchPublication::findOrFail($value));
         Route::bind('impact_story', fn (string $value) => ImpactStory::findOrFail($value));
+        Route::bind('impact_testimonial', fn (string $value) => ImpactTestimonial::findOrFail($value));
     }
 }

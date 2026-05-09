@@ -25,7 +25,7 @@
                 <tbody class="bg-white">
                     @forelse($milestones as $m)
                         <tr class="hover:bg-admin-bg/50">
-                            <td class="text-sm text-gray-700">{{ $m->year ?? '—' }}</td>
+                            <td class="text-sm text-gray-700">{{ $m->year ?? '-' }}</td>
                             <td class="text-sm font-medium text-gray-900">{{ $m->title }}</td>
                             <td class="text-sm">
                                 @if($m->is_visible)<span class="text-green-600">Yes</span>@else<span class="text-gray-400">No</span>@endif

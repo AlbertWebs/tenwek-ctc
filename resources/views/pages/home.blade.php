@@ -2,7 +2,7 @@
 
 @section('title', 'Home')
 
-@php($metaDescription = 'Tenwek Hospital Cardiothoracic Centre (CTC) is a beacon of hope for patients with heart disease across Sub‑Saharan Africa—life‑saving surgery, training, and research.')
+@php($metaDescription = 'Tenwek Hospital Cardiothoracic Centre (CTC) is a beacon of hope for patients with heart disease across Sub‑Saharan Africa: life‑saving surgery, training, and research.')
 
 @section('hero')
     @include('components.hero-section', [
@@ -13,7 +13,7 @@
         'video' => $heroVideoUrl ?? null,
         'slides' => $heroSlides ?? collect(),
         'buttons' => [
-            ['label' => 'Book Appointment', 'url' => route('contact'), 'primary' => true],
+            ['label' => 'Book appointment', 'url' => route('book-appointment'), 'primary' => true],
             ['label' => 'Refer a Patient', 'url' => route('patient-information'), 'primary' => false],
         ],
     ])
@@ -21,9 +21,9 @@
 
 @section('content')
     {{-- Stats: below nav, light background --}}
-    <section class="py-16 bg-ctc-grey-light" id="home-stats">
+    <section class="scroll-mt-20 py-16 bg-ctc-grey-light" id="home-stats">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-5xl mx-auto">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-5xl mx-auto" data-ctc-stagger="0.07">
                 @foreach($stats as $stat)
                     <div class="text-center p-6 lg:p-8 rounded-xl bg-white border border-gray-200 shadow-sm">
                         <p class="ctc-stat-value text-3xl sm:text-4xl lg:text-5xl font-bold text-ctc-blue">{{ $stat['value'] }}</p>
@@ -32,7 +32,7 @@
                 @endforeach
             </div>
 
-            <div class="mt-10 max-w-5xl mx-auto grid gap-6 lg:grid-cols-12 items-stretch">
+            <div class="mt-10 max-w-5xl mx-auto grid gap-6 lg:grid-cols-12 items-stretch" data-ctc-stagger="0.1">
                 <div class="lg:col-span-7 h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 sm:p-8 flex flex-col">
                     <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">A History of Excellence</p>
                     <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">
@@ -40,7 +40,7 @@
                     </h2>
                     <p class="mt-4 text-gray-600 leading-relaxed">
                         The Cardiothoracic Centre at Tenwek Hospital was established through the vision of the Hospital’s Board and Management
-                        to construct a specialised facility dedicated to cardiothoracic care — addressing the pressing need for advanced cardiac treatment
+                        to construct a specialised facility dedicated to cardiothoracic care, addressing the pressing need for advanced cardiac treatment
                         in Kenya and across the continent.
                     </p>
                 </div>
@@ -100,7 +100,7 @@
                 @endif
 
                 <div class="{{ !empty($servicesImageUrl) ? 'lg:col-span-8' : 'lg:col-span-12' }}">
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr h-full">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr h-full" data-ctc-stagger="0.08">
                         @foreach($services as $service)
                             <x-service-card
                                 :name="$service->name"
@@ -119,7 +119,7 @@
     <section class="py-16 lg:py-20 bg-ctc-grey-light">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <x-section-title title="Our Team" subtitle="Dedicated surgeons and specialists committed to excellence." />
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" data-ctc-stagger="0.09">
                 @foreach($team as $member)
                     <x-team-card
                         :name="$member->name"
@@ -131,11 +131,6 @@
                     />
                 @endforeach
             </div>
-            <div class="mt-10 text-center">
-                <a href="{{ route('specialists') }}" class="inline-flex items-center px-6 py-3 rounded-lg font-medium bg-ctc-blue text-white hover:bg-ctc-blue-dark transition-colors">
-                    Meet the full team
-                </a>
-            </div>
         </div>
     </section>
 
@@ -146,12 +141,12 @@
             <div class="max-w-3xl prose prose-lg text-gray-600">
                 <p>
                     The Cardiothoracic Centre is a leading centre for life‑saving open‑heart surgical procedures in the region.
-                    Beyond direct care, we serve as a training hub for African healthcare workers in prevention and management of heart disease —
+                    Beyond direct care, we serve as a training hub for African healthcare workers in prevention and management of heart disease,
                     equipping professionals through accredited programmes and partnerships.
                 </p>
             </div>
 
-            <div class="mt-10 grid gap-6 md:grid-cols-3 auto-rows-fr">
+            <div class="mt-10 grid gap-6 md:grid-cols-3 auto-rows-fr" data-ctc-stagger="0.1">
                 <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
                     <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Job creation</p>
                     <p class="mt-3 text-gray-700 text-sm leading-relaxed">With over <span class="font-semibold text-ctc-blue">300</span> tax‑paying Kenyan staff members, the centre contributes significantly as a regional employer.</p>
@@ -180,7 +175,7 @@
     <section class="py-16 lg:py-20 bg-ctc-grey-light">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <x-section-title title="Latest News" subtitle="Updates, events, and announcements from the CTC." />
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" data-ctc-stagger="0.08">
                 @foreach($news as $article)
                     <x-news-card
                         :title="$article->title"

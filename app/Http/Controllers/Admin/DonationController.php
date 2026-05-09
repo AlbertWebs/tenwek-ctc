@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -41,6 +42,7 @@ class DonationController extends Controller
             'notes' => 'nullable|string|max:2000',
         ]);
         $validated['donated_at'] = $request->input('donated_at') ? now()->parse($request->input('donated_at')) : now();
+        $validated['notes'] = TrixHtmlSanitizer::sanitize($validated['notes'] ?? '');
         Donation::create($validated);
         return redirect()->route('admin-dashboard.donations.index')->with('success', 'Donation recorded.');
     }
@@ -62,6 +64,7 @@ class DonationController extends Controller
             'donated_at' => 'nullable|date',
             'notes' => 'nullable|string|max:2000',
         ]);
+        $validated['notes'] = TrixHtmlSanitizer::sanitize($validated['notes'] ?? '');
         $donation->update($validated);
         return redirect()->route('admin-dashboard.donations.index')->with('success', 'Donation updated.');
     }

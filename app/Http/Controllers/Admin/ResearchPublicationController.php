@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ResearchPublication;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -58,6 +59,7 @@ class ResearchPublicationController extends Controller
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        $validated['abstract'] = TrixHtmlSanitizer::sanitize($validated['abstract'] ?? '');
         $research_publication->update($validated);
         return redirect()->route('admin-dashboard.research.index')->with('success', 'Publication updated.');
     }

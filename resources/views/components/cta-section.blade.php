@@ -5,10 +5,10 @@
     'buttonUrl' => null,
 ])
 
-<section class="relative py-16 lg:py-20 text-white overflow-hidden">
+<section class="ctc-cta-section relative py-16 lg:py-20 text-white overflow-hidden" data-ctc-reveal="fade-in">
     {{-- Elegant 3-color treatment: blue base, teal glow, gold accent --}}
     <div class="absolute inset-0 bg-ctc-blue" aria-hidden="true"></div>
-    <div class="absolute inset-0 opacity-[0.95]" aria-hidden="true"
+    <div class="ctc-cta-section__glow absolute inset-0 opacity-[0.95]" aria-hidden="true"
          style="background:
             radial-gradient(900px 380px at 18% 18%, rgba(98,163,161,0.35), transparent 60%),
             radial-gradient(820px 360px at 84% 30%, rgba(228,195,115,0.34), transparent 62%),
@@ -27,8 +27,8 @@
         @endif
         @if($buttonUrl)
             <a href="{{ $buttonUrl }}"
-               class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-headline font-bold uppercase text-[0.62rem] tracking-[0.18em]
-                      bg-white text-ctc-blue hover:bg-white/95 shadow-[0_18px_45px_rgba(0,0,0,0.25)] transition-colors">
+               class="ctc-magnetic ctc-btn-shine inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-headline font-bold uppercase text-[0.62rem] tracking-[0.18em]
+                      bg-white text-ctc-blue hover:bg-white/95 shadow-[0_18px_45px_rgba(0,0,0,0.25)] transition-transform duration-300 will-change-transform">
                 {{ $buttonLabel }}
             </a>
         @endif

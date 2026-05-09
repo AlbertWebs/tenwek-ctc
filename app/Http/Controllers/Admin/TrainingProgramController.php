@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TrainingProgram;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -26,7 +27,7 @@ class TrainingProgramController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:50000',
             'duration' => 'nullable|string|max:100',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
@@ -37,6 +38,7 @@ class TrainingProgramController extends Controller
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
         }
+        $validated['description'] = TrixHtmlSanitizer::sanitize($validated['description'] ?? '');
         TrainingProgram::create($validated);
         return redirect()->route('admin-dashboard.training.index')->with('success', 'Program created.');
     }
@@ -50,7 +52,7 @@ class TrainingProgramController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:50000',
             'duration' => 'nullable|string|max:100',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
@@ -61,6 +63,7 @@ class TrainingProgramController extends Controller
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
         }
+        $validated['description'] = TrixHtmlSanitizer::sanitize($validated['description'] ?? '');
         $training->update($validated);
         return redirect()->route('admin-dashboard.training.index')->with('success', 'Program updated.');
     }

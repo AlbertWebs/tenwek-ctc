@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PatientInfoBlock;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -26,12 +27,13 @@ class PatientInfoController extends Controller
         $validated = $request->validate([
             'key' => 'required|string|max:100|unique:patient_info_blocks,key',
             'title' => 'required|string|max:255',
-            'content' => 'nullable|string',
+            'content' => 'nullable|string|max:50000',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        $validated['content'] = TrixHtmlSanitizer::sanitize($validated['content'] ?? '');
         PatientInfoBlock::create($validated);
         return redirect()->route('admin-dashboard.patient-info.index')->with('success', 'Block created.');
     }
@@ -46,12 +48,13 @@ class PatientInfoController extends Controller
         $validated = $request->validate([
             'key' => 'required|string|max:100|unique:patient_info_blocks,key,' . $patient_info_block->id,
             'title' => 'required|string|max:255',
-            'content' => 'nullable|string',
+            'content' => 'nullable|string|max:50000',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        $validated['content'] = TrixHtmlSanitizer::sanitize($validated['content'] ?? '');
         $patient_info_block->update($validated);
         return redirect()->route('admin-dashboard.patient-info.index')->with('success', 'Block updated.');
     }

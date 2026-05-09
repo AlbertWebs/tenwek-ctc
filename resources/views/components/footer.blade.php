@@ -111,9 +111,17 @@
                             <span class="block text-white/70 text-sm">Call the main hospital line</span>
                         @endif
                     </div>
-                    <div class="rounded-xl bg-white/5 border border-white/10 p-5">
+                    <div class="rounded-xl bg-white/5 border border-white/10 p-5 space-y-3">
                         <span class="block text-[10px] text-white/45 uppercase tracking-widest font-bold mb-2">Appointments</span>
-                        @php $contactHref = $routeUrl('contact'); @endphp
+                        @php
+                            $bookHref = $routeUrl('book-appointment');
+                            $contactHref = $routeUrl('contact');
+                        @endphp
+                        @if($bookHref)
+                            <a href="{{ $bookHref }}" class="inline-flex items-center justify-center w-full rounded-lg bg-ctc-accent px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue hover:brightness-95 transition-colors">
+                                Book appointment
+                            </a>
+                        @endif
                         @if($contactHref)
                             <a href="{{ $contactHref }}" class="inline-flex items-center justify-center w-full rounded-lg bg-ctc-secondary px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white hover:bg-ctc-secondary-dark transition-colors">
                                 Contact Us
@@ -138,12 +146,12 @@
         <div class="pt-7 flex flex-wrap gap-6 text-[10px] font-bold uppercase tracking-[0.35em] text-white/35">
             @foreach($legalLinks as $item)
                 @php
-                    $href = $item['url'] ?? null;
                     $label = $item['label'] ?? null;
+                    $href = $routeUrl($item['route'] ?? null, $item['url'] ?? null);
                 @endphp
                 @if($href && $label)
                     <a href="{{ $href }}" class="hover:text-white transition-colors">{{ $label }}</a>
-                @elseif($label && $href === null)
+                @elseif($label && ! $href)
                     <span class="text-white/25">{{ $label }}</span>
                 @endif
             @endforeach

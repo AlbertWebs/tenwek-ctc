@@ -26,14 +26,17 @@
                     <input type="text" name="slug" id="slug" value="{{ old('slug') }}" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal" placeholder="Auto-generated if empty">
                 </div>
             </div>
-            <div>
-                <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-1">Excerpt</label>
-                <textarea name="excerpt" id="excerpt" rows="2" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">{{ old('excerpt') }}</textarea>
-            </div>
-            <div>
-                <label for="body" class="block text-sm font-medium text-gray-700 mb-1">Body</label>
-                <textarea name="body" id="body" rows="8" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">{{ old('body') }}</textarea>
-            </div>
+            <x-admin.trix-field
+                name="excerpt"
+                label="Excerpt"
+                help="Optional summary; shown in listings and at the top of the article."
+                minHeight="8rem"
+            />
+            <x-admin.trix-field
+                name="body"
+                label="Body"
+                help="Full article (headings, lists, bold, links)."
+            />
             <div>
                 <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-1">Featured image URL</label>
                 <input type="text" name="featured_image" id="featured_image" value="{{ old('featured_image') }}" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">

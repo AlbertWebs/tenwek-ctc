@@ -5,22 +5,44 @@ namespace Database\Seeders;
 use App\Models\AboutSection;
 use App\Models\Booking;
 use App\Models\ContactEnquiry;
+use App\Models\CoreValue;
 use App\Models\Donation;
 use App\Models\ImpactStory;
 use App\Models\PatientInfoBlock;
 use App\Models\ResearchPublication;
 use App\Models\TrainingProgram;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class AdminDemoSeeder extends Seeder
 {
     public function run(): void
     {
+        // About page defaults (keep aligned with the public About page sections)
         foreach ([
-            ['key' => 'overview', 'title' => 'Overview of the Centre', 'content' => 'The Cardiothoracic Centre (CTC) at Tenwek Hospital is a leading center for heart and chest surgery in East Africa.', 'sort_order' => 0],
-            ['key' => 'history', 'title' => 'History of the CTC', 'content' => 'The CTC was established to address the critical need for cardiothoracic surgery in the region.', 'sort_order' => 1],
+            [
+                'key' => 'what-guides-our-care',
+                'title' => 'What guides our care',
+                'content' => 'A few principles that shape how we serve patients, families, and referring clinicians: compassion, excellence, teamwork, and stewardship.',
+                'sort_order' => 0,
+            ],
+            [
+                'key' => 'mission-and-vision',
+                'title' => 'Mission & Vision',
+                'content' => 'Mission: Provide excellent, compassionate cardiothoracic care and train the next generation of clinicians. Vision: A region where every person can access life‑saving heart and chest surgery delivered by well‑trained local teams.',
+                'sort_order' => 1,
+            ],
         ] as $s) {
-            AboutSection::firstOrCreate(['key' => $s['key']], array_merge($s, ['is_visible' => true]));
+            AboutSection::updateOrCreate(['key' => $s['key']], array_merge($s, ['is_visible' => true]));
+        }
+
+        foreach ([
+            ['title' => 'Compassion', 'description' => 'We treat every patient with dignity, empathy, and respect.', 'sort_order' => 0],
+            ['title' => 'Excellence', 'description' => 'We pursue high standards and continuous improvement.', 'sort_order' => 1],
+            ['title' => 'Teamwork', 'description' => 'Care is coordinated across disciplines and services.', 'sort_order' => 2],
+            ['title' => 'Stewardship', 'description' => 'We use resources wisely to help more people safely.', 'sort_order' => 3],
+        ] as $v) {
+            CoreValue::updateOrCreate(['title' => $v['title']], array_merge($v, ['is_visible' => true]));
         }
 
         foreach ([
@@ -36,7 +58,7 @@ class AdminDemoSeeder extends Seeder
         ] as $p) {
             TrainingProgram::firstOrCreate(
                 ['title' => $p['title']],
-                array_merge($p, ['slug' => \Illuminate\Support\Str::slug($p['title']), 'is_visible' => true])
+                array_merge($p, ['slug' => Str::slug($p['title']), 'is_visible' => true])
             );
         }
 
@@ -63,9 +85,9 @@ class AdminDemoSeeder extends Seeder
         if (Booking::count() < 5) {
             for ($i = 0; $i < 8; $i++) {
                 Booking::create([
-                    'patient_name' => 'Demo Patient ' . ($i + 1),
-                    'email' => 'patient' . ($i + 1) . '@example.com',
-                    'phone' => '+254 7' . rand(10, 99) . ' ' . rand(100000, 999999),
+                    'patient_name' => 'Demo Patient '.($i + 1),
+                    'email' => 'patient'.($i + 1).'@example.com',
+                    'phone' => '+254 7'.rand(10, 99).' '.rand(100000, 999999),
                     'requested_date' => now()->addDays(rand(5, 60)),
                     'status' => ['pending', 'pending', 'confirmed', 'completed', 'cancelled'][rand(0, 4)],
                     'type' => 'appointment',
@@ -79,8 +101,8 @@ class AdminDemoSeeder extends Seeder
             for ($i = 0; $i < 12; $i++) {
                 $date = now()->subMonths(rand(0, 5))->subDays(rand(0, 28));
                 Donation::create([
-                    'donor_name' => 'Donor ' . ($i + 1),
-                    'email' => 'donor' . ($i + 1) . '@example.com',
+                    'donor_name' => 'Donor '.($i + 1),
+                    'email' => 'donor'.($i + 1).'@example.com',
                     'amount' => rand(500, 50000),
                     'currency' => 'KES',
                     'campaign' => $campaigns[array_rand($campaigns)],

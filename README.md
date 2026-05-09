@@ -1,8 +1,8 @@
-# Tenwek CTC — Cardiothoracic Centre Demo
+# Tenwek CTC: Cardiothoracic Centre Demo
 
 Demo website and admin dashboard for the Cardiothoracic Centre at Tenwek Hospital.
 
-**Documentation:** [docs/SITEMAP-AND-ADMIN.md](docs/SITEMAP-AND-ADMIN.md) — Sitemap (public pages) and Admin panel (login, menu, roles) in one short guide.
+**Documentation:** [docs/SITEMAP-AND-ADMIN.md](docs/SITEMAP-AND-ADMIN.md). Sitemap (public pages) and Admin panel (login, menu, roles) in one short guide.
 
 ---
 

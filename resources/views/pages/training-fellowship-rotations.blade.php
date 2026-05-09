@@ -6,6 +6,7 @@
     @include('components.page-banner', [
         'title' => 'Fellowship & Rotations',
         'subtitle' => config('ctc.name'),
+        'bannerKey' => 'training_fellowship_rotations',
     ])
 
     <section class="py-16 lg:py-20">

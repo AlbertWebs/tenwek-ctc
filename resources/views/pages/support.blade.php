@@ -8,6 +8,7 @@
     @include('components.page-banner', [
         'title' => 'Support the CTC',
         'subtitle' => config('ctc.name'),
+        'bannerKey' => 'support',
     ])
 
     <section class="py-16 lg:py-20" x-data="supportModals()" x-cloak>
@@ -52,7 +53,7 @@
 
                         <div class="p-6 rounded-xl bg-white border border-gray-200 shadow-sm flex flex-col">
                             <h2 class="text-2xl font-bold text-gray-900 mb-3">Equipment Needs</h2>
-                            <p class="text-gray-600 leading-relaxed mb-6 flex-grow">We maintain a list of current equipment needs—from surgical instruments to imaging and monitoring equipment.</p>
+                            <p class="text-gray-600 leading-relaxed mb-6 flex-grow">We maintain a list of current equipment needs, from surgical instruments to imaging and monitoring equipment.</p>
                             <button type="button" @click="openEnquiry('equipment')"
                                     class="self-start inline-flex items-center px-5 py-2.5 rounded-lg font-medium bg-ctc-blue text-white hover:bg-ctc-blue-dark transition-colors">
                                 Send enquiry

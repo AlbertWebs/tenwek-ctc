@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HistoryMilestone;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -32,6 +33,7 @@ class HistoryMilestoneController extends Controller
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        $validated['description'] = TrixHtmlSanitizer::sanitize($validated['description'] ?? '');
 
         HistoryMilestone::query()->create($validated);
 
@@ -54,6 +56,7 @@ class HistoryMilestoneController extends Controller
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        $validated['description'] = TrixHtmlSanitizer::sanitize($validated['description'] ?? '');
 
         $history_milestone->update($validated);
 

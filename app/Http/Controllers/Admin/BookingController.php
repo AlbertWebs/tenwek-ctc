@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -43,6 +44,7 @@ class BookingController extends Controller
             'notes' => 'nullable|string|max:2000',
         ]);
         $validated['type'] = $validated['type'] ?? 'appointment';
+        $validated['notes'] = TrixHtmlSanitizer::sanitize($validated['notes'] ?? '');
         Booking::create($validated);
         return redirect()->route('admin-dashboard.bookings.index')->with('success', 'Booking created.');
     }
@@ -63,6 +65,7 @@ class BookingController extends Controller
             'type' => 'nullable|string|max:50',
             'notes' => 'nullable|string|max:2000',
         ]);
+        $validated['notes'] = TrixHtmlSanitizer::sanitize($validated['notes'] ?? '');
         $booking->update($validated);
         return redirect()->route('admin-dashboard.bookings.index')->with('success', 'Booking updated.');
     }

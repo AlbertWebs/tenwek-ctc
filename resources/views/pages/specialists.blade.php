@@ -8,6 +8,7 @@
     @include('components.page-banner', [
         'title' => 'Our Specialists',
         'subtitle' => config('ctc.name'),
+        'bannerKey' => 'specialists',
     ])
 
     <section class="py-16 lg:py-20">
@@ -30,11 +31,15 @@
                             For appointments, referrals, and international patient support, contact our team and we’ll guide you on next steps.
                         </p>
                         <div class="mt-5 flex flex-wrap gap-3">
-                            <a href="{{ route('contact') }}"
+                            <a href="{{ route('book-appointment') }}"
                                class="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white
                                       bg-[linear-gradient(135deg,rgba(26,26,104,0.95),rgba(98,163,161,0.92))] hover:brightness-105 transition-all">
-                                Contact us
+                                Book appointment
                                 <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.22)]"></span>
+                            </a>
+                            <a href="{{ route('contact') }}"
+                               class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-5 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue hover:bg-white/70 transition-colors">
+                                Contact us
                             </a>
                             <a href="{{ route('patient-information') }}"
                                class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-5 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue hover:bg-white/70 transition-colors">
@@ -45,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 auto-rows-fr">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 auto-rows-fr" data-ctc-stagger="0.09">
                 @forelse($team as $member)
                     <x-team-card
                         :name="$member->name"
