@@ -105,9 +105,9 @@
             @if(count($buttons) > 0)
                 @php
                     $ctaCount = count($buttons);
-                    // Mobile: when exactly 2 CTAs, keep them side-by-side.
+                    // When exactly 2 CTAs, keep them side-by-side on all screens.
                     $ctaContainerClass = $ctaCount === 2
-                        ? 'grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4 sm:justify-center'
+                        ? 'mx-auto grid grid-cols-2 gap-3 sm:gap-4 max-w-[34rem]'
                         : 'flex flex-wrap gap-4 justify-center';
                     $ctaItemClass = $ctaCount === 2
                         ? 'w-full justify-center px-3 py-2.5'
