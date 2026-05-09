@@ -115,12 +115,20 @@
                 @endphp
                 <div id="ctc-hero-ctas" class="{{ $ctaContainerClass }}">
                     @foreach($buttons as $btn)
+                        @php
+                            $label = (string) ($btn['label'] ?? '');
+                        @endphp
                         <a href="{{ $btn['url'] ?? '#' }}" data-cta="1"
                            class="ctc-magnetic ctc-btn-shine inline-flex items-center gap-2 font-headline font-bold uppercase rounded-lg {{ $ctaItemClass }} text-[0.58rem] sm:text-[0.63rem] tracking-[0.18em] transition-transform duration-300 will-change-transform
                                   {{ ($btn['primary'] ?? true)
                                         ? 'bg-[linear-gradient(135deg,rgba(228,195,115,0.98),rgba(98,163,161,0.92))] text-ctc-blue hover:brightness-105 shadow-[0_18px_45px_rgba(0,0,0,0.35)]'
                                         : 'bg-white/10 text-white border border-white/20 hover:bg-white/18 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.25)]' }}">
-                            {{ $btn['label'] }}
+                            @if(strtolower($label) === 'book appointment')
+                                <span class="sm:hidden">Book</span>
+                                <span class="hidden sm:inline">Book appointment</span>
+                            @else
+                                {{ $label }}
+                            @endif
                         </a>
                     @endforeach
                 </div>

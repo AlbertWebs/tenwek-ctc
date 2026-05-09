@@ -175,30 +175,46 @@ return [
             [
                 'title' => 'The Centre',
                 'links' => [
+                    ['label' => 'Home', 'route' => 'home'],
                     ['label' => 'About CTC', 'route' => 'about'],
-                    ['label' => 'Our Services', 'route' => 'services'],
+                    ['label' => 'History', 'route' => 'history'],
                     ['label' => 'Our Specialists', 'route' => 'specialists'],
+                    ['label' => 'News & Media', 'route' => 'news'],
+                    ['label' => 'Gallery', 'route' => 'gallery'],
+                ],
+            ],
+            [
+                'title' => 'Services',
+                'links' => [
+                    ['label' => 'All services', 'route' => 'services'],
+                    ['label' => 'Cardiac Surgery', 'url' => '/services/cardiac-surgery'],
+                    ['label' => 'Thoracic Surgery', 'url' => '/services/thoracic-surgery'],
+                    ['label' => 'Diagnostics', 'url' => '/services/diagnostics'],
                     ['label' => 'Book appointment', 'route' => 'book-appointment'],
                     ['label' => 'Patient Information', 'route' => 'patient-information'],
+                ],
+            ],
+            [
+                'title' => 'Patients',
+                'links' => [
                     ['label' => 'International Patients', 'route' => 'international-patients'],
+                    ['label' => 'Contact Us', 'route' => 'contact'],
+                    ['label' => 'Feedback & Complaints', 'route' => 'feedback'],
+                    ['label' => 'Privacy Policy', 'route' => 'privacy-policy'],
+                    ['label' => 'Terms of Service', 'route' => 'terms-of-service'],
+                    ['label' => 'Admin Login', 'url' => '/admin-dashboard/login'],
                 ],
             ],
             [
                 'title' => 'Training & Research',
                 'links' => [
-                    ['label' => 'Training & Research', 'route' => 'training-research'],
-                    ['label' => 'Training', 'route' => 'training'],
-                    ['label' => 'Research', 'route' => 'research'],
-                ],
-            ],
-            [
-                'title' => 'Updates',
-                'links' => [
-                    ['label' => 'News & Media', 'route' => 'news'],
-                    ['label' => 'Gallery', 'route' => 'gallery'],
                     ['label' => 'Impact', 'route' => 'impact'],
                     ['label' => 'Support the CTC', 'route' => 'support'],
-                    ['label' => 'Contact Us', 'route' => 'contact'],
+                    ['label' => 'Training & Research', 'route' => 'training-research'],
+                    ['label' => 'Training', 'route' => 'training'],
+                    ['label' => 'Fellowship & rotations', 'route' => 'training.fellowship-rotations'],
+                    ['label' => 'Research', 'route' => 'research'],
+                    ['label' => 'Publications', 'route' => 'research.publications'],
                 ],
             ],
         ],

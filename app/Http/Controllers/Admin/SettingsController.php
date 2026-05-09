@@ -27,6 +27,12 @@ class SettingsController extends Controller
                 ],
             ],
             [
+                'title' => 'Brand',
+                'items' => [
+                    ['label' => 'Social links', 'route' => 'admin-dashboard.settings.social-links.edit'],
+                ],
+            ],
+            [
                 'title' => 'Security',
                 'items' => [
                     ['label' => 'Two-factor authentication', 'route' => 'admin-dashboard.security.two-factor.edit'],

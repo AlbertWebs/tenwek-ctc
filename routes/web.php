@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\ResearchPublicationController;
 use App\Http\Controllers\Admin\ServiceCategoryPageController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\SocialLinksController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\TwoFactorSettingsController;
 use App\Http\Controllers\Admin\TrainingProgramController;
@@ -144,6 +145,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
 
     Route::middleware('permission:users.manage')->group(function (): void {
         Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::get('settings/social-links', [SocialLinksController::class, 'edit'])->name('settings.social-links.edit');
+        Route::put('settings/social-links', [SocialLinksController::class, 'update'])->name('settings.social-links.update');
         Route::get('security/two-factor', [TwoFactorSettingsController::class, 'edit'])->name('security.two-factor.edit');
         Route::put('security/two-factor', [TwoFactorSettingsController::class, 'update'])->name('security.two-factor.update');
     });

@@ -1,7 +1,13 @@
 @php
     $contact = config('ctc.contact', []);
     $footer = config('ctc.footer', []);
-    $social = array_filter(config('ctc.social', []));
+    $social = array_filter([
+        'Facebook' => \App\Models\SiteSetting::getValue('social.facebook', config('ctc.social.Facebook')),
+        'LinkedIn' => \App\Models\SiteSetting::getValue('social.linkedin', config('ctc.social.LinkedIn')),
+        'Instagram' => \App\Models\SiteSetting::getValue('social.instagram', config('ctc.social.Instagram')),
+        'YouTube' => \App\Models\SiteSetting::getValue('social.youtube', config('ctc.social.YouTube')),
+        'X' => \App\Models\SiteSetting::getValue('social.x', config('ctc.social.X')),
+    ]);
 
     $primaryPhone = $contact['phone'] ?? null;
     $emergency = $contact['emergency'] ?? null;
@@ -47,13 +53,47 @@
                     </div>
 
                     @if(count($social) > 0)
-                        <div class="flex items-center gap-4 pt-2">
-                            @foreach($social as $name => $href)
-                                <a href="{{ $href }}" target="_blank" rel="noopener noreferrer" class="text-white/55 hover:text-white transition-colors text-sm font-semibold">
-                                    <span class="sr-only">{{ $name }}</span>
-                                    <span class="underline decoration-white/20 hover:decoration-white/60 underline-offset-4">{{ $name }}</span>
-                                </a>
-                            @endforeach
+                        <div class="pt-3">
+                            <p class="text-[10px] text-white/45 uppercase tracking-widest font-bold mb-2">Follow</p>
+                            <div class="flex flex-wrap items-center gap-3">
+                                @foreach($social as $name => $href)
+                                    <a href="{{ $href }}" target="_blank" rel="noopener noreferrer"
+                                       class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                                       aria-label="{{ $name }}">
+                                        @switch($name)
+                                            @case('Facebook')
+                                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path d="M22 12a10 10 0 10-11.56 9.87v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56V12h2.76l-.44 2.88h-2.32v6.99A10 10 0 0022 12z"/>
+                                                </svg>
+                                                @break
+                                            @case('Instagram')
+                                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2a3 3 0 013 3v10a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3h10zm-5 3.5A4.5 4.5 0 1016.5 12 4.5 4.5 0 0012 7.5zm0 7.4A2.9 2.9 0 1114.9 12 2.9 2.9 0 0112 14.9zM17.6 6.4a1 1 0 11-1-1 1 1 0 011 1z"/>
+                                                </svg>
+                                                @break
+                                            @case('YouTube')
+                                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path d="M21.6 7.2a2.7 2.7 0 00-1.9-1.9C18 4.9 12 4.9 12 4.9s-6 0-7.7.4A2.7 2.7 0 002.4 7.2 28.1 28.1 0 002 12a28.1 28.1 0 00.4 4.8 2.7 2.7 0 001.9 1.9c1.7.4 7.7.4 7.7.4s6 0 7.7-.4a2.7 2.7 0 001.9-1.9A28.1 28.1 0 0022 12a28.1 28.1 0 00-.4-4.8zM10 15.5V8.5L16 12l-6 3.5z"/>
+                                                </svg>
+                                                @break
+                                            @case('X')
+                                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path d="M18.9 2H22l-6.8 7.8L23 22h-6.6l-5.2-6.6L5.4 22H2l7.3-8.4L1 2h6.8l4.7 6.1L18.9 2zm-1.2 18h1.7L7.1 3.9H5.3L17.7 20z"/>
+                                                </svg>
+                                                @break
+                                            @case('LinkedIn')
+                                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path d="M4.98 3.5A2.5 2.5 0 102.5 6a2.5 2.5 0 002.48-2.5zM3 8.98h3.96V21H3V8.98zM9.5 8.98H13.3v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1V21h-3.96v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.86V21H9.5V8.98z"/>
+                                                </svg>
+                                                @break
+                                            @default
+                                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V6h2v6z"/>
+                                                </svg>
+                                        @endswitch
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -100,13 +140,13 @@
                 </address>
             </div>
 
-            <div class="col-span-2 md:col-span-2 lg:col-span-2 space-y-6 lg:pl-6">
+            <div class="col-span-2 md:col-span-2 lg:col-span-3 space-y-6 lg:pl-6">
                 <h4 class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/55">Emergency access</h4>
                 <div class="grid sm:grid-cols-2 gap-6">
                     <div class="rounded-xl bg-white/5 border border-white/10 p-5">
                         <span class="block text-[10px] text-white/45 uppercase tracking-widest font-bold mb-2">24/7 emergency</span>
                         @if($emergency)
-                            <a href="tel:{{ preg_replace('/\D+/', '', $emergency) }}" class="block text-white font-bold text-sm hover:text-ctc-secondary transition-colors">{{ $emergency }}</a>
+                            <a href="tel:{{ preg_replace('/\D+/', '', $emergency) }}" class="block text-white font-extrabold text-lg sm:text-xl tracking-tight hover:text-ctc-secondary transition-colors">{{ $emergency }}</a>
                         @else
                             <span class="block text-white/70 text-sm">Call the main hospital line</span>
                         @endif
@@ -119,12 +159,12 @@
                         @endphp
                         <div class="grid grid-cols-2 gap-3">
                             @if($bookHref)
-                                <a href="{{ $bookHref }}" class="inline-flex items-center justify-center w-full rounded-lg bg-ctc-accent px-3 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue hover:brightness-95 transition-colors">
-                                    Book appointment
+                                <a href="{{ $bookHref }}" class="inline-flex w-full min-w-0 items-center justify-center rounded-lg bg-ctc-accent px-3 py-3 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.18em] text-ctc-blue hover:brightness-95 transition-colors whitespace-nowrap">
+                                    Book
                                 </a>
                             @endif
                             @if($contactHref)
-                                <a href="{{ $contactHref }}" class="inline-flex items-center justify-center w-full rounded-lg bg-ctc-secondary px-3 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white hover:bg-ctc-secondary-dark transition-colors">
+                                <a href="{{ $contactHref }}" class="inline-flex w-full min-w-0 items-center justify-center rounded-lg bg-ctc-secondary px-3 py-3 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.18em] text-white hover:bg-ctc-secondary-dark transition-colors whitespace-nowrap">
                                     Contact Us
                                 </a>
                             @endif
@@ -133,7 +173,7 @@
                 </div>
             </div>
 
-            <div class="col-span-2 flex items-end justify-start lg:justify-end">
+            <div class="col-span-2 lg:col-span-1 flex items-end justify-start lg:justify-end">
                 <div class="w-full text-left lg:text-right">
                     <p class="text-[10px] text-white/40 font-bold uppercase tracking-[0.28em]">
                         &copy; {{ date('Y') }} {{ $hospitalName }}. All rights reserved.
