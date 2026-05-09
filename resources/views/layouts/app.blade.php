@@ -3,15 +3,61 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ $metaDescription ?? config('ctc.tagline') }}">
+    @php
+        $seo = $seo ?? null;
+    @endphp
+
+    <meta name="description" content="{{ $seo['description'] ?? ($metaDescription ?? config('ctc.tagline')) }}">
+    @if(!empty($seo['keywords']))
+        <meta name="keywords" content="{{ $seo['keywords'] }}">
+    @endif
+    <meta name="robots" content="{{ $seo['robots'] ?? 'index,follow' }}">
+    <meta name="author" content="{{ $seo['meta']['author'] ?? config('ctc.hospital') }}">
+    <meta http-equiv="content-language" content="{{ $seo['meta']['language'] ?? str_replace('_','-',app()->getLocale()) }}">
+    <meta name="geo.region" content="{{ $seo['meta']['geo_region'] ?? 'KE' }}">
+    <meta name="geo.placename" content="{{ $seo['meta']['geo_placename'] ?? 'Bomet, Kenya' }}">
+
+    <link rel="canonical" href="{{ $seo['canonical'] ?? request()->url() }}">
 
     @stack('head')
 
-    <title>@hasSection('title')@yield('title') | @endif{{ config('ctc.name') }} | {{ config('ctc.hospital') }}</title>
+    <title>{{ $seo['title'] ?? (trim($__env->yieldContent('title')) ? trim($__env->yieldContent('title')).' | ' : '').config('ctc.name').' | '.config('ctc.hospital') }}</title>
 
+    {{-- Open Graph --}}
+    <meta property="og:type" content="{{ $seo['og']['type'] ?? 'website' }}">
+    <meta property="og:site_name" content="{{ $seo['og']['site_name'] ?? config('ctc.name') }}">
+    <meta property="og:locale" content="{{ $seo['og']['locale'] ?? str_replace('_','-',app()->getLocale()) }}">
+    <meta property="og:url" content="{{ $seo['og']['url'] ?? request()->url() }}">
+    <meta property="og:title" content="{{ $seo['og']['title'] ?? ($seo['title'] ?? config('ctc.name')) }}">
+    <meta property="og:description" content="{{ $seo['og']['description'] ?? ($seo['description'] ?? config('ctc.tagline')) }}">
+    <meta property="og:image" content="{{ $seo['og']['image'] ?? url('/ctc.jpg') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    {{-- Twitter/X --}}
+    <meta name="twitter:card" content="{{ $seo['twitter']['card'] ?? 'summary_large_image' }}">
+    <meta name="twitter:title" content="{{ $seo['twitter']['title'] ?? ($seo['title'] ?? config('ctc.name')) }}">
+    <meta name="twitter:description" content="{{ $seo['twitter']['description'] ?? ($seo['description'] ?? config('ctc.tagline')) }}">
+    <meta name="twitter:image" content="{{ $seo['twitter']['image'] ?? url('/ctc.jpg') }}">
+
+    {{-- Favicons --}}
+    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{ asset('ctc.jpg') }}">
+    <meta name="theme-color" content="#12124A">
+
+    {{-- Performance hints --}}
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    {{-- JSON-LD --}}
+    @if(!empty($seo['schema']) && is_array($seo['schema']))
+        @foreach($seo['schema'] as $block)
+            <script type="application/ld+json">{!! json_encode($block, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
+        @endforeach
+    @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

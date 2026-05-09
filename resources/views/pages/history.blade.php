@@ -7,6 +7,10 @@
         'bannerKey' => 'history',
         'title' => 'History',
         'subtitle' => config('ctc.name'),
+        'breadcrumbs' => [
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'History', 'url' => route('history')],
+        ],
     ])
 
     <section class="py-16 lg:py-20">

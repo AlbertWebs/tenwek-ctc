@@ -7,6 +7,10 @@
         'title' => 'About the Centre',
         'subtitle' => config('ctc.hospital'),
         'bannerKey' => 'about',
+        'breadcrumbs' => [
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'About', 'url' => route('about')],
+        ],
     ])
 
     {{-- Intro + at-a-glance --}}

@@ -20,6 +20,7 @@ use App\Models\SiteSetting;
 use App\Models\TeamMember;
 use App\Models\TrainingProgram;
 use App\Support\PublicAssetUrl;
+use App\Support\Seo\Seo;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -358,7 +359,37 @@ class PageController extends Controller
             ? str($article->excerpt)->stripTags()->limit(160)
             : str($article->body ?? '')->stripTags()->limit(160);
 
-        return view('pages.news-show', compact('article', 'recent', 'metaDescription'));
+        $seoSchema = [[
+            '@context' => 'https://schema.org',
+            '@type' => 'Article',
+            'headline' => $article->title,
+            'description' => $metaDescription,
+            'datePublished' => optional($article->published_at ?? $article->created_at)->toIso8601String(),
+            'dateModified' => optional($article->updated_at ?? $article->published_at ?? $article->created_at)->toIso8601String(),
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => url()->current(),
+            ],
+            'image' => array_values(array_filter([$article->featured_image_url])),
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => config('ctc.name'),
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => url('/ctc.jpg'),
+                ],
+            ],
+        ]];
+
+        $breadcrumbs = [
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'News & Media', 'url' => route('news')],
+            ['label' => $article->title, 'url' => url()->current()],
+        ];
+
+        $seoImage = $article->featured_image_url;
+
+        return view('pages.news-show', compact('article', 'recent', 'metaDescription', 'seoSchema', 'breadcrumbs', 'seoImage'));
     }
 
     public function gallery()

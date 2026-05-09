@@ -8,8 +8,10 @@ use App\Models\ImpactTestimonial;
 use App\Models\NewsArticle;
 use App\Models\PatientInfoBlock;
 use App\Models\ResearchPublication;
+use App\Support\Seo\Seo;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +35,21 @@ class AppServiceProvider extends ServiceProvider
         Route::bind('research_publication', fn (string $value) => ResearchPublication::findOrFail($value));
         Route::bind('impact_story', fn (string $value) => ImpactStory::findOrFail($value));
         Route::bind('impact_testimonial', fn (string $value) => ImpactTestimonial::findOrFail($value));
+
+        View::composer(['layouts.app'], function ($view): void {
+            $request = request();
+            if (! $request) {
+                return;
+            }
+            $data = $view->getData();
+            $seo = Seo::build($request, [
+                'title' => $data['pageTitle'] ?? null,
+                'description' => $data['metaDescription'] ?? null,
+                'image' => $data['seoImage'] ?? null,
+                'breadcrumbs' => $data['breadcrumbs'] ?? null,
+                'schema' => $data['seoSchema'] ?? null,
+            ]);
+            $view->with('seo', $seo);
+        });
     }
 }

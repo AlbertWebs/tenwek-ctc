@@ -3,6 +3,7 @@
     'subtitle' => null,
     'bannerKey' => null,
     'bannerImage' => null,
+    'breadcrumbs' => null,
 ])
 
 @php
@@ -35,6 +36,9 @@
                 <p class="mt-4 font-headline text-[0.7rem] sm:text-[0.75rem] font-bold uppercase tracking-[0.22em] text-white/80 drop-shadow-sm" data-ctc-reveal="fade-up" data-ctc-reveal-delay="0.06">
                     {{ $subtitle }}
                 </p>
+            @endif
+            @if($breadcrumbs)
+                <x-breadcrumbs :items="$breadcrumbs" />
             @endif
         </div>
     </div>

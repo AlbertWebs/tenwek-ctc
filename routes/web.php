@@ -31,7 +31,15 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemaps/pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
+Route::get('/sitemaps/news.xml', [SitemapController::class, 'news'])->name('sitemap.news');
+Route::get('/sitemaps/services.xml', [SitemapController::class, 'services'])->name('sitemap.services');
+Route::get('/sitemaps/specialists.xml', [SitemapController::class, 'specialists'])->name('sitemap.specialists');
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots.txt');
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
