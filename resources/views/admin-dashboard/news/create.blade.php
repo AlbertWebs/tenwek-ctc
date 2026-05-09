@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="rounded-xl bg-white border border-gray-200 shadow-sm p-6 max-w-3xl">
-        <form action="{{ route('admin-dashboard.news.store') }}" method="post" class="space-y-5">
+        <form action="{{ route('admin-dashboard.news.store') }}" method="post" enctype="multipart/form-data" class="space-y-5" x-data="{ previewUrl: null }">
             @csrf
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
@@ -37,10 +37,32 @@
                 label="Body"
                 help="Full article (headings, lists, bold, links)."
             />
-            <div>
-                <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-1">Featured image URL</label>
-                <input type="text" name="featured_image" id="featured_image" value="{{ old('featured_image') }}" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
-                <p class="mt-1 text-xs text-gray-500">Tip: paste a full image URL (recommended 1200×675).</p>
+            <div class="space-y-3">
+                <div>
+                    <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-1">Featured image</label>
+                    <input
+                        type="file"
+                        name="featured_image"
+                        id="featured_image"
+                        accept="image/*"
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal bg-white"
+                        @change="previewUrl = $event.target.files?.[0] ? URL.createObjectURL($event.target.files[0]) : null"
+                    >
+                    <p class="mt-1 text-xs text-gray-500">Upload an image (recommended 1200×675, max 5MB).</p>
+                </div>
+
+                <div>
+                    <label for="featured_image_url" class="block text-sm font-medium text-gray-700 mb-1">Or paste image URL (optional)</label>
+                    <input type="text" name="featured_image_url" id="featured_image_url" value="{{ old('featured_image_url') }}"
+                           class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal"
+                           placeholder="https://...">
+                </div>
+
+                <div x-show="previewUrl" x-cloak class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+                    <div class="aspect-video">
+                        <img :src="previewUrl" alt="Preview" class="h-full w-full object-cover">
+                    </div>
+                </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>

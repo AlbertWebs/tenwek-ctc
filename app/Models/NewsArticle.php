@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Support\PublicAssetUrl;
 
 class NewsArticle extends Model
 {
@@ -25,6 +26,11 @@ class NewsArticle extends Model
         'published_at' => 'datetime',
         'is_published' => 'boolean',
     ];
+
+    public function getFeaturedImageUrlAttribute(): ?string
+    {
+        return PublicAssetUrl::toUrl($this->featured_image);
+    }
 
     public function scopePublished($query)
     {

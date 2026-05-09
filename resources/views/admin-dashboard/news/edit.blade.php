@@ -5,7 +5,8 @@
 
 @section('content')
     <div class="rounded-xl bg-white border border-gray-200 shadow-sm p-6 max-w-3xl">
-        <form action="{{ route('admin-dashboard.news.update', $article) }}" method="post" class="space-y-5">
+        <form action="{{ route('admin-dashboard.news.update', $article) }}" method="post" enctype="multipart/form-data" class="space-y-5"
+              x-data="{ previewUrl: null }">
             @csrf
             @method('PUT')
             <div>
@@ -40,10 +41,57 @@
                 :value="$article->body"
                 help="Full article (headings, lists, bold, links)."
             />
-            <div>
-                <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-1">Featured image URL</label>
-                <input type="text" name="featured_image" id="featured_image" value="{{ old('featured_image', $article->featured_image) }}" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
-                <p class="mt-1 text-xs text-gray-500">Tip: paste a full image URL (recommended 1200×675).</p>
+            <div class="space-y-3">
+                <div class="flex items-start justify-between gap-4">
+                    <div class="flex-1">
+                        <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-1">Featured image</label>
+                        <input
+                            type="file"
+                            name="featured_image"
+                            id="featured_image"
+                            accept="image/*"
+                            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal bg-white"
+                            @change="previewUrl = $event.target.files?.[0] ? URL.createObjectURL($event.target.files[0]) : null"
+                        >
+                        <p class="mt-1 text-xs text-gray-500">Upload an image (recommended 1200×675, max 5MB).</p>
+                    </div>
+                    <div class="pt-7">
+                        <label class="inline-flex items-center gap-2 text-sm text-gray-700">
+                            <input type="checkbox" name="remove_featured_image" value="1" class="rounded border-gray-300 text-admin-teal focus:ring-admin-teal">
+                            Remove image
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="featured_image_url" class="block text-sm font-medium text-gray-700 mb-1">Or paste image URL (optional)</label>
+                    <input type="text" name="featured_image_url" id="featured_image_url" value="{{ old('featured_image_url') }}"
+                           class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal"
+                           placeholder="https://...">
+                </div>
+
+                @php
+                    $existingUrl = $article->featured_image_url;
+                @endphp
+                @if($existingUrl)
+                    <div class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+                        <div class="aspect-video">
+                            <img src="{{ $existingUrl }}" alt="{{ $article->title }}" class="h-full w-full object-cover">
+                        </div>
+                        <div class="px-4 py-3 border-t border-gray-200 text-xs text-gray-500 truncate">
+                            Current: {{ $article->featured_image }}
+                        </div>
+                    </div>
+                @endif
+
+                <div x-show="previewUrl" x-cloak class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+                    <div class="aspect-video">
+                        <img :src="previewUrl" alt="Preview" class="h-full w-full object-cover">
+                    </div>
+                    <div class="px-4 py-3 border-t border-gray-200 text-xs text-gray-500">
+                        New image preview (not saved yet)
+                    </div>
+                </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>

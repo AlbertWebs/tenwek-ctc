@@ -30,7 +30,7 @@
         <div class="overflow-hidden rounded-3xl border border-ctc-blue/10 bg-ctc-grey-light shadow-inner">
             <div class="aspect-video sm:aspect-[21/9]">
                 <img
-                    src="{{ $article->featured_image ?: 'https://images.unsplash.com/photo-1580281658629-99bb1fd55b0a?auto=format&fit=crop&w=1600&q=60' }}"
+                    src="{{ $article->featured_image_url ?: 'https://images.unsplash.com/photo-1580281658629-99bb1fd55b0a?auto=format&fit=crop&w=1600&q=60' }}"
                     alt="{{ $article->title }}"
                     class="h-full w-full object-cover"
                     loading="eager"
