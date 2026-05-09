@@ -93,8 +93,11 @@
                 </h1>
             @if($subtitle)
                 <p id="ctc-hero-subtitle" class="font-headline text-[0.58rem] sm:text-[0.65rem] font-bold uppercase tracking-[0.22em] mb-3 sm:mb-5">
-                    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 border border-white/15 shadow-[0_18px_45px_rgba(0,0,0,0.25)]">
-                        <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.20)]"></span>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 border border-white/15 ring-1 ring-ctc-magenta/20 shadow-[0_18px_45px_rgba(0,0,0,0.25)]">
+                        <span class="flex items-center gap-1.5" aria-hidden="true">
+                            <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.20)]"></span>
+                            <span class="h-1.5 w-1.5 rounded-full bg-ctc-magenta shadow-[0_0_0_3px_rgba(184,50,128,0.22)]"></span>
+                        </span>
                         <span class="text-white/90">{{ $subtitle }}</span>
                     </span>
                 </p>
@@ -122,7 +125,7 @@
                            class="ctc-magnetic ctc-btn-shine inline-flex items-center gap-2 font-headline font-bold uppercase rounded-lg {{ $ctaItemClass }} text-[0.58rem] sm:text-[0.63rem] tracking-[0.18em] transition-transform duration-300 will-change-transform
                                   {{ ($btn['primary'] ?? true)
                                         ? 'bg-[linear-gradient(135deg,rgba(228,195,115,0.98),rgba(98,163,161,0.92))] text-ctc-blue hover:brightness-105 shadow-[0_18px_45px_rgba(0,0,0,0.35)]'
-                                        : 'bg-white/10 text-white border border-white/20 hover:bg-white/18 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.25)]' }}">
+                                        : 'bg-white/10 text-white border border-white/20 hover:border-ctc-magenta/45 hover:bg-white/18 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.25)]' }}">
                             @if(strtolower($label) === 'book appointment')
                                 <span class="sm:hidden">Book</span>
                                 <span class="hidden sm:inline">Book appointment</span>

@@ -283,7 +283,17 @@ class PageController extends Controller
 
     public function trainingResearch()
     {
-        return view('pages.training-research');
+        $collegeWebsiteUrl = SiteSetting::getValue('external.college_website_url', config('ctc.college_website.url'));
+        $collegeWebsiteUrl = is_string($collegeWebsiteUrl) && filter_var($collegeWebsiteUrl, FILTER_VALIDATE_URL)
+            ? $collegeWebsiteUrl
+            : null;
+
+        $collegeLabelStored = SiteSetting::getValue('external.college_website_label');
+        $collegeWebsiteLabel = (is_string($collegeLabelStored) && $collegeLabelStored !== '')
+            ? $collegeLabelStored
+            : (string) config('ctc.college_website.label');
+
+        return view('pages.training-research', compact('collegeWebsiteUrl', 'collegeWebsiteLabel'));
     }
 
     public function impact()

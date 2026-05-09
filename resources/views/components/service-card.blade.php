@@ -4,6 +4,7 @@
     'url' => null,
     'detailUrl' => null,
     'id' => null,
+    'magentaLine' => false,
 ])
 
 @php
@@ -15,7 +16,11 @@
 <div
    @if($id) id="{{ $id }}" @endif
    class="ctc-card-tilt group flex flex-col h-full min-h-[190px] p-6 rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:border-ctc-blue/35 transition-[box-shadow,border-color,transform] duration-500 scroll-mt-24">
-    <span class="mb-4 block h-px w-0 origin-left rounded-full bg-gradient-to-r from-ctc-accent to-ctc-secondary transition-[width] duration-500 ease-out group-hover:w-12" aria-hidden="true"></span>
+    <span @class([
+        'mb-4 block h-px w-0 origin-left rounded-full transition-[width] duration-500 ease-out group-hover:w-12',
+        'bg-gradient-to-r from-ctc-accent via-ctc-magenta to-ctc-secondary' => $magentaLine,
+        'bg-gradient-to-r from-ctc-accent to-ctc-secondary' => ! $magentaLine,
+    ]) aria-hidden="true"></span>
     <h3 class="text-lg font-semibold text-gray-900 group-hover:text-ctc-blue transition-colors">{{ $name }}</h3>
     @if($descriptionPlain)
         <p class="mt-2 text-gray-600 text-sm leading-relaxed flex-1">{{ $descriptionPlain }}</p>

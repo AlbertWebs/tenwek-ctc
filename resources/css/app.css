@@ -24,6 +24,10 @@
     /* Gold accent (CTC) */
     --color-ctc-gold: #e4c373;
     --color-ctc-accent: var(--color-ctc-gold);
+    /* Patient information & care highlights (magenta / rose) */
+    --color-ctc-magenta: #b83280;
+    --color-ctc-magenta-light: #d9469a;
+    --color-ctc-magenta-dark: #9d2466;
     /* Admin dashboard: teal, coral, yellow, dark gray */
     --color-admin-teal: #0d9488;
     --color-admin-teal-dark: #0f766e;
@@ -59,6 +63,46 @@ html {
 body {
     font-family: var(--font-sans);
     overflow-x: hidden;
+}
+
+/* Public site: whisper of magenta sitewide (admin uses data-ctc-site="admin") */
+body[data-ctc-site="public"] {
+    background-color: #fff;
+    background-image: linear-gradient(
+        180deg,
+        rgba(184, 50, 128, 0.036) 0%,
+        rgba(255, 255, 255, 0) min(32rem, 45vh)
+    );
+}
+
+body[data-ctc-site="public"] ::selection {
+    background-color: rgba(184, 50, 128, 0.2);
+    color: inherit;
+}
+
+body[data-ctc-site="public"] ::-moz-selection {
+    background-color: rgba(184, 50, 128, 0.2);
+    color: inherit;
+}
+
+body[data-ctc-site="public"] .ctc-navbar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+        90deg,
+        transparent 5%,
+        rgba(184, 50, 128, 0.28) 50%,
+        transparent 95%
+    );
+}
+
+body[data-ctc-site="public"] footer[role='contentinfo'] {
+    box-shadow: inset 0 1px 0 rgba(184, 50, 128, 0.14);
 }
 
 /* Admin: Trix editor polish (match dashboard UI) */
@@ -274,6 +318,33 @@ body:not(.ctc-home) .ctc-site-header {
     position: static;
 }
 
+/* Brand strip + depth — blue base, teal + magenta as whisper accents */
+.ctc-topbar {
+    position: relative;
+}
+
+.ctc-topbar::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+        90deg,
+        rgba(98, 163, 161, 0.85) 0%,
+        rgba(26, 26, 104, 0.55) 45%,
+        rgba(184, 50, 128, 0.5) 100%
+    );
+    opacity: 0.88;
+}
+
+body.ctc-home .ctc-topbar::before {
+    opacity: 0.65;
+}
+
 body.ctc-home .ctc-topbar {
     /* Keep readable over bright hero frames (clouds/sky) */
     background: linear-gradient(
@@ -284,10 +355,22 @@ body.ctc-home .ctc-topbar {
     );
     backdrop-filter: blur(10px) saturate(140%);
     -webkit-backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: inset 0 -1px 0 rgba(98, 163, 161, 0.12);
 }
 
 body:not(.ctc-home) .ctc-topbar {
-    background: rgba(18, 18, 74, 0.98);
+    background: linear-gradient(
+        168deg,
+        #14144e 0%,
+        #12124a 38%,
+        #16124f 72%,
+        #1a1548 100%
+    );
+    background-color: #12124a;
+    box-shadow:
+        inset 0 1px 0 rgba(98, 163, 161, 0.14),
+        inset 0 -1px 0 rgba(184, 50, 128, 0.08),
+        0 8px 24px rgba(18, 18, 74, 0.18);
 }
 
 /* When scrolling, hide the top header strip (only navbar remains sticky) */

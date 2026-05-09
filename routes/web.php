@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AboutIntroController;
 use App\Http\Controllers\Admin\AboutPurposeController;
 use App\Http\Controllers\Admin\AboutSectionController;
 use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\CollegeWebsiteController;
 use App\Http\Controllers\Admin\ContactEnquiryController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\CoreValueController;
@@ -155,6 +156,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
         Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
         Route::get('settings/social-links', [SocialLinksController::class, 'edit'])->name('settings.social-links.edit');
         Route::put('settings/social-links', [SocialLinksController::class, 'update'])->name('settings.social-links.update');
+        Route::get('settings/college-website', [CollegeWebsiteController::class, 'edit'])->name('settings.college-website.edit');
+        Route::put('settings/college-website', [CollegeWebsiteController::class, 'update'])->name('settings.college-website.update');
         Route::get('security/two-factor', [TwoFactorSettingsController::class, 'edit'])->name('security.two-factor.edit');
         Route::put('security/two-factor', [TwoFactorSettingsController::class, 'update'])->name('security.two-factor.update');
     });

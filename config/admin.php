@@ -75,6 +75,7 @@ return [
         ['pattern' => 'admin-dashboard.service-category-pages.*', 'text' => 'Tip: Editing long-form category pages (e.g. /services/cardiac-surgery).', 'public' => '/services/cardiac-surgery'],
         ['pattern' => 'admin-dashboard.patient-info.*', 'text' => 'Tip: Editing the Patient Information page.', 'public' => '/patient-information'],
         ['pattern' => 'admin-dashboard.training.*', 'text' => 'Tip: Editing the Training pages.', 'public' => '/training'],
+        ['pattern' => 'admin-dashboard.settings.college-website.*', 'text' => 'Tip: College link on the public Training & Research hub.', 'public' => '/training-research'],
         ['pattern' => 'admin-dashboard.research.*', 'text' => 'Tip: Editing the Research pages.', 'public' => '/research'],
         ['pattern' => 'admin-dashboard.impact.*', 'text' => 'Tip: Editing the Impact page stories (including featured success story).', 'public' => '/impact'],
         ['pattern' => 'admin-dashboard.impact-testimonials.*', 'text' => 'Tip: Editing testimonials shown on the Impact page carousel.', 'public' => '/impact'],

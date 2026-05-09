@@ -50,6 +50,15 @@ return [
     ],
 
     /*
+    | College / training partner site (optional). Override in admin Settings or via env.
+    | Used on the public Training & Research hub.
+    */
+    'college_website' => [
+        'url' => env('CTC_COLLEGE_WEBSITE_URL'),
+        'label' => env('CTC_COLLEGE_WEBSITE_LABEL', 'Tenwek College'),
+    ],
+
+    /*
     | Main menu (navbar): Home, About, Team, Services, Training, Research, Impact, Support.
     */
     'nav' => [

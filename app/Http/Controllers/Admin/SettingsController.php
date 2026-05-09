@@ -30,6 +30,7 @@ class SettingsController extends Controller
                 'title' => 'Brand',
                 'items' => [
                     ['label' => 'Social links', 'route' => 'admin-dashboard.settings.social-links.edit'],
+                    ['label' => 'College website (Training & Research)', 'route' => 'admin-dashboard.settings.college-website.edit'],
                 ],
             ],
             [

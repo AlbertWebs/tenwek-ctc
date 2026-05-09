@@ -14,8 +14,9 @@
     ])
 
     {{-- Intro + at-a-glance --}}
-    <section class="py-14 lg:py-20">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="relative overflow-hidden py-14 lg:py-20">
+        <div class="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-ctc-magenta/[0.045] to-transparent sm:h-44" aria-hidden="true"></div>
+        <div class="container relative mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid gap-10 lg:grid-cols-12 items-center">
                 <div class="lg:col-span-6">
                     <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">{{ $whoWeAre['kicker'] ?? 'Who we are' }}</p>
@@ -122,8 +123,8 @@
                     $accents = collect([
                         ['bg' => 'bg-ctc-accent/15', 'ring' => 'ring-ctc-accent/25', 'dot' => 'bg-ctc-accent'],
                         ['bg' => 'bg-ctc-secondary/12', 'ring' => 'ring-ctc-secondary/25', 'dot' => 'bg-ctc-secondary'],
+                        ['bg' => 'bg-ctc-magenta/10', 'ring' => 'ring-ctc-magenta/18', 'dot' => 'bg-ctc-magenta'],
                         ['bg' => 'bg-ctc-blue/10', 'ring' => 'ring-ctc-blue/20', 'dot' => 'bg-ctc-blue'],
-                        ['bg' => 'bg-ctc-accent/12', 'ring' => 'ring-ctc-accent/20', 'dot' => 'bg-ctc-accent'],
                     ]);
                 @endphp
 
@@ -151,8 +152,9 @@
     </section>
 
     {{-- Mission & Vision (subtle gold accents) --}}
-    <section class="py-16 lg:py-20 bg-ctc-grey-light w-full">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="relative py-16 lg:py-20 bg-ctc-grey-light w-full">
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-ctc-magenta/[0.035] to-transparent" aria-hidden="true"></div>
+        <div class="container relative mx-auto px-4 sm:px-6 lg:px-8">
             <div class="w-full">
                 <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">
                     {{ $purpose['kicker'] ?? 'Purpose' }}
@@ -214,7 +216,8 @@
                         style="
                             background:
                             radial-gradient(600px 260px at 20% 15%, rgba(98,163,161,0.22), transparent 60%),
-                            radial-gradient(520px 240px at 84% 28%, rgba(228,195,115,0.20), transparent 62%);
+                            radial-gradient(520px 240px at 84% 28%, rgba(228,195,115,0.20), transparent 62%),
+                            radial-gradient(420px 220px at 62% 88%, rgba(184,50,128,0.07), transparent 58%);
                         ">
                     </div>
 

@@ -225,7 +225,9 @@
                     @endphp
 
                     <li class="rounded-xl"
-                        x-data="{ open: {{ $defaultOpen ? 'true' : 'false' }} }">
+                        x-data="{ open: {{ $defaultOpen ? 'true' : 'false' }}, id: '{{ $panelId }}' }"
+                        x-on:ctc-mobile-accordion-open.window="open = ($event.detail && $event.detail.id === id)"
+                        x-on:ctc-mobile-accordion-close.window="open = false">
                         <div class="flex items-center gap-2">
                             <a href="{{ $href }}"
                                @click="mobileMenuOpen = false"
@@ -236,7 +238,15 @@
                             @if($hasChildren)
                                 <button type="button"
                                         class="shrink-0 inline-flex items-center justify-center h-10 w-10 rounded-lg text-gray-500 hover:text-ctc-blue hover:bg-gray-50 transition-colors"
-                                        @click="open = !open"
+                                        @click="
+                                            if (open) { 
+                                                open = false; 
+                                                $dispatch('ctc-mobile-accordion-close');
+                                            } else { 
+                                                $dispatch('ctc-mobile-accordion-open', { id: id }); 
+                                                open = true; 
+                                            }
+                                        "
                                         :aria-expanded="open ? 'true' : 'false'"
                                         aria-controls="{{ $panelId }}"
                                         aria-label="Toggle {{ $item['label'] }} menu">

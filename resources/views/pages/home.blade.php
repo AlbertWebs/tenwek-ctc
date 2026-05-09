@@ -25,7 +25,10 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-5xl mx-auto" data-ctc-stagger="0.07">
                 @foreach($stats as $stat)
-                    <div class="text-center p-6 lg:p-8 rounded-xl bg-white border border-gray-200 shadow-sm">
+                    <div @class([
+                        'text-center p-6 lg:p-8 rounded-xl bg-white border border-gray-200 shadow-sm',
+                        'border-t-2 border-t-ctc-magenta' => $loop->first,
+                    ])>
                         <p class="ctc-stat-value text-3xl sm:text-4xl lg:text-5xl font-bold text-ctc-blue">{{ $stat['value'] }}</p>
                         <p class="mt-2 text-sm font-medium text-gray-600">{{ $stat['label'] }}</p>
                     </div>
@@ -34,7 +37,7 @@
 
             <div class="mt-10 max-w-5xl mx-auto grid gap-6 lg:grid-cols-12 items-stretch" data-ctc-stagger="0.1">
                 <div class="lg:col-span-7 h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 sm:p-8 flex flex-col">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">A History of Excellence</p>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-magenta">A History of Excellence</p>
                     <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">
                         Built to expand access to advanced cardiac care in Africa
                     </h2>
@@ -56,9 +59,9 @@
                     <div class="h-full rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
                         <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Talk to us</p>
                         <p class="mt-3 text-sm text-gray-600">
-                            <a class="font-semibold text-ctc-blue hover:underline" href="tel:+254728091900">+254 728 091 900</a>
+                            <a class="font-semibold text-ctc-blue hover:text-ctc-magenta hover:underline transition-colors" href="tel:+254728091900">+254 728 091 900</a>
                             <span class="text-gray-400">•</span>
-                            <a class="font-semibold text-ctc-blue hover:underline" href="mailto:customer.experience@tenwekhosp.org">customer.experience@tenwekhosp.org</a>
+                            <a class="font-semibold text-ctc-blue hover:text-ctc-magenta hover:underline transition-colors" href="mailto:customer.experience@tenwekhosp.org">customer.experience@tenwekhosp.org</a>
                         </p>
                         <p class="mt-2 text-sm text-gray-600">
                             Visit: <span class="font-medium text-gray-800">Bomet County, Kenya</span> • <span class="font-medium text-gray-800">P.O Box 39-20400 Bomet</span>
@@ -72,7 +75,7 @@
     {{-- Services preview --}}
     <section class="py-16 lg:py-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <x-section-title title="Our Services" subtitle="Comprehensive cardiothoracic care for adults and children." />
+            <x-section-title title="Our Services" subtitle="Comprehensive cardiothoracic care for adults and children." :magentaAccent="true" />
             <div class="grid gap-8 lg:grid-cols-12 items-stretch">
                 @if(!empty($servicesImageUrl))
                     <div class="lg:col-span-4 lg:order-2">
@@ -87,7 +90,10 @@
                                               hover:brightness-105">
                                         <span class="inline-flex items-center gap-2">
                                             <span>View all services</span>
-                                            <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.22)]"></span>
+                                            <span class="flex items-center gap-1" aria-hidden="true">
+                                                <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.22)]"></span>
+                                                <span class="h-1.5 w-1.5 rounded-full bg-ctc-magenta opacity-95"></span>
+                                            </span>
                                         </span>
                                         <svg class="w-4 h-4 opacity-90 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -107,6 +113,7 @@
                                 :description="$service->description"
                                 :url="route('services') . '#' . $service->slug"
                                 :detailUrl="route('services.show', $service)"
+                                :magentaLine="$loop->first"
                             />
                         @endforeach
                     </div>
@@ -152,7 +159,7 @@
                     <p class="mt-3 text-gray-700 text-sm leading-relaxed">With over <span class="font-semibold text-ctc-blue">300</span> tax‑paying Kenyan staff members, the centre contributes significantly as a regional employer.</p>
                 </div>
                 <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Training hub</p>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-magenta">Training hub</p>
                     <p class="mt-3 text-gray-700 text-sm leading-relaxed">Advanced training attracts healthcare professionals and strengthens sustainable cardiothoracic care across Africa.</p>
                 </div>
                 <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
@@ -188,7 +195,7 @@
                 @endforeach
             </div>
             <div class="mt-10 text-center">
-                <a href="{{ route('news') }}" class="inline-flex items-center px-6 py-3 rounded-lg font-medium bg-ctc-blue text-white hover:bg-ctc-blue-dark transition-colors">
+                <a href="{{ route('news') }}" class="inline-flex items-center px-6 py-3 rounded-lg font-medium bg-ctc-blue text-white ring-1 ring-ctc-magenta/25 ring-offset-2 ring-offset-ctc-grey-light hover:bg-ctc-blue-dark hover:ring-ctc-magenta/45 transition-all">
                     View all news
                 </a>
             </div>
