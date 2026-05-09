@@ -31,21 +31,22 @@ return [
     'demo_surgeries' => (int) env('CTC_DEMO_SURGERIES', 5000),
 
     'contact' => [
-        'address' => 'Tenwek Hospital, P.O. Box 39, Bomet, Kenya',
-        'phone' => '+254 (0) 20 204 5000',
-        'email' => 'ctc@tenwekhospital.org',
-        'emergency' => '+254 (0) 729 411 211',
+        'address' => 'P.O Box 39, Bomet, Kenya, 036',
+        'phone' => '+254 723 000036',
+        'email' => 'ctc.info@tenwekhosp.org',
+        'emergency' => '+254 723 000036',
     ],
 
     /*
     | Social links (optional). Use full URLs or leave null.
     */
     'social' => [
-        'Facebook' => env('CTC_SOCIAL_FACEBOOK'),
-        'X' => env('CTC_SOCIAL_X'),
-        'Instagram' => env('CTC_SOCIAL_INSTAGRAM'),
+        'Facebook' => env('CTC_SOCIAL_FACEBOOK', 'https://www.facebook.com/share/1DVKQQxtz5/'),
+        'Instagram' => env('CTC_SOCIAL_INSTAGRAM', 'https://www.instagram.com/agctenwekcardiothoraciccentre'),
+        'LinkedIn' => env('CTC_SOCIAL_LINKEDIN', 'https://www.linkedin.com/in/agctenwek-cardiothoracic-centre-6257b1368'),
+        'TikTok' => env('CTC_SOCIAL_TIKTOK', 'https://www.tiktok.com/@agc_tenwek'),
         'YouTube' => env('CTC_SOCIAL_YOUTUBE'),
-        'LinkedIn' => env('CTC_SOCIAL_LINKEDIN'),
+        'X' => env('CTC_SOCIAL_X'),
     ],
 
     /*

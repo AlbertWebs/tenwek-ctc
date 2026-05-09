@@ -46,6 +46,13 @@
                 </div>
 
                 <div>
+                    <label for="tiktok" class="block text-sm font-semibold text-admin-dark">TikTok</label>
+                    <input id="tiktok" name="tiktok" type="url" value="{{ old('tiktok', $tiktok) }}"
+                           placeholder="https://tiktok.com/@..."
+                           class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-admin-dark focus:border-admin-teal focus:ring-admin-teal"/>
+                </div>
+
+                <div>
                     <label for="youtube" class="block text-sm font-semibold text-admin-dark">YouTube</label>
                     <input id="youtube" name="youtube" type="url" value="{{ old('youtube', $youtube) }}"
                            placeholder="https://youtube.com/@..."

@@ -18,6 +18,7 @@ class SocialLinksController extends Controller
             'instagram' => SiteSetting::getValue('social.instagram'),
             'youtube' => SiteSetting::getValue('social.youtube'),
             'linkedin' => SiteSetting::getValue('social.linkedin'),
+            'tiktok' => SiteSetting::getValue('social.tiktok'),
         ]);
     }
 
@@ -29,6 +30,7 @@ class SocialLinksController extends Controller
             'instagram' => ['nullable', 'url', 'max:2048'],
             'youtube' => ['nullable', 'url', 'max:2048'],
             'linkedin' => ['nullable', 'url', 'max:2048'],
+            'tiktok' => ['nullable', 'url', 'max:2048'],
         ]);
 
         SiteSetting::setValue('social.facebook', $data['facebook'] ?? null);
@@ -36,6 +38,7 @@ class SocialLinksController extends Controller
         SiteSetting::setValue('social.instagram', $data['instagram'] ?? null);
         SiteSetting::setValue('social.youtube', $data['youtube'] ?? null);
         SiteSetting::setValue('social.linkedin', $data['linkedin'] ?? null);
+        SiteSetting::setValue('social.tiktok', $data['tiktok'] ?? null);
 
         return redirect()
             ->route('admin-dashboard.settings.social-links.edit')

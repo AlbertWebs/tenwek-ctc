@@ -5,6 +5,7 @@
         'Facebook' => \App\Models\SiteSetting::getValue('social.facebook', config('ctc.social.Facebook')),
         'LinkedIn' => \App\Models\SiteSetting::getValue('social.linkedin', config('ctc.social.LinkedIn')),
         'Instagram' => \App\Models\SiteSetting::getValue('social.instagram', config('ctc.social.Instagram')),
+        'TikTok' => \App\Models\SiteSetting::getValue('social.tiktok', config('ctc.social.TikTok')),
         'YouTube' => \App\Models\SiteSetting::getValue('social.youtube', config('ctc.social.YouTube')),
         'X' => \App\Models\SiteSetting::getValue('social.x', config('ctc.social.X')),
     ]);
@@ -84,6 +85,11 @@
                                             @case('LinkedIn')
                                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                                     <path d="M4.98 3.5A2.5 2.5 0 102.5 6a2.5 2.5 0 002.48-2.5zM3 8.98h3.96V21H3V8.98zM9.5 8.98H13.3v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1V21h-3.96v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.86V21H9.5V8.98z"/>
+                                                </svg>
+                                                @break
+                                            @case('TikTok')
+                                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path d="M16.7 2h-3.2v12.3c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9c.3 0 .6 0 .9.1V8.2c-.3 0-.6-.1-.9-.1-3.4 0-6.2 2.8-6.2 6.2s2.8 6.2 6.2 6.2 6.2-2.8 6.2-6.2V8.7c1.3 1 3 1.6 4.9 1.6V7.1c-2.3 0-4.2-1.9-4.2-4.2V2z"/>
                                                 </svg>
                                                 @break
                                             @default

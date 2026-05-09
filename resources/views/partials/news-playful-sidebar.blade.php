@@ -35,19 +35,19 @@
             </li>
             <li>
                 <a href="{{ route('contact') }}" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-ctc-grey-light hover:text-ctc-blue">
-                    <span class="text-base leading-none" aria-hidden="true">💬</span>
+                    <span class="text-base leading-none" aria-hidden="true">📞</span>
                     Contact the team
                 </a>
             </li>
             <li>
                 <a href="{{ route('services') }}" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-ctc-grey-light hover:text-ctc-blue">
-                    <span class="text-base leading-none" aria-hidden="true">🫀</span>
+                    <span class="text-base leading-none" aria-hidden="true">🩺</span>
                     Clinical services
                 </a>
             </li>
             <li>
                 <a href="{{ route('support') }}" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-ctc-grey-light hover:text-ctc-blue">
-                    <span class="text-base leading-none" aria-hidden="true">✨</span>
+                    <span class="text-base leading-none" aria-hidden="true">🤝</span>
                     Support the CTC
                 </a>
             </li>
