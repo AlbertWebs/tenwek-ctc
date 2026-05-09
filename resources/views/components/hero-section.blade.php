@@ -103,10 +103,20 @@
                 <p id="ctc-hero-description" class="font-sans text-white/80 font-light max-w-lg mx-auto mb-9 text-[0.95rem] leading-[1.75] drop-shadow-[0_18px_45px_rgba(0,0,0,0.35)]">{{ $description }}</p>
             @endif
             @if(count($buttons) > 0)
-                <div id="ctc-hero-ctas" class="flex flex-wrap gap-4 justify-center">
+                @php
+                    $ctaCount = count($buttons);
+                    // Mobile: when exactly 2 CTAs, keep them side-by-side.
+                    $ctaContainerClass = $ctaCount === 2
+                        ? 'grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4 sm:justify-center'
+                        : 'flex flex-wrap gap-4 justify-center';
+                    $ctaItemClass = $ctaCount === 2
+                        ? 'w-full justify-center px-4 py-3'
+                        : 'px-8 py-3.5';
+                @endphp
+                <div id="ctc-hero-ctas" class="{{ $ctaContainerClass }}">
                     @foreach($buttons as $btn)
                         <a href="{{ $btn['url'] ?? '#' }}" data-cta="1"
-                           class="ctc-magnetic ctc-btn-shine inline-flex items-center gap-2 font-headline font-bold uppercase rounded-lg px-8 py-3.5 text-[0.63rem] tracking-[0.18em] transition-transform duration-300 will-change-transform
+                           class="ctc-magnetic ctc-btn-shine inline-flex items-center gap-2 font-headline font-bold uppercase rounded-lg {{ $ctaItemClass }} text-[0.63rem] tracking-[0.18em] transition-transform duration-300 will-change-transform
                                   {{ ($btn['primary'] ?? true)
                                         ? 'bg-[linear-gradient(135deg,rgba(228,195,115,0.98),rgba(98,163,161,0.92))] text-ctc-blue hover:brightness-105 shadow-[0_18px_45px_rgba(0,0,0,0.35)]'
                                         : 'bg-white/10 text-white border border-white/20 hover:bg-white/18 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.25)]' }}">
