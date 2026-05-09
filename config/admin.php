@@ -39,11 +39,14 @@ return [
         ['label' => 'Team / Staff', 'route' => 'admin-dashboard.team-members.index', 'icon' => 'users', 'permission' => 'team.manage', 'group' => 'People'],
         ['label' => 'Specialists', 'route' => 'admin-dashboard.team-members.index', 'icon' => 'user-group', 'group' => 'People'],
         ['label' => 'Users & Roles', 'route' => 'admin-dashboard.users.index', 'icon' => 'shield-check', 'permission' => 'users.manage', 'group' => 'Administration'],
+        ['label' => 'Two-factor authentication', 'route' => 'admin-dashboard.security.two-factor.edit', 'icon' => 'shield-check', 'permission' => 'users.manage', 'group' => 'Administration'],
     ],
 
     // Essential quick links for the admin header dropdown
     'header_links' => [
         ['label' => 'Dashboard', 'route' => 'admin-dashboard.index', 'icon' => 'dashboard'],
+        ['label' => 'My profile', 'route' => 'admin-dashboard.profile.edit', 'icon' => 'users'],
+        ['label' => 'Settings', 'route' => 'admin-dashboard.settings.index', 'icon' => 'document-text', 'permission' => 'users.manage'],
         ['label' => 'Edit Home Hero', 'route' => 'admin-dashboard.hero.edit', 'icon' => 'photo'],
         ['label' => 'Homepage Stats', 'route' => 'admin-dashboard.home-stats.index', 'icon' => 'chart'],
         ['label' => 'About: Who we are', 'route' => 'admin-dashboard.about-intro.edit', 'icon' => 'information-circle'],
@@ -85,5 +88,6 @@ return [
         ['pattern' => 'admin-dashboard.bookings.*', 'text' => 'Tip: Managing appointment requests from the public Book appointment page.', 'public' => '/book-appointment'],
 
         ['pattern' => 'admin-dashboard.users.*', 'text' => 'Tip: Managing admin users and roles (not public).'],
+        ['pattern' => 'admin-dashboard.security.two-factor.*', 'text' => 'Tip: Control whether admin sign-in requires a second step (not public).'],
     ],
 ];

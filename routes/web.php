@@ -22,9 +22,12 @@ use App\Http\Controllers\Admin\PatientInfoController;
 use App\Http\Controllers\Admin\ResearchPublicationController;
 use App\Http\Controllers\Admin\ServiceCategoryPageController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TeamMemberController;
+use App\Http\Controllers\Admin\TwoFactorSettingsController;
 use App\Http\Controllers\Admin\TrainingProgramController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +75,10 @@ Route::post('admin-dashboard/logout', [LoginController::class, 'logout'])->name(
 
 Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-dashboard.')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
 
     Route::get('about-intro', [AboutIntroController::class, 'edit'])->name('about-intro.edit');
     Route::put('about-intro', [AboutIntroController::class, 'update'])->name('about-intro.update');
@@ -133,5 +140,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
         Route::put('users/{user}/password', [UserController::class, 'updatePassword'])->name('users.update-password');
         Route::put('users/{user}/role', [UserController::class, 'updateRole'])->name('users.update-role');
         Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    });
+
+    Route::middleware('permission:users.manage')->group(function (): void {
+        Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::get('security/two-factor', [TwoFactorSettingsController::class, 'edit'])->name('security.two-factor.edit');
+        Route::put('security/two-factor', [TwoFactorSettingsController::class, 'update'])->name('security.two-factor.update');
     });
 });

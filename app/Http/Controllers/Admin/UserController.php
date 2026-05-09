@@ -43,6 +43,7 @@ class UserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'phone_number' => ['nullable', 'string', 'max:30'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role_id' => ['required', 'integer', Rule::in($allowedRoleIds)],
         ]);
@@ -50,6 +51,7 @@ class UserController extends Controller
         User::query()->create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number') ?: null,
             'password' => $request->input('password'),
             'role_id' => $request->input('role_id'),
         ]);
@@ -64,11 +66,13 @@ class UserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
+            'phone_number' => ['nullable', 'string', 'max:30'],
         ]);
 
         $user->update([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number') ?: null,
         ]);
 
         return redirect()

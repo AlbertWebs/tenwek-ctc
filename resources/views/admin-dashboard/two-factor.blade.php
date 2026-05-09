@@ -14,7 +14,19 @@
         <div class="rounded-2xl bg-admin-surface shadow-lg border border-gray-200 p-8">
             <div class="text-center mb-6">
                 <h1 class="text-xl font-bold text-gray-900">Two-step verification</h1>
-                <p class="text-sm text-gray-500 mt-1">We sent a 6‑digit code to <span class="font-medium text-gray-700">{{ $email }}</span></p>
+                @php
+                    $channelLabels = collect($channels ?? ['mail'])->map(function ($c) use ($email) {
+                        return match ($c) {
+                            'mail' => $email,
+                            'rebueTextSms' => 'your phone',
+                            default => $c,
+                        };
+                    })->unique()->values();
+                @endphp
+                <p class="text-sm text-gray-500 mt-1">
+                    We sent a 6‑digit code to
+                    <span class="font-medium text-gray-700">{{ $channelLabels->join(', ', ' and ') }}</span>
+                </p>
             </div>
 
             @if(session('success'))

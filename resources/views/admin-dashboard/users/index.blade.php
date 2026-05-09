@@ -45,6 +45,13 @@
                             @error('email')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
+                            <label for="create_phone_number" class="block text-sm font-medium text-gray-700 mb-1">Phone number (optional)</label>
+                            <input type="text" name="phone_number" id="create_phone_number" value="{{ old('phone_number') }}" autocomplete="off"
+                                   class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-2 focus:ring-admin-teal focus:border-admin-teal"
+                                   placeholder="+2547...">
+                            @error('phone_number')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
                             <label for="create_password" class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
                             <input type="password" name="password" id="create_password" required autocomplete="new-password"
                                    class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
@@ -163,6 +170,12 @@
                                             <label class="block text-sm font-medium text-gray-700 mb-1" for="edit_email_{{ $user->id }}">Email</label>
                                             <input type="email" name="email" id="edit_email_{{ $user->id }}" value="{{ $user->email }}" required
                                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+                                        </div>
+                                        <div class="sm:col-span-2">
+                                            <label class="block text-sm font-medium text-gray-700 mb-1" for="edit_phone_{{ $user->id }}">Phone number (optional)</label>
+                                            <input type="text" name="phone_number" id="edit_phone_{{ $user->id }}" value="{{ $user->phone_number }}"
+                                                   class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-admin-teal focus:border-admin-teal"
+                                                   placeholder="+2547...">
                                         </div>
                                         <div class="sm:col-span-2 flex gap-2">
                                             <button type="submit" class="px-4 py-2 rounded-lg bg-admin-teal text-white text-sm font-medium hover:bg-admin-teal-dark">Save</button>

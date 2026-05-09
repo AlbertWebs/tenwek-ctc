@@ -5,15 +5,17 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\TwoFactorCode;
 use App\Models\User;
+use App\Models\SiteSetting;
+use App\Notifications\AdminTwoFactorCodeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
     private const TWO_FACTOR_SESSION_KEY = 'admin_2fa_user_id';
+    private const TWO_FACTOR_CHANNELS_SESSION_KEY = 'admin_2fa_channels';
 
     public function showLoginForm()
     {
@@ -47,9 +49,15 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
+        $channels = $this->enabledTwoFactorChannelsForUser($user);
+        if (count($channels) === 0) {
+            return redirect()->intended(route('admin-dashboard.index'));
+        }
+
         // Step 1 ok → require step 2 for admin dashboard
-        $this->sendTwoFactorCode($user);
+        $this->sendTwoFactorCode($user, $channels);
         $request->session()->put(self::TWO_FACTOR_SESSION_KEY, $user->id);
+        $request->session()->put(self::TWO_FACTOR_CHANNELS_SESSION_KEY, $channels);
 
         Auth::logout();
 
@@ -71,6 +79,7 @@ class LoginController extends Controller
 
         return view('admin-dashboard.two-factor', [
             'email' => $user->email,
+            'channels' => $request->session()->get(self::TWO_FACTOR_CHANNELS_SESSION_KEY, ['mail']),
         ]);
     }
 
@@ -142,14 +151,24 @@ class LoginController extends Controller
             return redirect()->route('admin-dashboard.login');
         }
 
-        $this->sendTwoFactorCode($user);
+        $channels = $this->enabledTwoFactorChannelsForUser($user);
+        if (count($channels) === 0) {
+            $request->session()->forget([self::TWO_FACTOR_SESSION_KEY, self::TWO_FACTOR_CHANNELS_SESSION_KEY]);
+            return redirect()->route('admin-dashboard.login');
+        }
+
+        $this->sendTwoFactorCode($user, $channels);
+        $request->session()->put(self::TWO_FACTOR_CHANNELS_SESSION_KEY, $channels);
 
         return redirect()
             ->route('admin-dashboard.two-factor')
             ->with('success', 'A new verification code has been sent.');
     }
 
-    private function sendTwoFactorCode(User $user): void
+    /**
+     * @param  array<int, string>  $channels
+     */
+    private function sendTwoFactorCode(User $user, array $channels): void
     {
         $code = (string) random_int(100000, 999999);
 
@@ -160,12 +179,31 @@ class LoginController extends Controller
             'attempts' => 0,
         ]);
 
-        $subject = 'Your Tenwek CTC admin verification code';
-        $body = "Your verification code is: {$code}\n\nThis code expires in 10 minutes.\n\nIf you did not attempt to log in, you can ignore this email.";
+        $user->notify(new AdminTwoFactorCodeNotification($code, $channels));
+    }
 
-        Mail::raw($body, function ($message) use ($user, $subject) {
-            $message->to($user->email)->subject($subject);
-        });
+    /**
+     * @return array<int, string>
+     */
+    private function enabledTwoFactorChannelsForUser(User $user): array
+    {
+        $enabled = (bool) SiteSetting::getValue('security.2fa.enabled', false);
+        if (! $enabled) {
+            return [];
+        }
+
+        $mailEnabled = (bool) SiteSetting::getValue('security.2fa.email_enabled', false);
+        $smsEnabled = (bool) SiteSetting::getValue('security.2fa.sms_enabled', false);
+
+        $channels = [];
+        if ($mailEnabled) {
+            $channels[] = 'mail';
+        }
+        if ($smsEnabled && filled($user->phone_number)) {
+            $channels[] = 'rebueTextSms';
+        }
+
+        return $channels;
     }
 
     public function logout(Request $request)

@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone_number',
         'password',
         'role_id',
     ];
@@ -48,6 +49,16 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role && in_array($this->role->slug, Role::adminDashboardSlugs(), true);
+    }
+
+    public function routeNotificationForVonage(): ?string
+    {
+        return $this->phone_number;
+    }
+
+    public function routeNotificationForRebueTextSms(): ?string
+    {
+        return $this->phone_number;
     }
 
     /**
